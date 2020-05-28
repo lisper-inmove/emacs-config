@@ -17,7 +17,7 @@
  '(org-agenda-files (quote ("~/code/blog/org-mode.org" "~/code/blog/TODO.org")))
  '(package-selected-packages
    (quote
-    (exec-path-from-shell spaceline-all-the-icons spaceline vue-mode elscreen treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs htmlize magit elpy use-package monokai-theme))))
+    (yasnippet-snippets exec-path-from-shell spaceline-all-the-icons spaceline vue-mode elscreen treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs htmlize magit elpy use-package monokai-theme))))
 (put 'narrow-to-region 'disabled nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

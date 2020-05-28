@@ -7,3 +7,5 @@ projectile-bookmarks.eld
 transient
 elpy
 .cache
+snippets
+init.el
