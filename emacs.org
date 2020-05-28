@@ -117,7 +117,7 @@
       :defer 2
       :init
       (setq yas-snippet-dirs
-            '("~/.emacs.d/snippets" ;; personal snippets
+            '("~/.emacs.d/snippets"
               ))
       :config
       (yas-global-mode 1)
@@ -125,7 +125,14 @@
       (define-key yas-minor-mode-map (kbd "TAB") nil)
       (define-key yas-minor-mode-map (kbd "C-c y y") 'yas-expand-from-trigger-key)
       (define-key yas-minor-mode-map (kbd "C-c y n") 'yas-new-snippet))
+    (use-package yasnippet-snippets
+      :defer 2
+      :after yasnippet)
   #+END_SRC
+
+  #+RESULTS:
+  : [nil 0 2 0 nil require (yasnippet-snippets nil t) idle 0]
+
 * elpy
   #+BEGIN_VERSE
   1. C-c C-c: 在python shell中执行当前文件
