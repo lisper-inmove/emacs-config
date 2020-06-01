@@ -250,10 +250,12 @@
         (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 
     (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
+    (setq org-babel-python-command "python3.7")
   #+END_SRC
 
   #+RESULTS:
-  | org-summary-todo |
+  : python3.7
 
 * treemacs
 #+BEGIN_SRC emacs-lisp
@@ -549,3 +551,6 @@
       :after spaceline
       :config (spaceline-all-the-icons-theme)))
 #+END_SRC
+
+#+RESULTS:
+: t
