@@ -551,6 +551,28 @@
       :after spaceline
       :config (spaceline-all-the-icons-theme)))
 #+END_SRC
+* Emacs RG
+#+BEGIN_SRC emacs-lisp
+  ;; (use-package ripgrep)
+  ;; (use-package emacs-rg)
+#+END_SRC
+* color rg
+[[https://github.com/manateelazycat/color-rg][Color-RG Github]]
+#+BEGIN_VERSE
+1. color-rg-search-symbol-with-type: 在当前目录下查找光标下的这个字符,指定要查找的文件后缀
+2. color-rg-search-project-with-type: 在当前项目下查找光标下这个字符,指定要查找的文件后缀
+3. color-rg-search-input: 在当前目录下查找输入的内容
+4. color-rg-search-symbol: 在当前目录下查找当前光标下的内容
+5. color-rg-search-input-in-project: 在当前目录下查找输入的内容
+6. color-rg-search-symbol-in-project: 在当前项目下查找当前光标下的内容
+7. color-rg-search-symbol-in-current-file: 在当前文件中查找光标下的内容
+8. color-rg-search-input-in-current-file: 在当前文件中查找输入的内容
+#+END_VERSE
+#+BEGIN_SRC emacs-lisp
+(my-load-file "color-rg.el")
+(require 'color-rg)
+#+END_SRC
 
 #+RESULTS:
-: t
+: color-rg
+>>>>>>> Stashed changes

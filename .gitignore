@@ -9,3 +9,5 @@ elpy
 .cache
 snippets
 init.el
+.org-id-locations
+eshell
