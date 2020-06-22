@@ -592,6 +592,7 @@
     :defer 1
     :config
     (skewer-less-mode)
+    (add-to-list 'auto-mode-alist '("\\.less\\'" . skewer-less-mode))
     (add-hook 'after-save-hook 'compile-less-to-css))
 #+END_SRC
 
