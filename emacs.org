@@ -575,4 +575,25 @@
 
 #+RESULTS:
 : color-rg
->>>>>>> Stashed changes
+* less-css-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package less-css-mode
+    :defer 1)
+#+END_SRC
+
+#+RESULTS:
+: [nil 0 1 0 nil require (less-css-mode nil t) idle 0]
+* skewer-less
+#+BEGIN_SRC emacs-lisp
+  (defun compile-less-to-css ()
+    (message "compile less to css")
+    (less-css-compile))
+  (use-package skewer-less
+    :defer 1
+    :config
+    (skewer-less-mode)
+    (add-hook 'after-save-hook 'compile-less-to-css))
+#+END_SRC
+
+#+RESULTS:
+: t
