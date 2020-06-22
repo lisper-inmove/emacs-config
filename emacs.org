@@ -586,13 +586,13 @@
 * skewer-less
 #+BEGIN_SRC emacs-lisp
   (defun compile-less-to-css ()
-    (message "compile less to css")
-    (less-css-compile))
+    (cond ((string-equal (file-name-extension (buffer-file-name)) "less")
+           (message "compile less to css")
+           (less-css-compile))))
   (use-package skewer-less
     :defer 1
     :config
     (skewer-less-mode)
-    (add-to-list 'auto-mode-alist '("\\.less\\'" . skewer-less-mode))
     (add-hook 'after-save-hook 'compile-less-to-css))
 #+END_SRC
 
