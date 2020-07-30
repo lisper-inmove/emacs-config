@@ -151,8 +151,18 @@
         (setq elpy-rpc-python-command py
               python-shell-interpreter py
               python-shell-interpreter-args "-i"))
+
       )
   #+END_SRC
+
+  #+BEGIN_SRC emacs-lisp
+    (eval-after-load "elpy"
+      '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>" "C-c C-c"))
+         (define-key elpy-mode-map (kbd key) nil)))
+  #+END_SRC
+
+  #+RESULTS:
+
 * magit
   #+BEGIN_SRC emacs-lisp
     (use-package magit
@@ -598,3 +608,28 @@
 
 #+RESULTS:
 : t
+* my yasnippet functions
+1. 首字母大写
+#+BEGIN_SRC emacs-lisp
+  (defun my/capitalize-first-char (&optional string)
+    "Capitalize only the first character of the input STRING."
+    (when (and string (> (length string) 0))
+      (let ((first-char (substring string nil 1))
+            (rest-str   (substring string 1)))
+        (concat (capitalize first-char) rest-str))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :results output
+  (defun my/string-to-camelbak (string)
+    "把'_'分割的字符转成驼峰,并从第二个开始首字母大写"
+    (let ((s (split-string string "_"))
+          (result "")
+          (first t))
+      (progn
+        (dolist (var s)
+          (if first
+              (setq result (concat result var))
+            (setq result (concat result (capitalize var))))
+          (setq first nil)))
+      result))
+#+END_SRC
