@@ -521,11 +521,6 @@
 
 #+RESULTS:
 : [134217848 102 108 117 115 104 45 108 105 110 101 115 13 94 45 42 36 13]
-* hs-mode
-#+BEGIN_SRC emacs-lisp
-  ;; (hs-minor-mode t)
-  (global-set-key (kbd "C-c e") 'hs-toggle-hiding)
-#+END_SRC
 * elscreen
 #+BEGIN_SRC emacs-lisp
   (use-package elscreen
@@ -632,4 +627,8 @@
             (setq result (concat result (capitalize var))))
           (setq first nil)))
       result))
+#+END_SRC
+* 字体
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'default nil :height 140)
 #+END_SRC
