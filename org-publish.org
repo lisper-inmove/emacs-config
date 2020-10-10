@@ -1,0 +1,27 @@
+#+BEGIN_SRC emacs-lisp :results none
+  (require 'ox-publish)
+  (require 'htmlize)
+
+  (setq org-publish-project-alist
+        '(("api"
+           :base-directory "~/code/api/"
+           :base-extension "org"
+           :publishing-directory "/ssh:shilai@test.shilai.zhiyi.cn:/home/shilai/code/api"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :auto-sitemap t
+           :sitemap-title "时来接口文档"
+           :sitemap-filename "index.org"
+           :sitemap-file-entry-format "%d %t"
+           :section-numbers nil
+           :with-toc nil
+           :with-title t
+           :html-postamble nil
+           :html-link-home "http://test.shilai.zhiyi.cn/api"
+           :auto-sitemap t)
+          ("api" :components ("api"))))
+  (setq org-export-html-validation-link nil)
+  (setq org-export-with-sub-superscripts nil)
+  (org-publish-remove-all-timestamps)
+  ;; (org-publish "api" t)
+#+END_SRC
