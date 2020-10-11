@@ -57,13 +57,6 @@
     :defer 2
     :after helm)
 #+END_SRC
-* ace-jump-mode
-#+BEGIN_SRC emacs-lisp :results none
-  (use-package ace-jump-mode
-    :commands ace-jump-mode
-    :config
-    (global-set-key (kbd "C-n a") 'ace-jump-mode))
-#+END_SRC
 * magit
 #+BEGIN_SRC emacs-lisp :results none
   (use-package magit
@@ -138,4 +131,204 @@
 * Emacs启动时间
 #+BEGIN_SRC emacs-lisp :results none
   (message "Initialized in %s" (emacs-init-time))
+#+END_SRC
+* git-gutter
+#+BEGIN_SRC emacs-lisp :results none
+  (use-package git-gutter
+    ;;; 在文件中显示git信息
+    :defer 2
+    :config
+    (global-git-gutter-mode +1)
+    (global-set-key (kbd "C-p") 'git-gutter:previous-hunk)
+    (global-set-key (kbd "C-n") 'git-gutter:next-hunk)
+    (custom-set-variables
+     '(git-gutter:update-interval 1)
+     '(git-gutter:lighter " GG")
+     '(git-gutter:window-width 2)
+     '(git-gutter:modified-sign "☁")
+     '(git-gutter:added-sign "☀")
+     '(git-gutter:deleted-sign "☂")
+     '(git-gutter:disabled-modes '(asm-mode image-mode))
+     ;; '(git-gutter:hide-gutter t)
+     '(git-gutter:separator-sign "|")
+     '(git-gutter:ask-p nil)
+     ))
+  ;; (set-face-foreground 'git-gutter:separator "yellow")
+  ;; (set-face-foreground 'git-gutter:modified "purple") ;; background color
+  ;; (set-face-foreground 'git-gutter:added "green")
+  ;; (set-face-foreground 'git-gutter:deleted "red")
+
+#+END_SRC
+* dockerfile mode
+#+BEGIN_SRC emacs-lisp :results none
+  (use-package dockerfile-mode
+    :defer 2)
+#+END_SRC
+* elpy
+#+BEGIN_SRC emacs-lisp :results none
+  (use-package elpy
+    :ensure t
+    :defer 1
+    :init
+    (advice-add 'python-mode :before 'elpy-enable)
+    (let ((py "python"))
+      (setq elpy-rpc-python-command py
+            python-shell-interpreter py
+            python-shell-interpreter-args "-i"))
+
+    )
+#+END_SRC
+* org-mode
+#+BEGIN_SRC emacs-lisp :results none
+  (setq org-catch-invisible-edits 'error)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (shell . t)
+     (ditaa . t)
+     (python . t)
+     )
+   )
+
+  (setq org-enforce-todo-dependencies t)
+
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "|" "DONE(d!)")
+          (sequence "BUG(b)" "WAITING(w!/@)" "|" "FIXED(f!)" "DELAY(D!)")))
+
+  (setq org-tag-alist '(("开发" . ?d) ("第三方" . ?t) ("同步数据" . ?s)))
+
+  (defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all subentries are done, to TODO otherwise."
+    (let (org-log-done org-log-states)   ; turn off logging
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+
+  (setq org-babel-python-command "python")
+
+#+END_SRC
+* treemacs
+#+BEGIN_SRC emacs-lisp :results none
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :init
+    (with-eval-after-load 'winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    :config
+    (progn
+      (if (display-graphic-p)
+          (progn
+            (setq treemacs-no-png-images nil)
+            (message "set treemacs-no-png-images t"))
+        (progn
+          (setq treemacs-no-png-images t)
+          (message "set treemacs-no-png-images nil")
+          )
+        )
+      (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+            treemacs-deferred-git-apply-delay      0.5
+            treemacs-directory-name-transformer    #'identity
+            treemacs-display-in-side-window        t
+            treemacs-eldoc-display                 t
+            treemacs-file-event-delay              1000
+            ;; treemacs-file-extension-regex          treemacs-last-period-regex-value
+            treemacs-file-follow-delay             0.2
+            treemacs-file-name-transformer         #'identity
+            treemacs-follow-after-init             t
+            treemacs-git-command-pipe              ""
+            treemacs-goto-tag-strategy             'refetch-index
+            treemacs-indentation                   2
+            treemacs-indentation-string            " "
+            treemacs-is-never-other-window         nil
+            treemacs-max-git-entries               5000
+            treemacs-missing-project-action        'ask
+            treemacs-no-delete-other-windows       t
+            treemacs-project-follow-cleanup        nil
+            treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist.org" user-emacs-directory)
+            treemacs-position                      'left
+            treemacs-recenter-distance             0.1
+            treemacs-recenter-after-file-follow    nil
+            treemacs-recenter-after-tag-follow     nil
+            treemacs-recenter-after-project-jump   'always
+            treemacs-recenter-after-project-expand 'on-distance
+            treemacs-show-cursor                   nil
+            treemacs-show-hidden-files             nil
+            treemacs-silent-filewatch              nil
+            treemacs-silent-refresh                nil
+            treemacs-sorting                       'alphabetic-asc
+            treemacs-space-between-root-nodes      t
+            treemacs-tag-follow-cleanup            t
+            treemacs-tag-follow-delay              1.5
+            treemacs-user-mode-line-format         nil
+            treemacs-width                         30)
+
+      ;; The default width and height of the icons is 22 pixels. If you are
+      ;; using a Hi-DPI display, uncomment this to double the icon size.
+      ;;(treemacs-resize-icons 44)
+
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t)
+      (treemacs-fringe-indicator-mode t)
+      (pcase (cons (not (null (executable-find "git")))
+                   (not (null treemacs-python-executable)))
+        (`(t . t)
+         (treemacs-git-mode 'deferred))
+        (`(t . _)
+         (treemacs-git-mode 'simple))))
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-x t 1"   . treemacs-delete-other-windows)
+          ("<f8>"   . treemacs)
+          ("C-x t B"   . treemacs-bookmark)
+          ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag)))
+
+  (use-package treemacs-evil
+    :after treemacs evil
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after treemacs projectile
+    :ensure t)
+
+  (use-package treemacs-icons-dired
+    :after treemacs dired
+    :ensure t
+    :config (treemacs-icons-dired-mode))
+
+  (use-package treemacs-magit
+    :after treemacs magit
+    :ensure t)
+
+  (use-package treemacs-persp
+    :after treemacs persp-mode
+    :ensure t
+    :config (treemacs-set-scope-type 'Perspectives))
+  (add-to-list 'default-frame-alist '(fullscreen . fullboth))
+#+END_SRC
+* ace-jump
+#+BEGIN_SRC emacs-lisp :results none
+  (use-package ace-jump-mode
+    :defer 1
+    :config
+    (global-set-key (kbd "C-c j") 'ace-jump-mode))
+#+END_SRC
+* iedit
+#+BEGIN_SRC emacs-lisp :results none
+  (use-package iedit
+    :defer 1
+    :config
+    (global-set-key (kbd "C-c i") 'iedit-mode))
+#+END_SRC
+* exec-path-from-shell
+#+BEGIN_SRC emacs-lisp :results none
+  (when (display-graphic-p)
+    (use-package exec-path-from-shell
+      :defer 1
+      :config
+      (exec-path-from-shell-initialize)))
 #+END_SRC

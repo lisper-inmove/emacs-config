@@ -27,3 +27,27 @@
       (message "goto char %c" c)
       (search-backward (char-to-string c) (line-beginning-position) nil 1))
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp :results none
+  (defun my/capitalize-first-char (&optional string)
+    "Capitalize only the first character of the input STRING."
+    (when (and string (> (length string) 0))
+      (let ((first-char (substring string nil 1))
+            (rest-str   (substring string 1)))
+        (concat (capitalize first-char) rest-str))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :results none
+  (defun my/string-to-camelbak (string)
+    "把'_'分割的字符转成驼峰,并从第二个开始首字母大写"
+    (let ((s (split-string string "_"))
+          (result "")
+          (first t))
+      (progn
+        (dolist (var s)
+          (if first
+              (setq result (concat result var))
+            (setq result (concat result (capitalize var))))
+          (setq first nil)))
+      result))
+#+END_SRC

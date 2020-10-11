@@ -1,14 +1,13 @@
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:nil
 #+OPTIONS: html-preamble:nil html-scripts:t html-style:t
 #+OPTIONS: html5-fancy:nil tex:t
+#+OPTIONS: ^:nil
 #+HTML_DOCTYPE: xhtml-strict
 #+HTML_CONTAINER: div
 #+DESCRIPTION:
 #+KEYWORDS:
-#+HTML_LINK_HOME:
-#+HTML_LINK_UP:
 #+HTML_MATHJAX:
-#+HTML_HEAD:
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../../css/style1.css" />
 #+HTML_HEAD_EXTRA:
 #+SUBTITLE:
 #+INFOJS_OPT:

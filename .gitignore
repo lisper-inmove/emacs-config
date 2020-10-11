@@ -6,3 +6,5 @@ my-functions.el
 publish.el
 tramp
 transient
+.cache
+.last-package-update-day

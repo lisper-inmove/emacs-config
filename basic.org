@@ -62,4 +62,6 @@
   (load-file (expand-file-name (concat home filename))))
 
 (fset 'delete-empty-lines (kbd "M-x flush-lines RET ^\s-*$ RET"))
+(set-face-attribute 'default nil :height 140)
+
 #+END_SRC
