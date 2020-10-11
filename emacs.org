@@ -33,9 +33,6 @@
     (undo-tree-mode)
     :bind ("C-c t" . undo-tree-visualize))
 #+END_SRC
-
-#+RESULTS:
-: undo-tree-visualize
 * monokai
 #+BEGIN_SRC emacs-lisp :results note
   (use-package monokai-theme
@@ -48,10 +45,10 @@
     :defer 2
     :config
     (global-set-key (kbd "M-x") 'helm-M-x)
-    (global-set-key (kbd "C-f") 'helm-find-files)
-    (global-set-key (kbd "C-x b") 'helm-buffers-list)
-    (global-set-key (kbd "C-c h s") 'helm-show-kill-ring)
-    (global-set-key (kbd "C-c h a") 'helm-all-mark-rings)
+    (global-set-key (kbd "C-f f") 'helm-find-files)
+    (global-set-key (kbd "C-f b") 'helm-buffers-list)
+    (global-set-key (kbd "C-f s") 'helm-show-kill-ring)
+    (global-set-key (kbd "C-f a") 'helm-all-mark-rings)
     )
   (use-package helm-ls-git
     :defer 2
@@ -63,7 +60,9 @@
 * ace-jump-mode
 #+BEGIN_SRC emacs-lisp :results none
   (use-package ace-jump-mode
-    :defer 2)
+    :commands ace-jump-mode
+    :config
+    (global-set-key (kbd "C-n a") 'ace-jump-mode))
 #+END_SRC
 * magit
 #+BEGIN_SRC emacs-lisp :results none
@@ -137,9 +136,6 @@
 #+END_SRC
 
 * Emacs启动时间
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results none
   (message "Initialized in %s" (emacs-init-time))
 #+END_SRC
-
-#+RESULTS:
-: Initialized in 6.6 seconds

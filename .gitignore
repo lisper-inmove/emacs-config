@@ -1,0 +1,8 @@
+init.el
+basic.el
+elpa
+emacs.el
+my-functions.el
+publish.el
+tramp
+transient
