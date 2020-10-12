@@ -26,6 +26,11 @@
     (setq auto-package-update-hide-results t)
     (auto-package-update-maybe))
 #+END_SRC
+* try
+#+BEGIN_SRC emacs-lisp :results none
+  (use-package try
+    :defer 1)
+#+END_SRC
 * which key
 #+BEGIN_SRC emacs-lisp :results none
   (use-package which-key
@@ -197,7 +202,7 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '(
-     (shell . t)
+     ;;(shell . t)
      (ditaa . t)
      (python . t)
      )
