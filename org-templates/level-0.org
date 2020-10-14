@@ -5,7 +5,7 @@
 #+HTML_CONTAINER: div
 #+DESCRIPTION:
 #+KEYWORDS:
-#+HTML_LINK_HOME: http://test.shilai.zhiyi.cn/api
+#+HTML_LINK_HOME: https://inmove.com.cn
 #+HTML_LINK_UP:
 #+HTML_MATHJAX:
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://thomasf.github.io/solarized-css/solarized-dark.min.css" />
