@@ -185,16 +185,13 @@
 * elpy
 #+BEGIN_SRC emacs-lisp :results none
   (use-package elpy
-    :ensure t
     :defer 1
     :init
     (advice-add 'python-mode :before 'elpy-enable)
     (let ((py "python"))
       (setq elpy-rpc-python-command py
             python-shell-interpreter py
-            python-shell-interpreter-args "-i"))
-
-    )
+            python-shell-interpreter-args "-i")))
 #+END_SRC
 * org-mode
 #+BEGIN_SRC emacs-lisp :results none
