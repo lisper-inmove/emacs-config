@@ -243,6 +243,7 @@
        (shell . t)
        (ditaa . t)
        (python . t)
+       (js . t)
        )
      )
 
