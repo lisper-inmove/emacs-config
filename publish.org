@@ -29,7 +29,7 @@
            :with-tags t
            :with-tasks t
            :with-too-keywords t
-           :with-rawers t
+           :with-drawers t
            :with-emphasize t
            :with-footnotes t
            :with-priority t
