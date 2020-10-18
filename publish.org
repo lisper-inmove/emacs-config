@@ -59,4 +59,5 @@
           ("my-blog" :components ("blog" "css" "js"))
           ))
   (org-publish-remove-all-timestamps)
+  (setq org-export-with-sub-superscripts nil)
 #+END_SRC
