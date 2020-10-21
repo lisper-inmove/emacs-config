@@ -11,3 +11,6 @@ snippets
 init.el
 .org-id-locations
 eshell
+tramp
+ac-comphist.dat
+bookmarks
