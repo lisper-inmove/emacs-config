@@ -208,6 +208,10 @@
   (setq org-enforce-todo-dependencies t)
   (setq org-babel-python-command "python")
   (setq org-default-notes-file "~/.emacs.d/notes.org")
+  (require 'org-tempo)
+
+  (setq org-agenda-files (list "~/.emacs.d/todo-items"))
+  (global-set-key (kbd "<f9>") 'org-agenda)
 #+END_SRC
 * treemacs
 #+BEGIN_SRC emacs-lisp :results none

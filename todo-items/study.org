@@ -1,0 +1,3 @@
+#+STARTUP: indent
+
+* TODO Org Mode Agenda View                                           :Study:
