@@ -13,3 +13,5 @@ elpy
 auto-save-list
 bookmarks
 recentf
+.org-id-locations
+ac-comphist.dat
