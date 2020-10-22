@@ -46,6 +46,7 @@
 * undo tree
 #+BEGIN_SRC emacs-lisp :results none
   (use-package undo-tree
+    :defer 1
     :config
     (undo-tree-mode)
     :bind ("C-c t" . undo-tree-visualize))
@@ -184,16 +185,13 @@
 * elpy
 #+BEGIN_SRC emacs-lisp :results none
   (use-package elpy
-    :ensure t
     :defer 1
     :init
     (advice-add 'python-mode :before 'elpy-enable)
     (let ((py "python"))
       (setq elpy-rpc-python-command py
             python-shell-interpreter py
-            python-shell-interpreter-args "-i"))
-
-    )
+            python-shell-interpreter-args "-i")))
 #+END_SRC
 * org-mode
 #+BEGIN_SRC emacs-lisp :results none
@@ -202,29 +200,14 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '(
-     ;;(shell . t)
+     (shell . t)
      (ditaa . t)
      (python . t)
      )
    )
-
   (setq org-enforce-todo-dependencies t)
-
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "|" "DONE(d!)")
-          (sequence "BUG(b)" "WAITING(w!/@)" "|" "FIXED(f!)" "DELAY(D!)")))
-
-  (setq org-tag-alist '(("开发" . ?d) ("第三方" . ?t) ("同步数据" . ?s)))
-
-  (defun org-summary-todo (n-done n-not-done)
-    "Switch entry to DONE when all subentries are done, to TODO otherwise."
-    (let (org-log-done org-log-states)   ; turn off logging
-      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-
-  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-
   (setq org-babel-python-command "python")
-
+  (setq org-default-notes-file "~/.emacs.d/notes.org")
 #+END_SRC
 * treemacs
 #+BEGIN_SRC emacs-lisp :results none
@@ -299,10 +282,7 @@
     (:map global-map
           ("M-0"       . treemacs-select-window)
           ("C-x t 1"   . treemacs-delete-other-windows)
-          ("<f8>"   . treemacs)
-          ("C-x t B"   . treemacs-bookmark)
-          ("C-x t C-t" . treemacs-find-file)
-          ("C-x t M-t" . treemacs-find-tag)))
+          ("<f8>"   . treemacs)))
 
   (use-package treemacs-evil
     :after treemacs evil
@@ -334,13 +314,6 @@
     :config
     (global-set-key (kbd "C-c j") 'ace-jump-mode))
 #+END_SRC
-* iedit
-#+BEGIN_SRC emacs-lisp :results none
-  (use-package iedit
-    :defer 1
-    :config
-    (global-set-key (kbd "C-c i") 'iedit-mode))
-#+END_SRC
 * exec-path-from-shell
 #+BEGIN_SRC emacs-lisp :results none
   (when (display-graphic-p)
@@ -348,4 +321,9 @@
       :defer 1
       :config
       (exec-path-from-shell-initialize)))
+#+END_SRC
+* ini mode
+#+BEGIN_SRC emacs-lisp :results none
+  (use-package ini-mode
+    :defer 1)
 #+END_SRC

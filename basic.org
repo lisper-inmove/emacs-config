@@ -30,8 +30,8 @@
   (mouse-avoidance-mode 'animate)
 
   ;; 最后一行不要有换行符
-  ;(setq-default next-line-add-newlines nil)
-  ;(setq mode-require-final-newline nil)
+                                          ;(setq-default next-line-add-newlines nil)
+                                          ;(setq mode-require-final-newline nil)
 
   ;; 终端不响铃
   (setq ring-bell-function 'ignore ;; 终端不响铃
@@ -65,4 +65,6 @@
 
   (fset 'delete-empty-lines (kbd "M-x flush-lines RET ^\s-*$ RET"))
   (set-face-attribute 'default nil :height 140)
+  ;; 在orgmode的src block中使用C-c C-c的时候不询问
+  (setq org-confirm-babel-evaluate nil)
 #+END_SRC

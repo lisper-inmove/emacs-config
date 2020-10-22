@@ -29,7 +29,7 @@
            :with-tags t
            :with-tasks t
            :with-too-keywords t
-           :with-rawers t
+           :with-drawers t
            :with-emphasize t
            :with-footnotes t
            :with-priority t
@@ -37,7 +37,7 @@
            :with-special-strings t
            :with-tables t
            :auto-sitemap t
-           :sitemap-filename "index.org"
+           :sitemap-filename "sitemap.org"
            :sitemap-title "Inmove's Blog"
            :headline-levels 6
            :table-of-contents nil
@@ -59,4 +59,5 @@
           ("my-blog" :components ("blog" "css" "js"))
           ))
   (org-publish-remove-all-timestamps)
+  (setq org-export-with-sub-superscripts nil)
 #+END_SRC
