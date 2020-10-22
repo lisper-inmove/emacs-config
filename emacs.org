@@ -365,5 +365,15 @@
   (use-package find-file-in-project
     :defer 1
     :config
-    (global-set-key (kbd "C-f") 'find-file-in-project))
+    (global-set-key (kbd "C-f p") 'find-file-in-project))
+#+end_src
+* protobuf
+#+begin_src emacs-lisp :results none
+  (use-package protobuf-mode
+    :defer 1
+    :config
+    (defconst my-protobuf-style
+      '((c-basic-offset . 2)
+        (indent-tabs-mode . nil)))
+    (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
 #+end_src
