@@ -182,17 +182,35 @@
   (use-package dockerfile-mode
     :defer 2)
 #+END_SRC
+
 * elpy
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_VERSE
+1. C-c C-c: 在python shell中执行当前文件
+2. C-c C-d: 显示光标下内容的帮助文档
+3. C-c C-z: 在文件与python shell中转换
+4. M-.: 跳转到光标的内容的定义处
+5. M-*: 回到跳转的前一位置
+#+END_VERSE
+#+BEGIN_SRC emacs-lisp
   (use-package elpy
+    :ensure t
     :defer 1
-    :config
+    :init
     (advice-add 'python-mode :before 'elpy-enable)
-    (let ((py "python"))
+    (let ((py "python3.7"))
       (setq elpy-rpc-python-command py
             python-shell-interpreter py
-            python-shell-interpreter-args "-i")))
+            python-shell-interpreter-args "-i"))
+
+    )
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "elpy"
+    '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>" "C-c C-c"))
+       (define-key elpy-mode-map (kbd key) nil)))
+#+END_SRC
+
 * org-mode
 #+BEGIN_SRC emacs-lisp :results none
   (setq org-catch-invisible-edits 'error)
