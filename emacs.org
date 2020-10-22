@@ -186,7 +186,7 @@
 #+BEGIN_SRC emacs-lisp :results none
   (use-package elpy
     :defer 1
-    :init
+    :config
     (advice-add 'python-mode :before 'elpy-enable)
     (let ((py "python"))
       (setq elpy-rpc-python-command py
@@ -359,4 +359,11 @@
     (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
     (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
     )
+#+end_src
+* find file in project
+#+begin_src emacs-lisp :results none
+  (use-package find-file-in-project
+    :defer 1
+    :config
+    (global-set-key (kbd "C-f") 'find-file-in-project))
 #+end_src
