@@ -395,3 +395,10 @@
         (indent-tabs-mode . nil)))
     (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
 #+end_src
+* auto-complete
+#+begin_src emacs-lisp :results none
+  (use-package auto-complete
+    :defer 1
+    :config
+    (ac-config-default))
+#+end_src
