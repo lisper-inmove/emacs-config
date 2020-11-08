@@ -230,6 +230,9 @@
 
   (setq org-agenda-files (list "~/.emacs.d/todo-items"))
   (global-set-key (kbd "<f9>") 'org-agenda)
+  (global-set-key (kbd "C-o C-c") 'org-mark-ring-goto)
+
+  (global-visual-line-mode 1)
 #+END_SRC
 * treemacs
 #+BEGIN_SRC emacs-lisp :results none
@@ -394,4 +397,9 @@
       '((c-basic-offset . 2)
         (indent-tabs-mode . nil)))
     (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
+#+end_src
+* json
+#+begin_src emacs-lisp :results none
+  (use-package json-mode
+    :defer 1)
 #+end_src
