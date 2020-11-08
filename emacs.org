@@ -230,6 +230,7 @@
 
   (setq org-agenda-files (list "~/.emacs.d/todo-items"))
   (global-set-key (kbd "<f9>") 'org-agenda)
+  (setq org-agenda-include-diary t)
   (global-set-key (kbd "C-o C-c") 'org-mark-ring-goto)
 
   (global-visual-line-mode 1)
