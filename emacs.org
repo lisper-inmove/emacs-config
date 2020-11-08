@@ -404,3 +404,10 @@
   (use-package json-mode
     :defer 1)
 #+end_src
+* auto-complete
+#+begin_src emacs-lisp :results none
+  ;; (use-package auto-complete
+  ;;   :defer 1
+  ;;   :config
+  ;;   (ac-config-default))
+#+end_src

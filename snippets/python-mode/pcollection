@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: pcl
+# key: pcl
+# --
+@property
+def _$1_collection(self):
+    c = constants.MONGODB_${1:$(upcase yas-text)}_COLLECTION_NAME
+    return self.mongo_client[self.db][c]
