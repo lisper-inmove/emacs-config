@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: getk
+# key: getk
+# --
+$1 = request.args.get("${1:$(my/string-to-camelbak yas-text)}", None)

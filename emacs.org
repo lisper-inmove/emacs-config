@@ -351,6 +351,8 @@
 #+END_SRC
 * swiper
 #+begin_src emacs-lisp :results none
+  (use-package counsel
+    :defer 1)
   (use-package swiper
     :defer 1
     :config
@@ -397,8 +399,8 @@
 #+end_src
 * auto-complete
 #+begin_src emacs-lisp :results none
-  (use-package auto-complete
-    :defer 1
-    :config
-    (ac-config-default))
+  ;; (use-package auto-complete
+  ;;   :defer 1
+  ;;   :config
+  ;;   (ac-config-default))
 #+end_src

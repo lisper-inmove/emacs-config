@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: uid
+# key: uid
+# --
+user_id = request.headers.get("userId", None)

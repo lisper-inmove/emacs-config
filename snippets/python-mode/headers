@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: headers
+# key: headers
+# --
+$1 = request.headers.get("${1:$(my/string-to-camelbak yas-text)}", None)

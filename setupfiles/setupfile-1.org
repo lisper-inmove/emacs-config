@@ -9,6 +9,7 @@
 #+HTML_LINK_UP:
 #+HTML_MATHJAX:
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://thomasf.github.io/solarized-css/solarized-dark.min.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://inmove.com.cn/plus.css" />
 #+HTML_HEAD_EXTRA:
 #+SUBTITLE:
 #+INFOJS_OPT:
