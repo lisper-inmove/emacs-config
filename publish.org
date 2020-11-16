@@ -51,7 +51,7 @@
            )
           ("js"
            :base-directory "~/code/blog/js/"
-           :base-extension "css"
+           :base-extension "js"
            :publishing-directory "/ssh:inmove@inmove.com.cn#13921:/home/inmove/www/blog/js"
            :recursive t
            :publishing-function org-publish-attachment
