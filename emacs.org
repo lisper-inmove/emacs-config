@@ -20,11 +20,11 @@
 #+END_SRC
 * auto-package-update
 #+BEGIN_SRC emacs-lisp :results none
-  (use-package auto-package-update
-    :config
-    (setq auto-package-update-delete-old-versions t)
-    (setq auto-package-update-hide-results t)
-    (auto-package-update-maybe))
+  ;; (use-package auto-package-update
+  ;;   :config
+  ;;   (setq auto-package-update-delete-old-versions t)
+  ;;   (setq auto-package-update-hide-results t)
+  ;;   (auto-package-update-maybe))
 #+END_SRC
 * try
 #+BEGIN_SRC emacs-lisp :results none
@@ -221,6 +221,10 @@
      (shell . t)
      (ditaa . t)
      (python . t)
+     (dot . t)
+     (R . t)
+     (sql . t)
+     (C . t)
      )
    )
   (setq org-enforce-todo-dependencies t)
@@ -234,6 +238,7 @@
   (global-set-key (kbd "C-o C-c") 'org-mark-ring-goto)
 
   (global-visual-line-mode 1)
+  (setq org-ditaa-jar-path "~/.emacs.d/ditaa0_9.jar")
 #+END_SRC
 * treemacs
 #+BEGIN_SRC emacs-lisp :results none

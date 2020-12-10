@@ -9,7 +9,7 @@
   (setq home "~/.emacs.d/")
   (global-visual-line-mode 1)
   ;; (set-default-font "Monospace-12")
-  (set-frame-font "Monospace-17")
+  (set-frame-font "Monospace-22")
   ;; 使用y代替yes,n代替no
   (fset 'yes-or-no-p 'y-or-n-p)
   ;; 括号匹配

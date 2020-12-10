@@ -56,7 +56,14 @@
            :recursive t
            :publishing-function org-publish-attachment
            )
-          ("my-blog" :components ("blog" "css" "js"))
+          ("image"
+           :base-directory "~/code/blog/images/"
+           :base-extension "png"
+           :publishing-directory "/ssh:inmove@inmove.com.cn#13921:/home/inmove/www/blog/images"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("my-blog" :components ("blog" "css" "js" "image"))
           ))
   (org-publish-remove-all-timestamps)
   (setq org-export-with-sub-superscripts nil)
