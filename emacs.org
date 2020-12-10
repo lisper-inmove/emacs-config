@@ -416,3 +416,10 @@
   ;;   :config
   ;;   (ac-config-default))
 #+end_src
+* org-bullets
+#+begin_src emacs-lisp :results none
+  (use-package org-bullets
+    :defer 1
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+#+end_src
