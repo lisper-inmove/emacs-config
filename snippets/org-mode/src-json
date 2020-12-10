@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: src-json
+# key: src-json
+# --
+#+begin_src $1 :results value code :wrap SRC json :exports both
+
+#+end_src

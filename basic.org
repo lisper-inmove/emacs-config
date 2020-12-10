@@ -67,4 +67,5 @@
   (set-face-attribute 'default nil :height 140)
   ;; 在orgmode的src block中使用C-c C-c的时候不询问
   (setq org-confirm-babel-evaluate nil)
+  (setq org-export-use-babel nil)
 #+END_SRC

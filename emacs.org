@@ -20,11 +20,11 @@
 #+END_SRC
 * auto-package-update
 #+BEGIN_SRC emacs-lisp :results none
-  (use-package auto-package-update
-    :config
-    (setq auto-package-update-delete-old-versions t)
-    (setq auto-package-update-hide-results t)
-    (auto-package-update-maybe))
+  ;; (use-package auto-package-update
+  ;;   :config
+  ;;   (setq auto-package-update-delete-old-versions t)
+  ;;   (setq auto-package-update-hide-results t)
+  ;;   (auto-package-update-maybe))
 #+END_SRC
 * try
 #+BEGIN_SRC emacs-lisp :results none
@@ -403,4 +403,11 @@
   ;;   :defer 1
   ;;   :config
   ;;   (ac-config-default))
+#+end_src
+* org-bullets
+#+begin_src emacs-lisp :results none
+  (use-package org-bullets
+    :defer 1
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+end_src
