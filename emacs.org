@@ -149,3 +149,8 @@
   (if (string> org-version "9.2")
       (require 'org-tempo))
 #+end_src
+* Protobuf
+#+begin_src emacs-lisp
+  (use-package protobuf
+    :defer 1)
+#+end_src
