@@ -1,7 +1,8 @@
 #+STARTUP: indent
+#+PROPERTY: header-args :results silent
 
 * package init
-#+begin_src emacs-lisp :results none
+#+begin_src emacs-lisp
   (setq inhibit-startup-message t)
   (require 'package)
   (setq package-enable-at-startup nil)
@@ -18,16 +19,8 @@
   (require 'use-package-ensure)
   (setq use-package-always-ensure t)
 #+END_SRC
-* auto-package-update
-#+BEGIN_SRC emacs-lisp :results none
-  (use-package auto-package-update
-    :config
-    (setq auto-package-update-delete-old-versions t)
-    (setq auto-package-update-hide-results t)
-    (auto-package-update-maybe))
-#+END_SRC
 * undo tree
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :config
     (undo-tree-mode)
@@ -37,13 +30,13 @@
 #+RESULTS:
 : undo-tree-visualize
 * monokai
-#+BEGIN_SRC emacs-lisp :results note
+#+BEGIN_SRC emacs-lisp
   (use-package monokai-theme
     :config
     (load-theme 'monokai t))
 #+END_SRC
 * helm
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (use-package helm
     :defer 2
     :config
@@ -61,37 +54,37 @@
     :after helm)
 #+END_SRC
 * ace-jump-mode
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (use-package ace-jump-mode
     :defer 2)
 #+END_SRC
 * magit
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (use-package magit
     :defer 2
     :bind (("C-x g" . magit-status)))
 #+END_SRC
 * ace-window
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :defer 2
     :config
     (global-set-key (kbd "C-c o") 'ace-window))
 #+END_SRC
 * htmlize
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (use-package htmlize
     :defer 2)
 #+END_SRC
 * iedit
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (use-package iedit
     :defer 2
     :config
     (global-set-key (kbd "C-c i") 'iedit-mode))
 #+END_SRC
 * exec-path-from-shell
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (when (display-graphic-p)
     (use-package exec-path-from-shell
       :defer 2
@@ -99,7 +92,7 @@
       (exec-path-from-shell-initialize)))
 #+END_SRC
 * elscreen
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp 
   (use-package elscreen
     :defer 2
     :config
@@ -107,18 +100,8 @@
     (elscreen-set-prefix-key "\C-t")
     (setq elscreen-display-tab nil))
 #+END_SRC
-* occur
-#+BEGIN_SRC emacs-lisp :results none
-  (defun occur-symbol-at-point ()
-    (interactive)
-    (let ((sym (thing-at-point 'symbol)))
-      (if sym
-          (push (regexp-quote sym) regexp-history))
-      (call-interactively 'occur)))
-  (global-set-key (kbd "C-s") 'occur-symbol-at-point)
-#+END_SRC
 * yasnippet
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :defer 2
     :init
@@ -136,10 +119,7 @@
     :after yasnippet)
 #+END_SRC
 
-* Emacs启动时间
+* Emacs Start Times
 #+BEGIN_SRC emacs-lisp
   (message "Initialized in %s" (emacs-init-time))
 #+END_SRC
-
-#+RESULTS:
-: Initialized in 6.6 seconds

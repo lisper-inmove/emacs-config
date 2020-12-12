@@ -1,6 +1,7 @@
 #+STARTUP: indent
+#+PROPERTY: header-args :results silent
 
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (defun copy-current-line ()
     ;; 复制当前行
     (interactive)
@@ -15,7 +16,7 @@
 1. i/forward-char: 光标向后移动到下一个c字符
 2. i/backward-char: 光标向前移动到上一个c字符
 #+END_VERSE
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
   (defun i/forward-char (c)
     (interactive "cWhich Char?")
     (message "goto char %c" c)

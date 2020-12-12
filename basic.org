@@ -1,6 +1,7 @@
 #+STARTUP: indent
+#+PROPERTY: header-args :results silent
 
-#+BEGIN_SRC emacs-lisp :results none
+#+BEGIN_SRC emacs-lisp
 (dolist
     (key '("\C-b" "\C-o" "\C-p" "\C-q"
            "\C-t" "\C-v" "\C-z"
