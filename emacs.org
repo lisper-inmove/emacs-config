@@ -148,7 +148,22 @@
                 (add-to-list (make-local-variable 'company-backends)
                              '(company-jedi))))
     )
-  (global-unset-key "\C-c \C-p")
+
+  (use-package company-irony
+    :defer 1
+    :config
+    (add-hook 'c-mode-hook
+              (lambda ()
+                (add-to-list (make-local-variable 'company-backends)
+                             '(company-irony)))))
+
+    (use-package company-irony-c-headers
+      :defer 1
+      :config
+      (add-hook 'c-mode-hook
+                (lambda ()
+                  (add-to-list (make-local-variable 'company-backends)
+                               '(company-irony-c-headers)))))
 #+end_src
 * Org
 #+begin_src emacs-lisp
@@ -181,6 +196,16 @@
                 (define-key python-mode-map (kbd "C-c C-n") 'flycheck-next-error)
                 (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
                 )))
+
+  (use-package flycheck-clangcheck
+    :defer 1
+    :config
+    (add-hook 'c-mode-hook
+              (lambda ()
+                (flycheck-mode)
+                (define-key c-mode-map (kbd "C-c C-n") 'flycheck-next-error)
+                (define-key c-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
+                )))
 #+end_src
 * git-gutter
 #+begin_src emacs-lisp
@@ -201,4 +226,17 @@
      '(git-gutter:separator-sign "|")
      '(git-gutter:ask-p nil)
      ))
+#+end_src
+* elpy
+#+begin_src emacs-lisp
+  (use-package elpy
+    :ensure t
+    :defer 1
+    :init
+    (advice-add 'python-mode :before 'elpy-enable)
+    (let ((py "python"))
+      (setq elpy-rpc-python-command py
+            python-shell-interpreter py
+            python-shell-interpreter-args "-i"))
+      )
 #+end_src
