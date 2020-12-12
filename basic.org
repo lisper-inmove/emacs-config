@@ -19,6 +19,8 @@
   ;; 不要工具栏
   (if (display-graphic-p)
       (tool-bar-mode -1))
+  (if (boundp tool-bar-mode)
+      (tool-bar-mode -1))
   ;; 不要滚动条
   (if (boundp 'x-toolkit-scroll-bars)
       (scroll-bar-mode -1))

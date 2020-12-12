@@ -190,6 +190,11 @@
 3. C-c C-z: 在文件与python shell中转换
 4. M-.: 跳转到光标的内容的定义处
 5. M-*: 回到跳转的前一位置
+6. pip install flake8
+7. Write to ~/.config/flake8 to ignore some errors.
+   [flake8]
+   ignore = E303,E501
+#+end_verse
 #+END_VERSE
 #+BEGIN_SRC emacs-lisp
   (use-package elpy
@@ -210,7 +215,6 @@
     '(cl-dolist (key '("M-<up>" "M-<down>" "M-<left>" "M-<right>" "C-c C-c"))
        (define-key elpy-mode-map (kbd key) nil)))
 #+END_SRC
-
 * org-mode
 #+BEGIN_SRC emacs-lisp :results none
   (setq org-catch-invisible-edits 'error)
