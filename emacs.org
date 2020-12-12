@@ -92,7 +92,7 @@
       (exec-path-from-shell-initialize)))
 #+END_SRC
 * elscreen
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (use-package elscreen
     :defer 2
     :config
@@ -123,3 +123,29 @@
 #+BEGIN_SRC emacs-lisp
   (message "Initialized in %s" (emacs-init-time))
 #+END_SRC
+* Company Mode
+#+begin_src emacs-lisp
+  (use-package company
+    :ensure t
+    :config
+    (global-company-mode t)
+    (setq company-idle-delay 0.3)
+    (setq company-minimum-prefix-length 2))
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda ()
+              (add-to-list (make-local-variable 'company-backends)
+                           '(company-elisp))))
+  (use-package company-jedi
+    :defer 1
+    :config
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (add-to-list (make-local-variable 'company-backends)
+                             '(company-jedi))))
+    )
+#+end_src
+* Org
+#+begin_src emacs-lisp
+  (if (string> org-version "9.2")
+      (require 'org-tempo))
+#+end_src
