@@ -19,6 +19,11 @@
   (require 'use-package-ensure)
   (setq use-package-always-ensure t)
 #+END_SRC
+* try
+#+begin_src emacs-lisp
+  (use-package try
+    :defer 1)
+#+end_src
 * undo tree
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
@@ -152,5 +157,10 @@
 * Protobuf
 #+begin_src emacs-lisp
   (use-package protobuf
+    :defer 1)
+#+end_src
+* Docker
+#+begin_src emacs-lisp
+  (use-package docker
     :defer 1)
 #+end_src

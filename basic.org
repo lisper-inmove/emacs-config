@@ -63,4 +63,6 @@
     (load-file (expand-file-name (concat home filename))))
 
   (fset 'delete-empty-lines (kbd "M-x flush-lines RET ^\s-*$ RET"))
+  ;; 在orgmode的src block中使用C-c C-c的时候不询问
+  (setq org-confirm-babel-evaluate nil)
 #+END_SRC
