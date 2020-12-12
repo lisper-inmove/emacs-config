@@ -148,6 +148,7 @@
                 (add-to-list (make-local-variable 'company-backends)
                              '(company-jedi))))
     )
+  (global-unset-key "\C-c \C-p")
 #+end_src
 * Org
 #+begin_src emacs-lisp
@@ -156,11 +157,48 @@
 #+end_src
 * Protobuf
 #+begin_src emacs-lisp
-  (use-package protobuf
+  (use-package protobuf-mode
     :defer 1)
 #+end_src
 * Docker
 #+begin_src emacs-lisp
   (use-package docker
     :defer 1)
+#+end_src
+* ini
+#+begin_src emacs-lisp
+  (use-package ini-mode
+    :defer 1)
+#+end_src
+* flycheck
+#+begin_src emacs-lisp
+  (use-package flycheck-pyflakes
+    :defer 1
+    :config
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (flycheck-mode)
+                (define-key python-mode-map (kbd "C-c C-n") 'flycheck-next-error)
+                (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
+                )))
+#+end_src
+* git-gutter
+#+begin_src emacs-lisp
+  (use-package git-gutter
+    :defer 1
+    :config
+    (global-git-gutter-mode +1)
+    (global-set-key (kbd "C-p") 'git-gutter:previous-hunk)
+    (global-set-key (kbd "C-n") 'git-gutter:next-hunk)
+    (custom-set-variables
+     '(git-gutter:update-interval 1)
+     '(git-gutter:lighter " GG")
+     '(git-gutter:window-width 2)
+     '(git-gutter:modified-sign "☁")
+     '(git-gutter:added-sign "☀")
+     '(git-gutter:deleted-sign "☂")
+     '(git-gutter:disabled-modes '(asm-mode image-mode))
+     '(git-gutter:separator-sign "|")
+     '(git-gutter:ask-p nil)
+     ))
 #+end_src
