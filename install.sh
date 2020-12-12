@@ -9,3 +9,6 @@ cp init.src.el init.el
 # sudo apt-get install linux-kernel-headers kernel-package
 echo "create directory snippets"
 mkdir snippets
+
+echo "install global for gtags"
+apt install -y global

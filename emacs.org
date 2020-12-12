@@ -57,6 +57,15 @@
   (use-package helm-addressbook
     :defer 2
     :after helm)
+
+  (use-package helm-gtags
+    :defer 1
+    :config
+    (add-hook 'c-mode-hook 'helm-gtags-mode)
+    (define-key c-mode-map (kbd "M-.") 'helm-gtags-dwim)
+    (define-key c-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+    (define-key c-mode-map (kbd "M-r") 'helm-gtags-find-symbol)
+    )
 #+END_SRC
 * ace-jump-mode
 #+BEGIN_SRC emacs-lisp
