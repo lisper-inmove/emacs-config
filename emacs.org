@@ -203,12 +203,8 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '(
-     (shell . t)
      (ditaa . t)
      (python . t)
-     (dot . t)
-     (R . t)
-     (sql . t)
      (C . t)
      )
    )
