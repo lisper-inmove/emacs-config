@@ -208,7 +208,7 @@
      (C . t)
      )
    )
-
+  (global-set-key (kbd "<f6>") 'org-publish-current-file)
 #+end_src
 * Protobuf
 #+begin_src emacs-lisp
@@ -414,4 +414,11 @@
       :defer 1
       :config
       (exec-path-from-shell-initialize)))
+#+end_src
+* org-bullets
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :defer 1
+    :config
+    (add-hook 'org-mode-hook 'org-bullets-mode))
 #+end_src
