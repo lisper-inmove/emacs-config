@@ -1,6 +1,7 @@
 (org-babel-load-file (expand-file-name "~/.emacs.d/emacs.org"))
 (org-babel-load-file (expand-file-name "~/.emacs.d/basic.org"))
 (org-babel-load-file (expand-file-name "~/.emacs.d/functions.org"))
+(org-babel-load-file (expand-file-name "~/.emacs.d/publish.org"))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
