@@ -66,9 +66,6 @@
   (use-package helm-ls-git
     :defer 2
     :after helm)
-  (use-package helm-addressbook
-    :defer 2
-    :after helm)
 
   (use-package helm-gtags
     :defer 1
@@ -206,6 +203,7 @@
      (ditaa . t)
      (python . t)
      (C . t)
+     (shell . t)
      )
    )
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
@@ -423,4 +421,9 @@
     :defer 1
     :config
     (add-hook 'org-mode-hook 'org-bullets-mode))
+#+end_src
+* position register
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-r r") 'point-to-register)
+  (global-set-key (kbd "C-r g") 'jump-to-register)
 #+end_src
