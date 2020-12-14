@@ -3,7 +3,7 @@
 
 #+BEGIN_SRC emacs-lisp
   (dolist
-      (key '("\C-b" "\C-o" "\C-p" "\C-q"
+      (key '("\C-b" "\C-o" "\C-p" "\C-q" "\C-r"
              "\C-t" "\C-v" "\C-z" "\C-f"
              ))
     (global-unset-key key))
