@@ -207,6 +207,8 @@
      )
    )
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
+  (add-hook 'org-mode-hook '(lambda () (setq fill-column 120)))
+  (add-hook 'org-mode-hook 'auto-fill-mode)
 #+end_src
 * Protobuf
 #+begin_src emacs-lisp
@@ -427,4 +429,32 @@
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-r r") 'point-to-register)
   (global-set-key (kbd "C-r g") 'jump-to-register)
+#+end_src
+* ispell
+#+begin_src emacs-lisp
+  ;; "text-mode" is a major mode for editing files of text in a human language"
+  ;; most major modes for non-programmers inherit from text-mode
+  (defun org-mode-hook-setup ()
+    ;; make `company-backends' local is critcal
+    ;; or else, you will have completion in every major mode, that's very annoying!
+    (make-local-variable 'company-backends)
+
+    ;; company-ispell is the plugin to complete words
+    (add-to-list 'company-backends 'company-ispell)
+
+    ;; OPTIONAL, if `company-ispell-dictionary' is nil, `ispell-complete-word-dict' is used
+    ;;  but I prefer hard code the dictionary path. That's more portable.
+    (setq company-ispell-dictionary (file-truename "~/.emacs.d/english-words.txt")))
+
+  (add-hook 'org-mode-hook 'org-mode-hook-setup)
+
+  (defun toggle-company-ispell ()
+    (interactive)
+    (cond
+     ((memq 'company-ispell company-backends)
+      (setq company-backends (delete 'company-ispell company-backends))
+      (message "company-ispell disabled"))
+     (t
+      (add-to-list 'company-backends 'company-ispell)
+      (message "company-ispell enabled!"))))
 #+end_src
