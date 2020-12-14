@@ -284,6 +284,8 @@
             python-shell-interpreter py
             python-shell-interpreter-args "-i"))
       )
+  (add-hook 'python-mode-hook 'elpy-enable)
+  (add-hook 'python-mode-hook 'elpy-mode)
 #+end_src
 * treemacs
 #+begin_src emacs-lisp
