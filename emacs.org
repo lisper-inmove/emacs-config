@@ -206,7 +206,7 @@
      (shell . t)
      )
    )
-
+  (global-set-key (kbd "<f6>") 'org-publish-current-file)
 #+end_src
 * Protobuf
 #+begin_src emacs-lisp
