@@ -416,6 +416,13 @@
       :config
       (exec-path-from-shell-initialize)))
 #+end_src
+* org-bullets
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :defer 1
+    :config
+    (add-hook 'org-mode-hook 'org-bullets-mode))
+#+end_src
 * position register
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-r r") 'point-to-register)
