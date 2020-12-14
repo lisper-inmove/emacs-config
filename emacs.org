@@ -415,3 +415,8 @@
       :config
       (exec-path-from-shell-initialize)))
 #+end_src
+* position register
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-r r") 'point-to-register)
+  (global-set-key (kbd "C-r g") 'jump-to-register)
+#+end_src
