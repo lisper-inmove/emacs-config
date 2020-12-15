@@ -75,11 +75,6 @@
     (define-key c-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
     (define-key c-mode-map (kbd "M-r") 'helm-gtags-find-symbol)
     )
-
-  (use-package helm-ag
-    :defer 1
-    :config
-    (global-set-key (kbd "C-c a") 'helm-ag))
 #+END_SRC
 * ace-jump-mode
 #+BEGIN_SRC emacs-lisp
@@ -457,4 +452,11 @@
      (t
       (add-to-list 'company-backends 'company-ispell)
       (message "company-ispell enabled!"))))
+#+end_src
+* counsel
+#+begin_src emacs-lisp
+  (use-package counsel
+    :defer 1
+    :config                                                                                                                       
+    (global-set-key (kbd "C-c a") 'counsel-ag))
 #+end_src
