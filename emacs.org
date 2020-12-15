@@ -76,10 +76,6 @@
     (define-key c-mode-map (kbd "M-r") 'helm-gtags-find-symbol)
     )
 
-  (use-package helm-ag
-    :defer 1
-    :config
-    (global-set-key (kbd "C-c a") 'helm-ag))
 #+END_SRC
 * ace-jump-mode
 #+BEGIN_SRC emacs-lisp
@@ -426,4 +422,11 @@
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-r r") 'point-to-register)
   (global-set-key (kbd "C-r g") 'jump-to-register)
+#+end_src
+* counsel
+#+begin_src emacs-lisp
+  (use-package counsel
+    :defer 1
+    :config
+    (global-set-key (kbd "C-c a") 'counsel-ag))
 #+end_src

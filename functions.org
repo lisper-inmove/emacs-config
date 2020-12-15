@@ -9,7 +9,7 @@
           (_e (line-end-position)))
       (copy-region-as-kill _b _e)
       (message "copy current line - beginning-of-line: %s,  end-of-line: %s" _b _e)))
-  (global-set-key (kbd "C-c l l") 'copy-current-line)
+  (global-set-key (kbd "C-c l") 'copy-current-line)
 #+END_SRC
 
 #+BEGIN_VERSE
@@ -27,6 +27,8 @@
       (interactive "cWhich Char?")
       (message "goto char %c" c)
       (search-backward (char-to-string c) (line-beginning-position) nil 1))
+  (global-set-key (kbd "C-c b") 'i/backward-char)
+  (global-set-key (kbd "C-c f") 'i/forward-char)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
