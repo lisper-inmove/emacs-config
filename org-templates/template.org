@@ -12,7 +12,7 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://inmove.com.cn/plus.css" />
 #+HTML_HEAD: <script src="https://inmove.com.cn/jquery.min.js"></script>
 #+HTML_HEAD: <script src="https://inmove.com.cn/jquery-ui.min.js"></script>
-#+HTML_HEAD: <script src="https://inmove.com.cn/plus.js">
+#+HTML_HEAD: <script src="https://inmove.com.cn/plus.js"></script>
 #+HTML_HEAD_EXTRA:
 #+SUBTITLE:
 #+INFOJS_OPT:

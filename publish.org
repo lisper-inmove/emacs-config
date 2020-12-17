@@ -41,7 +41,7 @@
            :with-tables t
            :auto-sitemap t
            :sitemap-filename "sitemap.org"
-           :sitemap-title "Inmove's Blog"
+           :sitemap-title "Shilai Backend API"
            :headline-levels 6
            :table-of-contents nil
            )

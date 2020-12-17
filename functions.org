@@ -54,3 +54,36 @@
           (setq first nil)))
       result))
 #+END_SRC
+
+#+begin_src emacs-lisp
+  (defun increment-number-region ()
+    (interactive)
+    (if (not (region-active-p))
+        (message "No region found")
+      (progn
+        (let ((begin (region-beginning))
+              (end (region-end)))
+          (message "increment number %d, %d" begin end)
+          (save-excursion
+            (let ((number 1)
+                  (current begin))
+              (while (< current end)
+                (goto-char current)
+                (goto-char (line-beginning-position))
+                (if (not (line-empty-p))
+                    (progn
+                      (insert (number-to-string number))
+                      (insert ".")
+                      (setq number (1+ number))
+                      )
+                    )
+                (forward-line 1)
+                (setq current (point))
+                (message "current line number %d" current))))))))
+
+  (defun line-empty-p ()
+    (save-excursion
+      (beginning-of-line)
+      (looking-at-p "[[:space:]]*$")))
+  (global-set-key (kbd "<f7>") 'increment-number-region)
+#+end_src
