@@ -9,7 +9,7 @@
           (_e (line-end-position)))
       (copy-region-as-kill _b _e)
       (message "copy current line - beginning-of-line: %s,  end-of-line: %s" _b _e)))
-  (global-set-key (kbd "C-c l l") 'copy-current-line)
+  (global-set-key (kbd "C-c l") 'copy-current-line)
 #+END_SRC
 
 #+BEGIN_VERSE
