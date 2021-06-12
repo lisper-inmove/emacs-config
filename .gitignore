@@ -5,3 +5,4 @@ emacs.el
 functions.el
 publish.el
 transient
+auto-save-list

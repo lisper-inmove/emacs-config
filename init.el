@@ -1,8 +1,11 @@
+(defun my-load-file (filename)
+  (load-file (expand-file-name (concat config-dir filename))))
+
 (setf config-dir "~/.emacs.d/")
-(org-babel-load-file (expand-file-name "~/.emacs.d/basic.org"))
-(org-babel-load-file (expand-file-name "~/.emacs.d/emacs.org"))
-(org-babel-load-file (expand-file-name "~/.emacs.d/functions.org"))
-(org-babel-load-file (expand-file-name "~/.emacs.d/publish.org"))
+(org-babel-load-file (expand-file-name (concat config-dir "basic.org")))
+(org-babel-load-file (expand-file-name (concat config-dir "emacs.org")))
+(org-babel-load-file (expand-file-name (concat config-dir "functions.org")))
+(org-babel-load-file (expand-file-name (concat config-dir "publish.org")))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

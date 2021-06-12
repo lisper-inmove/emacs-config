@@ -59,8 +59,6 @@
   ;; 保存时删除行尾空格
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   ;; (add-hook 'before-save-hook 'whitespace-cleanup)
-  (defun my-load-file (filename)
-    (load-file (expand-file-name (concat home filename))))
 
   (fset 'delete-empty-lines (kbd "M-x flush-lines RET ^\s-*$ RET"))
   ;; 在orgmode的src block中使用C-c C-c的时候不询问
