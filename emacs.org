@@ -399,3 +399,10 @@
                 (define-key c-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
                 )))
 #+end_src
+* dashboard
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook))
+#+END_SRC
