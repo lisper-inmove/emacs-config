@@ -1,4 +1,6 @@
 #+STARTUP: indent
+#+PROPERTY: header-args    :results silent
+
 * package init
 #+begin_src emacs-lisp
   (setq inhibit-startup-message t)
@@ -17,31 +19,87 @@
   (setq use-package-always-ensure t)
 #+END_SRC
 
-* which key
-  #+BEGIN_SRC emacs-lisp
-    (use-package which-key
-      :defer 5
-      :config
-      (which-key-setup-side-window-right-bottom) ;; 在右边打开提示窗,如果右边不够大,就在下面打开
-      ;; (which-key-setup-minibuffer)
-      ;; (setq which-key-show-early-on-C-h t)
-      ;; (setq which-key-idle-delay 10000)
-      ;; (setq which-key-idle-secondary-delay 0.05)
-      (which-key-mode 1))
-  #+END_SRC
+* python
+#+BEGIN_SRC emacs-lisp
+   (use-package python
+     :ensure t
+     :mode ("\\.py\\'" . python-mode)
+     :interpreter ("python" . python-mode)
+     :config
+     (setq indent-tabs-mode nil)
+     (setq python-indent-offset 4)
+     (setq flycheck-flake8rc "~/.flake8")
+     (use-package py-autopep8
+       :ensure t
+       :hook ((python-mode . py-autopep8-enable-on-save))
+       )
+     )
+   ;;
+   ;; company jedi use jedi-core
+   ;;
+   (use-package company-jedi
+     :ensure t
+     :config
+     (add-hook 'python-mode-hook 'jedi:setup)
+     (add-hook 'python-mode-hook (lambda ()
+                                   (add-to-list (make-local-variable 'company-backends)                                             'company-jedi)))
+     )
+
+  (use-package elpy
+     :ensure t
+     :commands (elpy-enable)
+     :config
+     (setq elpy-rpc-backend "jedi")
+     )
+
+  ;; 成生 TAGS
+  ;; find . -type f -name '*.py' | xargs etags
+#+END_SRC
+* monokai
+#+BEGIN_SRC emacs-lisp :results output
+  (use-package monokai-theme
+    :config
+    (load-theme 'monokai t))
+#+END_SRC
 * undo tree
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
-    :defer 5
-    :init
+    :config
     (undo-tree-mode)
     :bind ("C-c t" . undo-tree-visualize))
 #+END_SRC
-* git gutter
+* ace-window
 #+BEGIN_SRC emacs-lisp
-  (use-package git-gutter
-    ;;; 在文件中显示git信息
+  (use-package ace-window
     :defer 2
+    :config
+    (global-set-key (kbd "C-c o") 'ace-window))
+#+END_SRC
+* htmlize
+#+BEGIN_SRC emacs-lisp
+  (use-package htmlize
+    :defer 2)
+#+END_SRC
+* iedit
+#+BEGIN_SRC emacs-lisp
+  (use-package iedit
+    :defer 2
+    :config
+    (global-set-key (kbd "C-c i") 'iedit-mode))
+#+END_SRC
+* elscreen
+#+BEGIN_SRC emacs-lisp
+  (use-package elscreen
+    :defer 2
+    :config
+    (elscreen-start)
+    (elscreen-set-prefix-key "\C-t")
+    (setq elscreen-display-tab nil))
+#+END_SRC
+* git-gutter
+#+begin_src emacs-lisp
+  (use-package git-gutter
+    :defer 1
     :config
     (global-git-gutter-mode +1)
     (global-set-key (kbd "C-p") 'git-gutter:previous-hunk)
@@ -54,202 +112,60 @@
      '(git-gutter:added-sign "☀")
      '(git-gutter:deleted-sign "☂")
      '(git-gutter:disabled-modes '(asm-mode image-mode))
-     ;; '(git-gutter:hide-gutter t)
      '(git-gutter:separator-sign "|")
      '(git-gutter:ask-p nil)
      ))
-  ;; (set-face-foreground 'git-gutter:separator "yellow")
-  ;; (set-face-foreground 'git-gutter:modified "purple") ;; background color
-  ;; (set-face-foreground 'git-gutter:added "green")
-  ;; (set-face-foreground 'git-gutter:deleted "red")
-#+END_SRC
-* proto buf
-  #+BEGIN_SRC emacs-lisp
-    (use-package protobuf-mode
-      :defer 2
-      :config
-      (defconst my-protobuf-style
-         '((c-basic-offset . 2)
-           (indent-tabs-mode . nil)))
-      (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
-  #+END_SRC
-* dockerfile
-  #+BEGIN_SRC emacs-lisp
-    (use-package dockerfile-mode
-      :defer 2)
-  #+END_SRC
-* hl line
-  #+BEGIN_SRC emacs-lisp
-    (use-package hl-line
-      :config
-      (global-hl-line-mode t)
-      (set-face-background 'hl-line "#000000"))
-  #+END_SRC
-* monokai theme
-  #+BEGIN_SRC emacs-lisp
-    (use-package monokai-theme
-      :config
-      (load-theme 'monokai t))
-  #+END_SRC
-* recently file
-  #+BEGIN_SRC emacs-lisp
-    (use-package recentf
-      ;; Loads after 1 second of idle time.
-      :defer 1)
-  #+END_SRC
-* uniquify files
-  #+BEGIN_SRC emacs-lisp
-    (use-package uniquify-files
-      ;; Less important than recentf.
-      :defer 2)
-  #+END_SRC
-* paren
-  #+BEGIN_VERSE
-  高亮显示匹配的括号
-  #+END_VERSE
-  #+BEGIN_SRC emacs-lisp
-    (use-package paren
-      :defer 1)
-  #+END_SRC
-* yasnippet
-  #+BEGIN_SRC emacs-lisp
-    (use-package yasnippet
-      :defer 2
-      :init
-      (setq yas-snippet-dirs
-            '("~/.emacs.d/snippets" ;; personal snippets
-              ))
-      :config
-      (yas-global-mode 1)
-      (define-key yas-minor-mode-map [(tab)] nil)
-      (define-key yas-minor-mode-map (kbd "TAB") nil)
-      (define-key yas-minor-mode-map (kbd "C-c y y") 'yas-expand-from-trigger-key)
-      (define-key yas-minor-mode-map (kbd "C-c y n") 'yas-new-snippet))
-  #+END_SRC
-* elpy
-  #+BEGIN_VERSE
-  1. C-c C-c: 在python shell中执行当前文件
-  2. C-c C-d: 显示光标下内容的帮助文档
-  3. C-c C-z: 在文件与python shell中转换
-  4. M-.: 跳转到光标的内容的定义处
-  5. M-*: 回到跳转的前一位置
-  #+END_VERSE
-  #+BEGIN_SRC emacs-lisp
-    (use-package elpy
-      :ensure t
-      :defer 1
-      :init
-      (advice-add 'python-mode :before 'elpy-enable)
-      (let ((py "python3.7"))
-        (setq elpy-rpc-python-command py
-              python-shell-interpreter py
-              python-shell-interpreter-args "-i"))
-      )
-  #+END_SRC
+#+end_src
+* find file in project
+#+begin_src emacs-lisp
+  (use-package find-file-in-project
+    :defer 1
+    :config
+    (global-set-key (kbd "C-f p") 'find-file-in-project))
+#+end_src
+* counsel
+#+begin_src emacs-lisp
+  (use-package counsel
+    :defer 1
+    :config
+    (global-set-key (kbd "C-c a") 'counsel-ag))
+#+end_src
+* position register
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-r r") 'point-to-register)
+  (global-set-key (kbd "C-r g") 'jump-to-register)
+#+end_src
+* org-bullets
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :defer 1
+    :config
+    (add-hook 'org-mode-hook 'org-bullets-mode))
+#+end_src
+* json
+#+begin_src emacs-lisp
+  (use-package json-mode
+    :defer 1)
+#+end_src
+* swiper
+#+begin_src emacs-lisp
+  (use-package swiper
+    :defer 1
+    :config
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+      (global-set-key "\C-s" 'swiper)
+    )
+#+end_src
 * magit
-  #+BEGIN_SRC emacs-lisp
-    (use-package magit
-      :defer 2
-      :bind (("C-x g" . magit-status)))
-  #+END_SRC
-* helm
-  #+BEGIN_VERSE
-  关于helm的书签的使用
-  源代码在[[https://github.com/emacs-helm/helm/blob/master/helm-bookmark.el][GitHub]]上面.
-  关于快捷键的映射如下,在helm buffer中:
-  1. C-d来删除一个书签
-  2. M-e修改书签名
-  3. C-]来开关显示文件名
-  #+END_VERSE
-  #+BEGIN_SRC lisp
-    (defvar helm-bookmark-map
-      (let ((map (make-sparse-keymap)))
-        (set-keymap-parent map helm-map)
-        ;; (define-key map (kbd "C-c o")   'helm-bookmark-run-jump-other-window) ;; used by ace-window
-        (define-key map (kbd "C-c C-o") 'helm-bookmark-run-jump-other-frame)
-        (define-key map (kbd "C-d")     'helm-bookmark-run-delete)
-        (define-key map (kbd "C-]")     'helm-bookmark-toggle-filename)
-        (define-key map (kbd "M-e")     'helm-bookmark-run-edit)
-        map)
-      "Generic Keymap for emacs bookmark sources.")
-  #+END_SRC
-  #+BEGIN_SRC emacs-lisp
-    (use-package helm
-      :defer 1
-      :config
-      (global-set-key (kbd "M-x") 'helm-M-x)
-      (global-set-key (kbd "C-c h f") 'helm-find-files)
-      (global-set-key (kbd "C-c h b") 'helm-buffers-list)
-      (global-set-key (kbd "C-c h m") 'helm-bookmarks)
-      ;; (global-set-key (kbd "C-c s") 'helm-show-kill-ring)
-      (define-key minibuffer-local-map (kbd "C-r") 'helm-minibuffer-history))
-    (use-package swiper-helm
-      :defer 2
-      :config
-      (global-set-key (kbd "C-s") 'swiper))
-    (use-package helm-projectile
-      :defer 2
-      :config
-      (global-set-key (kbd "C-f") 'helm-projectile-find-file)
-      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-      (projectile-mode +1)
-      (global-set-key (kbd "C-c a") 'helm-projectile-ag))
-    (use-package helm-ag
-      :defer 2)
-  #+END_SRC
-* docker
-  #+BEGIN_VERSE
-  [[https://github.com/Silex/docker.el][Github]]
-  #+END_VERSE
-  #+BEGIN_SRC emacs-lisp
-    (use-package dockerfile-mode
-      :defer 5)
-    (use-package docker
-      :defer 3
-      :bind ("C-c d" . docker))
-  #+END_SRC
-* htmlize
-  #+BEGIN_SRC emacs-lisp
-    (use-package htmlize
-      :defer 2)
-  #+END_SRC
-* org-mode
-  #+BEGIN_VERSE
-  see discribe-variable org-catch-invisible-edits
-  #+END_VERSE
-  #+BEGIN_SRC emacs-lisp
-    (setq org-catch-invisible-edits 'error)
-
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '(
-       (shell . t)
-       (ditaa . t)
-       (python . t)
-       )
-     )
-
-    (setq org-enforce-todo-dependencies t)
-
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "|" "DONE(d!)")
-            (sequence "BUG(b)" "WAITING(w!/@)" "|" "FIXED(f!)" "DELAY(D!)")))
-
-    (setq org-tag-alist '(("开发" . ?d) ("第三方" . ?t) ("同步数据" . ?s)))
-
-    (defun org-summary-todo (n-done n-not-done)
-      "Switch entry to DONE when all subentries are done, to TODO otherwise."
-      (let (org-log-done org-log-states)   ; turn off logging
-        (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-
-    (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-  #+END_SRC
-
-  #+RESULTS:
-  | org-summary-todo |
-
-* treemacs
 #+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :defer 2
+    :bind (("C-x g" . magit-status)))
+#+END_SRC
+* treemacs
+#+begin_src emacs-lisp
   (use-package treemacs
     :ensure t
     :defer t
@@ -258,22 +174,13 @@
       (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
     :config
     (progn
-      (if (display-graphic-p)
-          (progn
-            (setq treemacs-no-png-images nil)
-            (message "set treemacs-no-png-images t"))
-        (progn
-          (setq treemacs-no-png-images t)
-          (message "set treemacs-no-png-images nil")
-          )
-        )
       (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
             treemacs-deferred-git-apply-delay      0.5
             treemacs-directory-name-transformer    #'identity
             treemacs-display-in-side-window        t
             treemacs-eldoc-display                 t
-            treemacs-file-event-delay              1000
-            ;; treemacs-file-extension-regex          treemacs-last-period-regex-value
+            treemacs-file-event-delay              5000
+            treemacs-file-extension-regex          treemacs-last-period-regex-value
             treemacs-file-follow-delay             0.2
             treemacs-file-name-transformer         #'identity
             treemacs-follow-after-init             t
@@ -284,9 +191,11 @@
             treemacs-is-never-other-window         nil
             treemacs-max-git-entries               5000
             treemacs-missing-project-action        'ask
+            treemacs-move-forward-on-expand        nil
+            treemacs-no-png-images                 nil
             treemacs-no-delete-other-windows       t
             treemacs-project-follow-cleanup        nil
-            treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist.org" user-emacs-directory)
+            treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
             treemacs-position                      'left
             treemacs-recenter-distance             0.1
             treemacs-recenter-after-file-follow    nil
@@ -294,7 +203,7 @@
             treemacs-recenter-after-project-jump   'always
             treemacs-recenter-after-project-expand 'on-distance
             treemacs-show-cursor                   nil
-            treemacs-show-hidden-files             nil
+            treemacs-show-hidden-files             t
             treemacs-silent-filewatch              nil
             treemacs-silent-refresh                nil
             treemacs-sorting                       'alphabetic-asc
@@ -302,7 +211,9 @@
             treemacs-tag-follow-cleanup            t
             treemacs-tag-follow-delay              1.5
             treemacs-user-mode-line-format         nil
-            treemacs-width                         30)
+            treemacs-user-header-line-format       nil
+            treemacs-width                         25
+            treemacs-workspace-switch-cleanup      nil)
 
       ;; The default width and height of the icons is 22 pixels. If you are
       ;; using a Hi-DPI display, uncomment this to double the icon size.
@@ -320,7 +231,6 @@
     :bind
     (:map global-map
           ("M-0"       . treemacs-select-window)
-          ("C-x t 1"   . treemacs-delete-other-windows)
           ("<f8>"   . treemacs)
           ("C-x t B"   . treemacs-bookmark)
           ("C-x t C-t" . treemacs-find-file)
@@ -343,202 +253,149 @@
     :after treemacs magit
     :ensure t)
 
-  (use-package treemacs-persp
-    :after treemacs persp-mode
+  (use-package treemacs-persp ;;treemacs-persective if you use perspective.el vs. persp-mode
+    :after treemacs persp-mode ;;or perspective vs. persp-mode
     :ensure t
     :config (treemacs-set-scope-type 'Perspectives))
-  (add-to-list 'default-frame-alist '(fullscreen . fullboth))
-#+END_SRC
-
-#+RESULTS:
-: ((fullscreen . fullboth) (vertical-scroll-bars))
-
-* 处理空格空行相关的快捷键
-  #+BEGIN_VERSE
-  和空格有关的快捷键以C-c s作为开头
-  #+END_VERSE
-  #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "C-c s o") 'just-one-space) ;; 只留下一个空格
-    (global-set-key (kbd "C-c s b") 'delete-blank-lines) ;; 多行空白行的时候删除得只剩一个空白行
-  #+END_SRC
-* Emacs启动时间
-  #+BEGIN_SRC emacs-lisp
-  (message "Initialized in %s" (emacs-init-time))
-
-  (setq gc-cons-threshold (* 2 1000 1000))
-  #+END_SRC
-* ace-window
-#+BEGIN_SRC emacs-lisp
-  (use-package ace-window
-    :defer 1
-    :config
-    (global-set-key (kbd "C-c o") 'ace-window))
-#+END_SRC
-
-#+RESULTS:
-: t
-
-* ace-jump
-#+BEGIN_SRC emacs-lisp
-  (use-package ace-jump-mode
-    :defer 1
-    :config
-    (global-set-key (kbd "C-c j") 'ace-jump-mode))
-#+END_SRC
-
-#+RESULTS:
-: t
-
-* iedit
-#+BEGIN_SRC emacs-lisp
-  (use-package iedit
-    :defer 1
-    :config
-    (global-set-key (kbd "C-c i") 'iedit-mode))
-#+END_SRC
-
-#+RESULTS:
-: t
-
-* expand-region
-#+BEGIN_SRC emacs-lisp
-  (use-package expand-region
-    :defer 1
-    :config
-    (global-set-key (kbd "C-c f") 'er/expand-region)
-    (global-set-key (kbd "C-c b") 'er/contract-region))
-#+END_SRC
-
-#+RESULTS:
-
-* counsel
-  #+BEGIN_SRC emacs-lisp
-    (use-package counsel
-      :ensure t
-      :bind
-      (("M-y" . counsel-yank-pop)
-       :map ivy-minibuffer-map
-       ("M-y" . ivy-next-line)))
-  #+END_SRC
-
-  #+RESULTS:
-  : ivy-next-line
-
-* Copy Current Line
-#+BEGIN_SRC emacs-lisp
-  (defun copy-current-line ()
-    ;; 复制当前行
-    (interactive)
-    (let ((_b (line-beginning-position))
-          (_e (line-end-position)))
-      (copy-region-as-kill _b _e)
-      (message "copy current line - beginning-of-line: %s,  end-of-line: %s" _b _e)))
-  (global-set-key (kbd "C-c l l") 'copy-current-line)
-#+END_SRC
-* basic config
-#+BEGIN_SRC emacs-lisp
-  (dolist
-      (key '("\C-b" "\C-o" "\C-p" "\C-q"
-             "\C-t" "\C-v" "\C-z"
-             ))
-    (global-unset-key key))
-  (setq home "~/.emacs.d/")
-  (global-visual-line-mode 1)
-  (set-default-font "Monospace-12")
-  ;; 使用y代替yes,n代替no
-  (fset 'yes-or-no-p 'y-or-n-p)
-  ;; 括号匹配
-  (show-paren-mode t)
-  ;; 不要菜单栏
-  (menu-bar-mode -1)
-  ;; 不要工具栏
-  (tool-bar-mode -1)
-  ;; 不要滚动条
-  (if (boundp 'x-toolkit-scroll-bars)
-      (scroll-bar-mode -1))
-  ;; 状态栏显示时间
-  (display-time-mode t)
-  ;;状态栏显示列号
-  (column-number-mode t)
-  ;; 鼠标遇到光标时弹开
-  (mouse-avoidance-mode 'animate)
-
-  ;; 最后一行不要有换行符
-  ;(setq-default next-line-add-newlines nil)
-  ;(setq mode-require-final-newline nil)
-
-  ;; 终端不响铃
-  (setq ring-bell-function 'ignore ;; 终端不响铃
-        visible-bell t ;; 状态栏不闪
-
-        user-full-name "LisperInmove" ;; 邮件用户名
-        user-mail-address "lisper.inmove@gmail.com" ;; 邮箱
-
-        scroll-margin 3 ;; 屏幕滚动时保留三行
-        scroll-conservatively 100000
-
-        make-backup-files nil ;; 关闭自动保存
-        auto-save-default nil
-
-        display-time-24hr-format t ;; 24小时
-        display-time-day-and-date t)
-
-  (setq-default c-basic-offset 4)
-  (setq-default indent-tabs-mode nil)
-  ;; 选中行的颜色
-  (set-face-attribute 'region nil :background "#666" :foreground "#ffffff")
-
-  ;; 减少gc的次数
-  (setq gc-cons-threshold (* 50 1000 1000))
-
-  ;; 保存时删除行尾空格
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-  ;; (add-hook 'before-save-hook 'whitespace-cleanup)
-  (defun my-load-file (filename)
-    (load-file (expand-file-name (concat home filename))))
-
-  (fset 'delete-empty-lines (kbd "M-x flush-lines RET ^\s-*$ RET"))
 #+end_src
-
-#+RESULTS:
-: [134217848 102 108 117 115 104 45 108 105 110 101 115 13 94 45 42 36 13]
-* hs-mode
-#+BEGIN_SRC emacs-lisp
-  ;; (hs-minor-mode t)
-  (global-set-key (kbd "C-c e") 'hs-toggle-hiding)
-#+END_SRC
-* elscreen
-#+BEGIN_SRC emacs-lisp
-  (use-package elscreen
+* Protobuf
+#+begin_src emacs-lisp
+  (use-package protobuf-mode
     :defer 1
     :config
-    (elscreen-start)
-    (elscreen-set-prefix-key "\C-t")
-    (setq elscreen-display-tab nil))
-#+END_SRC
-* exec-path-from-shell
+    (defconst my-protobuf-style
+      '((c-basic-offset . 2)
+        (indent-tabs-mode . nil)))
+    (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
+#+end_src
+* Docker
+#+begin_src emacs-lisp
+  (use-package docker
+    :defer 1)
+#+end_src
+* ini
+#+begin_src emacs-lisp
+  (use-package ini-mode
+    :defer 1)
+#+end_src
+* Org
+#+begin_src emacs-lisp
+  (if (string> org-version "9.2")
+      (require 'org-tempo))
+  ;; (setq org-ditaa-jar-path "~/.emacs.d/jars/ditaa0_9.jar")
+  (global-set-key (kbd "<f9>") 'org-agenda)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (ditaa . t)
+     (python . t)
+     (C . t)
+     (shell . t)
+     )
+   )
+  (global-set-key (kbd "<f6>") 'org-publish-current-file)
+  (add-hook 'org-mode-hook '(lambda () (setq fill-column 120)))
+  (add-hook 'org-mode-hook 'auto-fill-mode)
+#+end_src
+* yasnippet
 #+BEGIN_SRC emacs-lisp
-  (when (display-graphic-p)
-    (use-package exec-path-from-shell
+  (use-package yasnippet
+    :defer 2
+    :init
+    (setq yas-snippet-dirs
+          '("~/.emacs.d/snippets"
+            ))
+    :config
+    (yas-global-mode 1)
+    (define-key yas-minor-mode-map [(tab)] nil)
+    (define-key yas-minor-mode-map (kbd "TAB") nil)
+    (define-key yas-minor-mode-map (kbd "C-c y y") 'yas-expand-from-trigger-key)
+    (define-key yas-minor-mode-map (kbd "C-c y n") 'yas-new-snippet))
+  (use-package yasnippet-snippets
+    :defer 2
+    :after yasnippet)
+#+END_SRC
+* helm
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+    :defer 2
+    :config
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    ;; (global-set-key (kbd "C-f") 'helm-find-files)
+    (global-set-key (kbd "C-f b") 'helm-buffers-list)
+    (global-set-key (kbd "C-f s") 'helm-show-kill-ring)
+    (global-set-key (kbd "C-f a") 'helm-all-mark-rings)
+    )
+  (use-package helm-ls-git
+    :defer 2
+    :after helm)
+
+  ;; (use-package helm-gtags
+  ;;   :defer 1
+  ;;   :config
+  ;;   (add-hook 'c-mode-hook 'helm-gtags-mode)
+  ;;   (define-key c-mode-map (kbd "M-.") 'helm-gtags-dwim)
+  ;;   (define-key c-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+  ;;   (define-key c-mode-map (kbd "M-r") 'helm-gtags-find-symbol)
+  ;;   )
+#+END_SRC
+* Company Mode
+#+begin_src emacs-lisp
+  (use-package company
+    :ensure t
+    :config
+    (global-company-mode t)
+    (setq company-idle-delay 0.3)
+    (setq company-minimum-prefix-length 2))
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda ()
+              (add-to-list (make-local-variable 'company-backends)
+                           '(company-elisp))))
+  (use-package company-jedi
+    :defer 1
+    :config
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (add-to-list (make-local-variable 'company-backends)
+                             '(company-jedi))))
+    )
+
+  (use-package company-irony
+    :defer 1
+    :config
+    (add-hook 'c-mode-hook
+              (lambda ()
+                (add-to-list (make-local-variable 'company-backends)
+                             '(company-irony)))))
+
+    (use-package company-irony-c-headers
       :defer 1
       :config
-      (exec-path-from-shell-initialize)))
-#+END_SRC
-* hs-mode
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-lisp-mode-hook 'hs-minor-mode)
-  (add-hook 'python-mode-hook 'hs-minor-mode)
-  ;; (hs-minor-mode t)
-  (global-set-key (kbd "C-c e") 'hs-toggle-hiding)
-#+END_SRC
-* spaceline
-#+BEGIN_SRC emacs-lisp
-  (when (display-graphic-p)
-    (message "graphic display")
-    (use-package spaceline
-      :defer 1)
-    (use-package spaceline-all-the-icons
-      :defer 1
-      :after spaceline
-      :config (spaceline-all-the-icons-theme)))
-#+END_SRC
+      (add-hook 'c-mode-hook
+                (lambda ()
+                  (add-to-list (make-local-variable 'company-backends)
+                               '(company-irony-c-headers)))))
+#+end_src
+* flycheck
+#+begin_src emacs-lisp
+  (use-package flycheck-pyflakes
+    :defer 1
+    :config
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (flycheck-mode)
+                (define-key python-mode-map (kbd "C-c C-n") 'flycheck-next-error)
+                (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
+                )))
+
+  (use-package flycheck-clangcheck
+    :defer 1
+    :config
+    (add-hook 'c-mode-hook
+              (lambda ()
+                (flycheck-mode)
+                (define-key c-mode-map (kbd "C-c C-n") 'flycheck-next-error)
+                (define-key c-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
+                )))
+#+end_src

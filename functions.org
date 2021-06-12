@@ -1,0 +1,88 @@
+#+STARTUP: indent
+#+PROPERTY: header-args :results silent
+
+#+BEGIN_SRC emacs-lisp
+  (defun copy-current-line ()
+    ;; 复制当前行
+    (interactive)
+    (let ((_b (line-beginning-position))
+          (_e (line-end-position)))
+      (copy-region-as-kill _b _e)
+      (message "copy current line - beginning-of-line: %s,  end-of-line: %s" _b _e)))
+  (global-set-key (kbd "C-c l") 'copy-current-line)
+#+END_SRC
+
+#+BEGIN_VERSE
+1. i/forward-char: 光标向后移动到下一个c字符
+2. i/backward-char: 光标向前移动到上一个c字符
+#+END_VERSE
+#+BEGIN_SRC emacs-lisp
+  (defun i/forward-char (c)
+    (interactive "cWhich Char?")
+    (message "goto char %c" c)
+    (search-forward (char-to-string c) (line-end-position) nil 1)
+    (backward-char))
+
+  (defun i/backward-char (c)
+      (interactive "cWhich Char?")
+      (message "goto char %c" c)
+      (search-backward (char-to-string c) (line-beginning-position) nil 1))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun my/capitalize-first-char (&optional string)
+    "Capitalize only the first character of the input STRING."
+    (when (and string (> (length string) 0))
+      (let ((first-char (substring string nil 1))
+            (rest-str   (substring string 1)))
+        (concat (capitalize first-char) rest-str))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun my/string-to-camelbak (string)
+    "把'_'分割的字符转成驼峰,并从第二个开始首字母大写"
+    (let ((s (split-string string "_"))
+          (result "")
+          (first t))
+      (progn
+        (dolist (var s)
+          (if first
+              (setq result (concat result var))
+            (setq result (concat result (capitalize var))))
+          (setq first nil)))
+      result))
+#+END_SRC
+
+* Add incremental number to the beginning of line to region
+#+begin_src emacs-lisp
+  (defun increment-number-region ()
+    (interactive)
+    (if (not (region-active-p))
+        (message "No region found")
+      (progn
+        (let ((begin (region-beginning))
+              (end (region-end)))
+          (message "increment number %d, %d" begin end)
+          (save-excursion
+            (let ((number 1)
+                  (current begin))
+              (while (< current end)
+                (goto-char current)
+                (goto-char (line-beginning-position))
+                (if (not (line-empty-p))
+                    (progn
+                      (insert (number-to-string number))
+                      (insert ".")
+                      (setq number (1+ number))
+                      )
+                    )
+                (forward-line 1)
+                (setq current (point))
+                (message "current line number %d" current))))))))
+
+  (defun line-empty-p ()
+    (save-excursion
+      (beginning-of-line)
+      (looking-at-p "[[:space:]]*$")))
+  (global-set-key (kbd "<f7>") 'increment-number-region)
+#+end_src
