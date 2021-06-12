@@ -36,7 +36,7 @@
      :config
      (add-hook 'python-mode-hook 'jedi:setup)
      (add-hook 'python-mode-hook (lambda ()
-                                   (add-to-list (make-local-variable 'company-backends)                                             'company-jedi)))
+                                   (add-to-list (make-local-variable 'company-backends) 'company-jedi)))
      )
 
   (use-package elpy
