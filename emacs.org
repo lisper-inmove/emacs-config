@@ -27,11 +27,6 @@
      :config
      (setq indent-tabs-mode nil)
      (setq python-indent-offset 4)
-     (setq flycheck-flake8rc "~/.flake8")
-     (use-package py-autopep8
-       :ensure t
-       :hook ((python-mode . py-autopep8-enable-on-save))
-       )
      )
    ;;
    ;; company jedi use jedi-core
@@ -331,14 +326,6 @@
     :defer 2
     :after helm)
 
-  ;; (use-package helm-gtags
-  ;;   :defer 1
-  ;;   :config
-  ;;   (add-hook 'c-mode-hook 'helm-gtags-mode)
-  ;;   (define-key c-mode-map (kbd "M-.") 'helm-gtags-dwim)
-  ;;   (define-key c-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
-  ;;   (define-key c-mode-map (kbd "M-r") 'helm-gtags-find-symbol)
-  ;;   )
 #+END_SRC
 * Company Mode
 #+begin_src emacs-lisp
@@ -380,7 +367,6 @@
 * flycheck
 #+begin_src emacs-lisp
   (use-package flycheck-pyflakes
-    :defer 1
     :config
     (add-hook 'python-mode-hook
               (lambda ()
@@ -388,21 +374,12 @@
                 (define-key python-mode-map (kbd "C-c C-n") 'flycheck-next-error)
                 (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
                 )))
-
-  (use-package flycheck-clangcheck
-    :defer 1
-    :config
-    (add-hook 'c-mode-hook
-              (lambda ()
-                (flycheck-mode)
-                (define-key c-mode-map (kbd "C-c C-n") 'flycheck-next-error)
-                (define-key c-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
-                )))
 #+end_src
 * dashboard
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :ensure t
     :config
-    (dashboard-setup-startup-hook))
+    (dashboard-setup-startup-hook)
+    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))))
 #+END_SRC
