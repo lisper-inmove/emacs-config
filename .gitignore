@@ -7,3 +7,5 @@ publish.el
 transient
 auto-save-list
 recentf
+projectile-bookmarks.eld
+bookmarks
