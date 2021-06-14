@@ -285,6 +285,7 @@
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
   (add-hook 'org-mode-hook '(lambda () (setq fill-column 120)))
   (add-hook 'org-mode-hook 'auto-fill-mode)
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
 #+end_src
 * yasnippet
 #+BEGIN_SRC emacs-lisp
