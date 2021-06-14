@@ -129,13 +129,6 @@
   (global-set-key (kbd "C-r r") 'point-to-register)
   (global-set-key (kbd "C-r g") 'jump-to-register)
 #+end_src
-* org-bullets
-#+begin_src emacs-lisp
-  (use-package org-bullets
-    :defer 1
-    :config
-    (add-hook 'org-mode-hook 'org-bullets-mode))
-#+end_src
 * json
 #+begin_src emacs-lisp
   (use-package json-mode
