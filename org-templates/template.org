@@ -8,8 +8,8 @@
 #+HTML_LINK_HOME: https://inmove.com.cn
 #+HTML_LINK_UP:
 #+HTML_MATHJAX:
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://inmove.com.cn/solarized-dark.css" />
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://inmove.com.cn/plus.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://inmove.com.cn/plus2.css" />
 #+HTML_HEAD: <script src="https://inmove.com.cn/jquery.min.js"></script>
 #+HTML_HEAD: <script src="https://inmove.com.cn/jquery-ui.min.js"></script>
 #+HTML_HEAD: <script src="https://inmove.com.cn/plus.js"></script>
@@ -21,3 +21,10 @@
 #+STARTUP: indent
 #+OPTIONS: ^:nil
 #+OPTIONS: toc:t
+
+
+#+BEGIN_VERSE
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://inmove.com.cn/tufte.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://inmove.com.cn/plus.css" />
+#+END_VERSE

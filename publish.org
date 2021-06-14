@@ -24,7 +24,7 @@
            :html-wrap-src-lines t
            :with-toc nil
            :with-clocks t
-           :section-numbers nil
+           :section-numbers t
            :archived-trees t
            :with-author t
            :with-title t
@@ -68,6 +68,7 @@
            )
           ("my-blog" :components ("blog" "css" "js" "image"))
           ))
+  (setq org-html-htmlize-output-type 'css)
   (org-publish-remove-all-timestamps)
   (setq org-export-with-sub-superscripts nil)
 #+end_src

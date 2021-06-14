@@ -375,15 +375,7 @@
                 (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
                 )))
 #+end_src
-* dashboard
+* ox-tufte
 #+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :config
-    (dashboard-setup-startup-hook)
-    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-    (setq dashboard-items '((bookmarks . 100)
-                            (agenda . 5)
-                            ))
-    )
+  (use-package ox-tufte)
 #+END_SRC
