@@ -20,7 +20,7 @@
 #+LATEX_HEADER:
 #+STARTUP: indent
 #+OPTIONS: ^:nil
-#+OPTIONS: toc:t
+#+OPTIONS: toc:1
 
 
 #+BEGIN_VERSE
