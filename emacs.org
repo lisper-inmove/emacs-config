@@ -258,7 +258,8 @@
 #+begin_src emacs-lisp
   (if (string> org-version "9.2")
       (require 'org-tempo))
-  ;; (setq org-ditaa-jar-path "~/.emacs.d/jars/ditaa0_9.jar")
+  (setq org-ditaa-jar-path "~/.emacs.d/jars/ditaa0_9.jar")
+  (setq org-plantuml-jar-path "~/.emacs.d/jars/plantuml.jar")
   (global-set-key (kbd "<f9>") 'org-agenda)
 
   (org-babel-do-load-languages
@@ -269,6 +270,8 @@
      (C . t)
      (shell . t)
      (emacs-lisp . t)
+     (dot . t)
+     (plantuml . t)
      )
    )
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
