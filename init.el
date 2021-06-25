@@ -26,7 +26,7 @@
     ("~/code/blog/org-mode-agenda.org" "~/code/blog/org-mode.org")))
  '(package-selected-packages
    (quote
-    (ox-tufte helm-hatena-bookmark dashboard flycheck-clangcheck flycheck-pyflakes company-irony-c-headers company-irony helm-ls-git helm yasnippet-snippets protobuf-mode docker ini-mode org-bullets json-mode counsel find-file-in-project git-gutter iedit ace-window undo-tree py-autopep8 company-jedi exec-path-from-shell spaceline-all-the-icons spaceline vue-mode elscreen treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs htmlize magit elpy use-package monokai-theme))))
+    (which-key highlight-symbol try ox-tufte helm-hatena-bookmark dashboard flycheck-clangcheck flycheck-pyflakes company-irony-c-headers company-irony helm-ls-git helm yasnippet-snippets protobuf-mode docker ini-mode org-bullets json-mode counsel find-file-in-project git-gutter iedit ace-window undo-tree py-autopep8 company-jedi exec-path-from-shell spaceline-all-the-icons spaceline vue-mode elscreen treemacs-persp treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs htmlize magit elpy use-package monokai-theme))))
 (put 'narrow-to-region 'disabled nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
