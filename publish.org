@@ -5,6 +5,19 @@
   (require 'ox-publish)
   (require 'htmlize)
 
+  (defun f/sitemap-format-entry (entry style project)
+    (let (format-entry
+          (title (org-publish-find-title entry project))
+          (file (org-publish--expand-file-name entry project))
+          (date (org-publish-find-property entry :date project))
+          (subtitle (org-publish-find-property entry :subtitle project 'latex))
+          (description (org-publish-find-property entry :description project 'html))
+          )
+      (if (not (equal description nil))
+          (setq format-entry (format "[[file:%s][%s]]: %s" file title description))
+        (setq format-entry (format "[[file:%s][%s]]" file title)))
+      format-entry))
+
   (setq org-publish-project-alist
         '(
           ("blog"
@@ -18,6 +31,7 @@
            :html-link-home "https://inmove.com.cn/index.html"
            :section-number nil
            :sitemap-file-entry-format "%d ====> %t"
+           :sitemap-format-entry f/sitemap-format-entry
            :html-postamble nil
            :html-preamble nil
            :html-doctype "html5"
@@ -41,7 +55,7 @@
            :with-tables t
            :auto-sitemap t
            :sitemap-filename "sitemap.org"
-           :sitemap-title "Inmove's Blog"
+           :sitemap-title "书海无涯，学无止境"
            :headline-levels 6
            :table-of-contents nil
            )
