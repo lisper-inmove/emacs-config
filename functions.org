@@ -90,14 +90,14 @@
 
 * org-mode headings 按优先级排序
 #+begin_src emacs-lisp
-      (defun my/org-sort-key ()
-        (let* ((priority (org-entry-get (point) "PRIORITY"))
-               (priority-int (if priority (string-to-char priority) org-default-priority))
-               )
-          priority-int
-          ))
+  (defun my/org-sort-key ()
+    (let* ((priority (org-entry-get (point) "PRIORITY"))
+           (priority-int (if priority (string-to-char priority) org-default-priority))
+           )
+      priority-int
+      ))
 
-      (defun my/org-sort-entries ()
-        (interactive)
-        (org-sort-entries nil ?f #'my/org-sort-key))
+  (defun my/org-sort-entries ()
+    (interactive)
+    (org-sort-entries nil ?f #'my/org-sort-key))
 #+end_src
