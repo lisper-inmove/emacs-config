@@ -1,0 +1,426 @@
+#+STARTUP: indent
+#+PROPERTY: header-args :results silent
+
+* package init
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+  (require 'package)
+  (setq package-enable-at-startup nil)
+
+  (setq package-archives '(("gnu" . "http://elpa.emacs-china.org/gnu/")
+                           ("org" . "http://elpa.emacs-china.org/org/")
+                           ("melpa" . "http://elpa.emacs-china.org/melpa/") ;; use-package
+                           ))
+  (setq package-check-signature nil)
+  (package-initialize)
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
+#+END_SRC
+* which key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :defer 5
+    :config
+    (which-key-setup-side-window-right-bottom) ;; 在右边打开提示窗,如果右边不够大,就在下面打开
+    ;; (which-key-setup-minibuffer)
+    ;; (setq which-key-show-early-on-C-h t)
+    ;; (setq which-key-idle-delay 10000)
+    ;; (setq which-key-idle-secondary-delay 0.05)
+    (which-key-mode 1))
+#+end_src
+* try
+#+begin_src emacs-lisp
+  (use-package try
+    :defer 1)
+#+end_src
+* undo tree
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :config
+    (undo-tree-mode)
+    :bind ("C-c t" . undo-tree-visualize))
+#+END_SRC
+* monokai
+#+BEGIN_SRC emacs-lisp
+  (use-package monokai-theme
+    :config
+    (load-theme 'monokai t))
+#+END_SRC
+* helm
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+    :defer 2
+    :config
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    ;; (global-set-key (kbd "C-f") 'helm-find-files)
+    (global-set-key (kbd "C-f b") 'helm-buffers-list)
+    (global-set-key (kbd "C-f s") 'helm-show-kill-ring)
+    (global-set-key (kbd "C-f a") 'helm-all-mark-rings)
+    )
+  (use-package helm-ls-git
+    :defer 2
+    :after helm)
+
+  (use-package helm-gtags
+    :defer 1
+    :config
+    (add-hook 'c-mode-hook 'helm-gtags-mode)
+    (define-key c-mode-map (kbd "M-.") 'helm-gtags-dwim)
+    (define-key c-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+    (define-key c-mode-map (kbd "M-r") 'helm-gtags-find-symbol)
+    )
+
+#+END_SRC
+* ace-jump-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-jump-mode
+    :config
+    (global-set-key (kbd "C-c j") 'ace-jump-mode))
+#+END_SRC
+* magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :defer 2
+    :bind (("C-x g" . magit-status)))
+#+END_SRC
+* ace-window
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window
+    :defer 2
+    :config
+    (global-set-key (kbd "C-c o") 'ace-window))
+#+END_SRC
+* htmlize
+#+BEGIN_SRC emacs-lisp
+  (use-package htmlize
+    :defer 2)
+#+END_SRC
+* iedit
+#+BEGIN_SRC emacs-lisp
+  (use-package iedit
+    :defer 2
+    :config
+    (global-set-key (kbd "C-c i") 'iedit-mode))
+#+END_SRC
+* elscreen
+#+BEGIN_SRC emacs-lisp
+  (use-package elscreen
+    :defer 2
+    :config
+    (elscreen-start)
+    (elscreen-set-prefix-key "\C-t")
+    (setq elscreen-display-tab nil))
+#+END_SRC
+* yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :defer 2
+    :init
+    (setq yas-snippet-dirs
+          '("~/.emacs.d/snippets"
+            ))
+    :config
+    (yas-global-mode 1)
+    (define-key yas-minor-mode-map [(tab)] nil)
+    (define-key yas-minor-mode-map (kbd "TAB") nil)
+    (define-key yas-minor-mode-map (kbd "C-c y y") 'yas-expand-from-trigger-key)
+    (define-key yas-minor-mode-map (kbd "C-c y n") 'yas-new-snippet))
+  (use-package yasnippet-snippets
+    :defer 2
+    :after yasnippet)
+#+END_SRC
+
+* Emacs Start Times
+#+BEGIN_SRC emacs-lisp
+  (message "Initialized in %s" (emacs-init-time))
+#+END_SRC
+* Company Mode
+#+begin_src emacs-lisp
+  (use-package company
+    :ensure t
+    :config
+    (global-company-mode t)
+    (setq company-idle-delay 0.3)
+    (setq company-minimum-prefix-length 2))
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda ()
+              (add-to-list (make-local-variable 'company-backends)
+                           '(company-elisp))))
+  (use-package company-jedi
+    :defer 1
+    :config
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (add-to-list (make-local-variable 'company-backends)
+                             '(company-jedi))))
+    )
+
+  (use-package company-irony
+    :defer 1
+    :config
+    (add-hook 'c-mode-hook
+              (lambda ()
+                (add-to-list (make-local-variable 'company-backends)
+                             '(company-irony)))))
+
+    (use-package company-irony-c-headers
+      :defer 1
+      :config
+      (add-hook 'c-mode-hook
+                (lambda ()
+                  (add-to-list (make-local-variable 'company-backends)
+                               '(company-irony-c-headers)))))
+#+end_src
+* Org
+#+begin_src emacs-lisp
+  (if (string> org-version "9.2")
+      (require 'org-tempo))
+  (setq org-ditaa-jar-path "~/.emacs.d/jars/ditaa0_9.jar")
+  (global-set-key (kbd "<f9>") 'org-agenda)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (ditaa . t)
+     (python . t)
+     (C . t)
+     (shell . t)
+     )
+   )
+  (global-set-key (kbd "<f6>") 'org-publish-current-file)
+#+end_src
+* Protobuf
+#+begin_src emacs-lisp
+  (use-package protobuf-mode
+    :defer 1
+    :config
+    (defconst my-protobuf-style
+      '((c-basic-offset . 2)
+        (indent-tabs-mode . nil)))
+    (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
+#+end_src
+* Docker
+#+begin_src emacs-lisp
+  (use-package docker
+    :defer 1)
+#+end_src
+* ini
+#+begin_src emacs-lisp
+  (use-package ini-mode
+    :defer 1)
+#+end_src
+* flycheck
+#+begin_src emacs-lisp
+  (use-package flycheck-pyflakes
+    :defer 1
+    :config
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (flycheck-mode)
+                (define-key python-mode-map (kbd "C-c C-n") 'flycheck-next-error)
+                (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
+                )))
+#+end_src
+* git-gutter
+#+begin_src emacs-lisp
+  (use-package git-gutter
+    :defer 1
+    :config
+    (global-git-gutter-mode +1)
+    (global-set-key (kbd "C-p") 'git-gutter:previous-hunk)
+    (global-set-key (kbd "C-n") 'git-gutter:next-hunk)
+    (custom-set-variables
+     '(git-gutter:update-interval 1)
+     '(git-gutter:lighter " GG")
+     '(git-gutter:window-width 2)
+     '(git-gutter:modified-sign "☁")
+     '(git-gutter:added-sign "☀")
+     '(git-gutter:deleted-sign "☂")
+     '(git-gutter:disabled-modes '(asm-mode image-mode))
+     '(git-gutter:separator-sign "|")
+     '(git-gutter:ask-p nil)
+     ))
+#+end_src
+* elpy
+#+begin_src emacs-lisp
+  (use-package elpy
+    :ensure t
+    :defer 1
+    :init
+    (advice-add 'python-mode :before 'elpy-enable)
+    (let ((py "python"))
+      (setq elpy-rpc-python-command py
+            python-shell-interpreter py
+            python-shell-interpreter-args "-i"))
+      )
+  (add-hook 'python-mode-hook 'elpy-enable)
+  (add-hook 'python-mode-hook 'elpy-mode)
+#+end_src
+* treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :defer t
+    :init
+    (with-eval-after-load 'winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    :config
+    (progn
+      (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+            treemacs-deferred-git-apply-delay      0.5
+            treemacs-directory-name-transformer    #'identity
+            treemacs-display-in-side-window        t
+            treemacs-eldoc-display                 t
+            treemacs-file-event-delay              5000
+            treemacs-file-extension-regex          treemacs-last-period-regex-value
+            treemacs-file-follow-delay             0.2
+            treemacs-file-name-transformer         #'identity
+            treemacs-follow-after-init             t
+            treemacs-git-command-pipe              ""
+            treemacs-goto-tag-strategy             'refetch-index
+            treemacs-indentation                   2
+            treemacs-indentation-string            " "
+            treemacs-is-never-other-window         nil
+            treemacs-max-git-entries               5000
+            treemacs-missing-project-action        'ask
+            treemacs-move-forward-on-expand        nil
+            treemacs-no-png-images                 nil
+            treemacs-no-delete-other-windows       t
+            treemacs-project-follow-cleanup        nil
+            treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+            treemacs-position                      'left
+            treemacs-recenter-distance             0.1
+            treemacs-recenter-after-file-follow    nil
+            treemacs-recenter-after-tag-follow     nil
+            treemacs-recenter-after-project-jump   'always
+            treemacs-recenter-after-project-expand 'on-distance
+            treemacs-show-cursor                   nil
+            treemacs-show-hidden-files             t
+            treemacs-silent-filewatch              nil
+            treemacs-silent-refresh                nil
+            treemacs-sorting                       'alphabetic-asc
+            treemacs-space-between-root-nodes      t
+            treemacs-tag-follow-cleanup            t
+            treemacs-tag-follow-delay              1.5
+            treemacs-user-mode-line-format         nil
+            treemacs-user-header-line-format       nil
+            treemacs-width                         25
+            treemacs-workspace-switch-cleanup      nil)
+
+      ;; The default width and height of the icons is 22 pixels. If you are
+      ;; using a Hi-DPI display, uncomment this to double the icon size.
+      ;;(treemacs-resize-icons 44)
+
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t)
+      (treemacs-fringe-indicator-mode t)
+      (pcase (cons (not (null (executable-find "git")))
+                   (not (null treemacs-python-executable)))
+        (`(t . t)
+         (treemacs-git-mode 'deferred))
+        (`(t . _)
+         (treemacs-git-mode 'simple))))
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("<f8>"   . treemacs)
+          ("C-x t B"   . treemacs-bookmark)
+          ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag)))
+
+  (use-package treemacs-evil
+    :after treemacs evil
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after treemacs projectile
+    :ensure t)
+
+  (use-package treemacs-icons-dired
+    :after treemacs dired
+    :ensure t
+    :config (treemacs-icons-dired-mode))
+
+  (use-package treemacs-magit
+    :after treemacs magit
+    :ensure t)
+
+  (use-package treemacs-persp ;;treemacs-persective if you use perspective.el vs. persp-mode
+    :after treemacs persp-mode ;;or perspective vs. persp-mode
+    :ensure t
+    :config (treemacs-set-scope-type 'Perspectives))
+#+end_src
+* swiper
+#+begin_src emacs-lisp
+  (use-package swiper
+    :defer 1
+    :config
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    ;; enable this if you want `swiper' to use it
+    ;; (setq search-default-mode #'char-fold-to-regexp)
+    (global-set-key "\C-s" 'swiper)
+    (global-set-key (kbd "C-c C-r") 'ivy-resume)
+    ;; (global-set-key (kbd "<f6>") 'ivy-resume)
+    ;; (global-set-key (kbd "M-x") 'counsel-M-x)
+    )
+#+end_src
+* find file in project
+#+begin_src emacs-lisp
+  (use-package find-file-in-project
+    :defer 1
+    :config
+    (global-set-key (kbd "C-f p") 'find-file-in-project))
+#+end_src
+* json
+#+begin_src emacs-lisp
+  (use-package json-mode
+    :defer 1)
+#+end_src
+* exec-path-from-shell
+#+begin_src emacs-lisp
+  (when (display-graphic-p)
+    (use-package exec-path-from-shell
+      :defer 1
+      :config
+      (exec-path-from-shell-initialize)))
+#+end_src
+* counsel
+#+begin_src emacs-lisp
+  (use-package counsel
+    :defer 1
+    :config
+    (global-set-key (kbd "C-c a") 'counsel-ag))
+#+end_src
+* ispell
+#+begin_src emacs-lisp
+  ;; "text-mode" is a major mode for editing files of text in a human language"
+  ;; most major modes for non-programmers inherit from text-mode
+  (defun english-words-setup ()
+    ;; make `company-backends' local is critcal
+    ;; or else, you will have completion in every major mode, that's very annoying!
+    (make-local-variable 'company-backends)
+
+    ;; company-ispell is the plugin to complete words
+    (add-to-list 'company-backends 'company-ispell)
+
+    ;; OPTIONAL, if `company-ispell-dictionary' is nil, `ispell-complete-word-dict' is used
+    ;;  but I prefer hard code the dictionary path. That's more portable.
+    (setq company-ispell-dictionary (file-truename "~/.emacs.d/english-words.txt")))
+
+  (add-hook 'org-mode-hook 'english-words-setup)
+
+  (defun toggle-company-ispell ()
+    (interactive)
+    (cond
+     ((memq 'company-ispell company-backends)
+      (setq company-backends (delete 'company-ispell company-backends))
+      (message "company-ispell disabled"))
+     (t
+      (add-to-list 'company-backends 'company-ispell)
+      (message "company-ispell enabled!"))))
+#+end_src
