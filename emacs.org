@@ -43,12 +43,6 @@
     (undo-tree-mode)
     :bind ("C-c t" . undo-tree-visualize))
 #+END_SRC
-* monokai
-#+BEGIN_SRC emacs-lisp
-  (use-package monokai-theme
-    :config
-    (load-theme 'monokai t))
-#+END_SRC
 * helm
 #+BEGIN_SRC emacs-lisp
   (use-package helm
