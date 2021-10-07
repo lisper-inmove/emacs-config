@@ -2,6 +2,13 @@
 (org-babel-load-file (expand-file-name "~/.emacs.d/emacs.org"))
 (org-babel-load-file (expand-file-name "~/.emacs.d/functions.org"))
 (org-babel-load-file (expand-file-name "~/.emacs.d/publish.org"))
+(setq org-babel-default-header-args:org '((:result . "silent")))
+(setq configs (expand-file-name "~/.emacs.d/configs"))
+(setq config-files (mapc (lambda (x))
+                         (directory-files-recursively configs "\.org$")))
+(dolist (file config-files)
+  (org-babel-load-file file))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
