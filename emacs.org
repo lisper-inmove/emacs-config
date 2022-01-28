@@ -393,6 +393,16 @@
     :config
     (global-set-key (kbd "C-c a") 'counsel-ag))
 #+end_src
+* markdown
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . markdown-view-mode)
+           ("\\.markdown\\'" . markdown-view-mode))
+    :init (setq markdown-command "multimarkdown"))
+#+end_src
 * ispell
 #+begin_src emacs-lisp
   ;; "text-mode" is a major mode for editing files of text in a human language"
