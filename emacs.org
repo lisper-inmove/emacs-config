@@ -186,6 +186,15 @@
    )
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
 #+end_src
+#+BEGIN_SRC emacs-lisp
+  (setq org-html-text-markup-alist
+        '((bold . "<b>%s</b>")
+          (code . "<code>%s</code>")
+          (italic . "<i>%s</i>")
+          (strike-through . "<del>%s</del>")
+          (underline . "<span class=\"underline\">%s</span>")
+          (verbatim . "<kbd>%s</kbd>")))
+#+END_SRC
 * Protobuf
 #+begin_src emacs-lisp
   (use-package protobuf-mode
@@ -431,3 +440,8 @@
       (add-to-list 'company-backends 'company-ispell)
       (message "company-ispell enabled!"))))
 #+end_src
+* go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :defer 1)
+#+END_SRC

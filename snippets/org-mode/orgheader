@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: orgheader
+# key: orgheader
+# --
+#+SETUPFILE: ~/.emacs.d/org-templates/template.org
+#+TITLE:
