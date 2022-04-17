@@ -66,4 +66,9 @@
   ;; 在orgmode的src block中使用C-c C-c的时候不询问
   (setq org-confirm-babel-evaluate nil)
   (add-to-list 'default-frame-alist '(fullscreen . fullboth))
+
+  ;; 当文件内容比较大时,非常占用cpu
+  (line-number-mode 0)
+
+  (display-line-numbers-mode 1)
 #+END_SRC
