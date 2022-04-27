@@ -421,3 +421,13 @@
       (add-to-list 'company-backends 'company-ispell)
       (message "company-ispell enabled!"))))
 #+end_src
+* line-number-at-pos
+#+BEGIN_SRC emacs-lisp
+  (advice-add
+   'line-number-at-pos
+   :override
+   (lambda (&rest r)
+     (string-to-number (format-mode-line "%l"))
+     )
+   )
+#+END_SRC
