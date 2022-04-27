@@ -53,9 +53,9 @@
            :with-properties t
            :with-special-strings t
            :with-tables t
-           :auto-sitemap t
+           :auto-sitemap nil
            :sitemap-filename "sitemap.org"
-           :sitemap-title "书海无涯，学无止境"
+           :sitemap-title "没事多看看书"
            :headline-levels 6
            :table-of-contents nil
            )
