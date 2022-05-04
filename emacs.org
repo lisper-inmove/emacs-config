@@ -185,9 +185,6 @@
      )
    )
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
-
-  (with-eval-after-load 'org
-    (add-hook 'org-mode-hook #'visual-fill-column-mode))
 #+end_src
 #+BEGIN_SRC emacs-lisp
   (setq org-html-text-markup-alist
@@ -197,6 +194,13 @@
           (strike-through . "<del>%s</del>")
           (underline . "<span class=\"underline\">%s</span>")
           (verbatim . "<kbd>%s</kbd>")))
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package visual-fill-column
+    :config
+    (with-eval-after-load 'org
+      (add-hook 'org-mode-hook #'visual-fill-column-mode))
+    )
 #+END_SRC
 * Protobuf
 #+begin_src emacs-lisp
