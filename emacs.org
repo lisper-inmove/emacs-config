@@ -360,6 +360,11 @@
     :after treemacs persp-mode ;;or perspective vs. persp-mode
     :ensure t
     :config (treemacs-set-scope-type 'Perspectives))
+
+  (with-eval-after-load 'treemacs
+    (defun ignore__pycache__ (filename absolute-path)
+      (or (string-equal filename "__pycache__")))
+    (add-to-list 'treemacs-ignored-file-predicates #'ignore__pycache__))
 #+end_src
 * swiper
 #+begin_src emacs-lisp
