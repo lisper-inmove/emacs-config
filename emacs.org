@@ -71,14 +71,19 @@
 * ace-jump-mode
 #+BEGIN_SRC emacs-lisp
   (use-package ace-jump-mode
+    :bind ("C-c j" . ace-jump-mode)
     :config
-    (global-set-key (kbd "C-c j") 'ace-jump-mode))
+    (message "load ace-jump-mode")
+    )
+
 #+END_SRC
 * magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :defer 2
-    :bind (("C-x g" . magit-status)))
+    :bind (("C-x g" . magit-status))
+    :config
+    (message "load magit")
+    )
 #+END_SRC
 * ace-window
 #+BEGIN_SRC emacs-lisp
@@ -456,4 +461,12 @@
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :defer 1)
+#+END_SRC
+* hi-lock
+#+BEGIN_VERSE
+正则高亮
+#+END_VERSE
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f5>") 'highlight-phrase)
+  (global-set-key (kbd "M-s h q") 'unhighlight-regexp)
 #+END_SRC

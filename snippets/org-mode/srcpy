@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: srcpy
+# key: srcpy
+# --
+#+BEGIN_SRC python :results output
+
+#+END_SRC
