@@ -70,5 +70,5 @@
   ;; 当文件内容比较大时,非常占用cpu
   (line-number-mode 0)
 
-  (display-line-numbers-mode 1)
+  (global-display-line-numbers-mode 1)
 #+END_SRC
