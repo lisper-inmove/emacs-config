@@ -463,6 +463,9 @@
    )
 #+END_SRC
 * go
+#+BEGIN_VERSE
+https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
+#+END_VERSE
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :defer 1
