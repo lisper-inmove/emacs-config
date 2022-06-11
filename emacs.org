@@ -465,7 +465,19 @@
 * go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
-    :defer 1)
+    :defer 1
+    :config
+    (setq-default tab-width 4
+                  indent-tabs-mode nil)
+    )
+
+  (use-package lsp-mode
+    :config
+    (add-hook 'go-mode-hook #'lsp-deferred))
+
+  (lsp-register-custom-settings
+   '(("gopls.completeUnimported" t t)
+     ("gopls.staticcheck" t t)))
 #+END_SRC
 * hi-lock
 #+BEGIN_VERSE
