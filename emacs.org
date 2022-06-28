@@ -7,9 +7,9 @@
   (require 'package)
   (setq package-enable-at-startup nil)
 
-  (setq package-archives '(("gnu" . "http://elpa.emacs-china.org/gnu/")
-                           ("org" . "http://elpa.emacs-china.org/org/")
-                           ("melpa" . "http://elpa.emacs-china.org/melpa/") ;; use-package
+  (setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                           ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+                           ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
                            ))
   (setq package-check-signature nil)
   (package-initialize)
