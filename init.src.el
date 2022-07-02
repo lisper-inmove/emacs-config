@@ -2,6 +2,7 @@
 (org-babel-load-file (expand-file-name "~/.emacs.d/emacs.org"))
 (org-babel-load-file (expand-file-name "~/.emacs.d/functions.org"))
 (org-babel-load-file (expand-file-name "~/.emacs.d/publish.org"))
+(org-babel-load-file (expand-file-name "~/.emacs.d/highlight-indent-guides.org"))
 (setq org-babel-default-header-args:org '((:result . "silent")))
 (setq configs (expand-file-name "~/.emacs.d/configs"))
 (setq config-files (mapc (lambda (x))
