@@ -507,7 +507,7 @@ https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
     :ensure t
     :config
     ;; The site docs URL
-    (setq k8s-indent-offset nil)
+    ;; (setq k8s-indent-offset nil)
     (setq k8s-site-docs-version "v2.3")
     (setq k8s-site-docs-url "https://kubernetes.io/docs/reference/generated/kubernetes-api/")
     (setq k8s-search-documentation-browser-function nil)
