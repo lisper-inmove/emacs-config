@@ -188,6 +188,7 @@
      (python . t)
      (C . t)
      (shell . t)
+     (go . t) ;; https://github.com/pope/ob-go
      )
    )
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
