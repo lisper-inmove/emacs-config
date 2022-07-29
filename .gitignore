@@ -16,3 +16,8 @@ recentf
 .org-id-locations
 ac-comphist.dat
 diary.org
+.lsp-session-v1
+.#recentf
+highlight-indent-guides.el
+ob-go.el
+wakatime-mode.el
