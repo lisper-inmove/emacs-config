@@ -265,7 +265,7 @@
 
   (setq
    wakatime-api-key  "650d58ac-bdc0-4bdc-ba2c-f4e034a618d3"
-   wakatime-cli-path "/home/inmove/.bin/wakatime-cli")
+   wakatime-cli-path "wakatime-cli")
 #+END_SRC
 
 #+RESULTS:
