@@ -262,11 +262,8 @@
 
 #+BEGIN_SRC emacs-lisp
   (global-wakatime-mode)
-
   (setq
    wakatime-api-key  "650d58ac-bdc0-4bdc-ba2c-f4e034a618d3"
-   wakatime-cli-path "wakatime-cli")
+   wakatime-cli-path "wakatime-cli"
+   )
 #+END_SRC
-
-#+RESULTS:
-: t
