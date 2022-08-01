@@ -280,6 +280,3 @@
       (enable-wakatime)
     )
 #+END_SRC
-
-#+RESULTS:
-: wakatime-cli

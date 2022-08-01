@@ -11,4 +11,4 @@ echo "create directory snippets"
 mkdir snippets
 
 echo "install global for gtags"
-sudo apt install -y global
+sudo yum install -y global
