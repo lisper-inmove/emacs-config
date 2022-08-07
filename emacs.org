@@ -7,10 +7,12 @@
   (require 'package)
   (setq package-enable-at-startup nil)
   ; 使用清华源源: https://mirrors.tuna.tsinghua.edu.cn/help/elpa/
-  (setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                           ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-                           ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
-                           ))
+  ;; (setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+  ;;                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+  ;;                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
+  ;;                          ))
+  (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
+                           ("melpa" . "http://1.15.88.122/melpa/")))
   (setq package-check-signature nil)
   (package-initialize)
   (unless (package-installed-p 'use-package)
@@ -225,15 +227,16 @@
 #+end_src
 * flycheck
 #+begin_src emacs-lisp
-  ;; (use-package flycheck-pyflakes
-  ;;   :defer 1
-  ;;   :config
-  ;;   (add-hook 'python-mode-hook
-  ;;             (lambda ()
-  ;;               (flycheck-mode)
-  ;;               (define-key python-mode-map (kbd "C-c C-n") 'flycheck-next-error)
-  ;;               (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
-  ;;               )))
+  (use-package flycheck-pyflakes
+    :defer 1
+    :config
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (flycheck-mode)
+                (define-key python-mode-map (kbd "C-c C-n") 'flycheck-next-error)
+                (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
+                )))
+
 #+end_src
 * git-gutter
 #+begin_src emacs-lisp
@@ -262,13 +265,19 @@
     :defer 1
     :init
     (advice-add 'python-mode :before 'elpy-enable)
-    (let ((py "python"))
+    (let ((py "/root/.env3.10/bin/python"))
       (setq elpy-rpc-python-command py
             python-shell-interpreter py
             python-shell-interpreter-args "-i"))
       )
   (add-hook 'python-mode-hook 'elpy-enable)
   (add-hook 'python-mode-hook 'elpy-mode)
+  (use-package flymake
+    :config
+    (add-to-list 'flymake-proc-allowed-file-name-masks
+                 '("\\.py\\'" elpy-flymake-python-init))
+    )
+
 #+end_src
 * treemacs
 #+begin_src emacs-lisp
@@ -463,36 +472,7 @@
      )
    )
 #+END_SRC
-* go
-#+BEGIN_VERSE
-https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
-#+END_VERSE
-#+BEGIN_SRC emacs-lisp
-  (use-package go-mode
-    :defer 1
-    :config
-    (setq-default tab-width 4
-                  indent-tabs-mode nil)
-    (local-set-key (kbd "M-.") 'godef-jump)
-    (local-set-key (kbd "M-*") 'pop-tag-mark)
-    (add-hook 'go-mode-hook #'gofmt-before-save)
-    (setq gofmt-command "goimports")
-    )
 
-  (use-package lsp-mode
-    :config
-    (add-hook 'go-mode-hook #'lsp-deferred))
-
-  (defun lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t)
-    )
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-  (lsp-register-custom-settings
-   '(("gopls.completeUnimported" t t)
-     ("gopls.staticcheck" t t)))
-#+END_SRC
 * hi-lock
 #+BEGIN_VERSE
 正则高亮

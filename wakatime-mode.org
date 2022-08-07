@@ -261,22 +261,8 @@
 : wakatime-mode
 
 #+BEGIN_SRC emacs-lisp
-  (defun executable-find (command)
-    "Search for COMMAND in `exec-path' and return the absolute file name.
-  Return nil if COMMAND is not found anywhere in `exec-path'."
-    ;; Use 1 rather than file-executable-p to better match the behavior of
-    ;; call-process.
-    (locate-file command exec-path exec-suffixes 1))
-
-  (defun enable-wakatime ()
-    (message "start waketime")
-    (global-wakatime-mode)
-    (setq
-     wakatime-api-key  "650d58ac-bdc0-4bdc-ba2c-f4e034a618d3"
-     wakatime-cli-path "wakatime-cli")
-    )
-
-  (if (executable-find "wakatime-cli")
-      (enable-wakatime)
-    )
+  (global-wakatime-mode)
+  (setq
+   wakatime-api-key  "650d58ac-bdc0-4bdc-ba2c-f4e034a618d3"
+   wakatime-cli-path "wakatime-cli")
 #+END_SRC

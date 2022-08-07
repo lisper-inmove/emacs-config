@@ -1,0 +1,28 @@
+#+BEGIN_VERSE
+https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
+#+END_VERSE
+#+BEGIN_SRC emacs-lisp :results silent
+  (use-package go-mode
+    :ensure t
+    :hook (go-mode-hook . lsp-deferred)
+    :config
+    (setq-default tab-width 4
+                  indent-tabs-mode nil)
+    (local-set-key (kbd "M-.") 'godef-jump)
+    (local-set-key (kbd "M-*") 'pop-tag-mark)
+    (add-hook 'go-mode-hook #'gofmt-before-save)
+    (setq gofmt-command "goimports")
+    )
+
+  (add-hook 'go-mode-hook #'lsp-deferred)
+
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t)
+    )
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+  (lsp-register-custom-settings
+   '(("gopls.completeUnimported" t t)
+     ("gopls.staticcheck" t t)))
+#+END_SRC

@@ -1,0 +1,19 @@
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+  (require 'package)
+  (setq package-enable-at-startup nil)
+  ; 使用清华源源: https://mirrors.tuna.tsinghua.edu.cn/help/elpa/
+  ;; (setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+  ;;                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+  ;;                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
+  ;;                          ))
+  (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
+                           ("melpa" . "http://1.15.88.122/melpa/")))
+  (setq package-check-signature nil)
+  (package-initialize)
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
+#+end_src
