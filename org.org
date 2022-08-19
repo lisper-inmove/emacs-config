@@ -1,0 +1,29 @@
+#+begin_src emacs-lisp
+  (if (string> org-version "9.2")
+      (require 'org-tempo))
+  (setq org-ditaa-jar-path "~/.emacs.d/jars/ditaa0_9.jar")
+  (global-set-key (kbd "<f9>") 'org-agenda)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (ditaa . t)
+     (python . t)
+     (C . t)
+     (shell . t)
+     (go . t) ;; https://github.com/pope/ob-go
+     )
+   )
+  (global-set-key (kbd "<f6>") 'org-publish-current-file)
+
+  (add-hook 'org-mode-hook (lambda () (visual-line-mode nil)))
+#+end_src
+#+BEGIN_SRC emacs-lisp
+  (setq org-html-text-markup-alist
+        '((bold . "<b>%s</b>")
+          (code . "<code>%s</code>")
+          (italic . "<i>%s</i>")
+          (strike-through . "<del>%s</del>")
+          (underline . "<span class=\"underline\">%s</span>")
+          (verbatim . "<kbd>%s</kbd>")))
+#+END_SRC

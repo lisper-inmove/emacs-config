@@ -1,9 +1,4 @@
-init.el
-basic.el
 elpa
-emacs.el
-functions.el
-publish.el
 tramp
 transient
 .cache
@@ -18,7 +13,5 @@ ac-comphist.dat
 diary.org
 .lsp-session-v1
 .#recentf
-highlight-indent-guides.el
-ob-go.el
-wakatime-mode.el
 *.el
+!init.el

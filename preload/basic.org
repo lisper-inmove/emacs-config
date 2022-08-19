@@ -72,3 +72,29 @@
 
   (global-display-line-numbers-mode 1)
 #+END_SRC
+* exec-path-from-shell
+#+begin_src emacs-lisp
+  (when (display-graphic-p)
+    (use-package exec-path-from-shell
+      :defer 1
+      :config
+      (exec-path-from-shell-initialize)))
+#+end_src
+* line-number-at-pos
+#+BEGIN_SRC emacs-lisp
+  (advice-add
+   'line-number-at-pos
+   :override
+   (lambda (&rest r)
+     (string-to-number (format-mode-line "%l"))
+     )
+   )
+#+END_SRC
+* hi-lock
+#+BEGIN_VERSE
+正则高亮
+#+END_VERSE
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f5>") 'highlight-phrase)
+  (global-set-key (kbd "M-s h q") 'unhighlight-regexp)
+#+END_SRC
