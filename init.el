@@ -23,21 +23,19 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-;; 一定要先加载的模块
-(org-babel-load-file (expand-file-name "~/.emacs.d/preload/basic.org"))
-(org-babel-load-file (expand-file-name "~/.emacs.d/preload/lsp-mode.org"))
-(org-babel-load-file (expand-file-name "~/.emacs.d/themes/theme.org"))
-
-;; 加载其它插件
 (setq org-babel-default-header-args:org '((:result . "silent")))
 
-(setq plugins (expand-file-name "~/.emacs.d/plugins"))
-(setq config-files (mapc (lambda (x)) (directory-files-recursively plugins "\.org$")))
-(dolist (file config-files) (org-babel-load-file file))
+(defun load-org (directory)
+  (setq dirname (expand-file-name directory))
+  (setq config-files (mapc (lambda (x)) (directory-files-recursively dirname "\.org$")))
+  (dolist (file config-files) (org-babel-load-file file))
+  )
 
-(setq plugins (expand-file-name "~/.emacs.d/program-language"))
-(setq config-files (mapc (lambda (x)) (directory-files-recursively plugins "\.org$")))
-(dolist (file config-files) (org-babel-load-file file))
+(load-org "~/.emacs.d/themes")
+(load-org "~/.emacs.d/preload")
+(load-org "~/.emacs.d/plugins")
+(load-org "~/.emacs.d/program-language")
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
