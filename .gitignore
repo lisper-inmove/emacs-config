@@ -21,3 +21,4 @@ diary.org
 highlight-indent-guides.el
 ob-go.el
 wakatime-mode.el
+*.el
