@@ -85,7 +85,7 @@
     (save-excursion
       (beginning-of-line)
       (looking-at-p "[[:space:]]*$")))
-  (global-set-key (kbd "<f7>") 'increment-number-region)
+  ;; (global-set-key (kbd "<f7>") 'increment-number-region)
 #+end_src
 
 * org-mode headings 按优先级排序

@@ -15,3 +15,4 @@ diary.org
 .#recentf
 *.el
 !init.el
+bm-repository
