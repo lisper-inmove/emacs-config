@@ -90,11 +90,3 @@
      )
    )
 #+END_SRC
-* hi-lock
-#+BEGIN_VERSE
-正则高亮
-#+END_VERSE
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<f5>") 'highlight-phrase)
-  (global-set-key (kbd "M-s h q") 'unhighlight-regexp)
-#+END_SRC
