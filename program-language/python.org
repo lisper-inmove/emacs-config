@@ -1,8 +1,9 @@
 #+begin_src emacs-lisp :outputs silent
   (use-package python-mode
     :ensure t
-    :hook (python-mode . lsp-deferred)
     :custom
     (python-shell-interpreter "python")
     )
+
+  (add-hook 'python-mode-hook 'focus-mode)
 #+end_src

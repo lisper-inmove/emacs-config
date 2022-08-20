@@ -52,7 +52,7 @@
  '(git-gutter:update-interval 1)
  '(git-gutter:window-width 2)
  '(package-selected-packages
-   '(bm goto-last-change json-mode yaml-mode smartparens browse-kill-ring idle-highlight-mode rainbow-delimiters try protobuf-mode flycheck treemacs-magit flycheck-pyflakes flymake-python-pyflakes yasnippet-snippets yasnippet undo-tree treemacs-persp treemacs-icons-dired treemacs-projectile treemacs-evil treemacs htmlize helm-gtags helm-ls-git helm find-file-in-project elscreen counsel ace-window ace-jump-mode lsp-mode use-package)))
+   '(elisp-demos bm goto-last-change json-mode yaml-mode smartparens browse-kill-ring idle-highlight-mode rainbow-delimiters try protobuf-mode flycheck treemacs-magit flycheck-pyflakes flymake-python-pyflakes yasnippet-snippets yasnippet undo-tree treemacs-persp treemacs-icons-dired treemacs-projectile treemacs-evil treemacs htmlize helm-gtags helm-ls-git helm find-file-in-project elscreen counsel ace-window ace-jump-mode lsp-mode use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
