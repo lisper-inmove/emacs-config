@@ -4,6 +4,5 @@
     :custom
     (python-shell-interpreter "python")
     )
-
-  (add-hook 'python-mode-hook 'focus-mode)
+  ;; (add-hook 'python-mode-hook 'focus-mode)
 #+end_src
