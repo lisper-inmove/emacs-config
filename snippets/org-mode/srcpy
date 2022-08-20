@@ -2,6 +2,6 @@
 # name: srcpy
 # key: srcpy
 # --
-#+begin_src python :results output
+#+begin_src python :results output :noweb yes
 
 #+end_src
