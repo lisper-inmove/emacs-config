@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: setmatcher
+# key: setmatcher
+# --
+def __set_matcher_$1(self, matcher, $1):
+    if $1 is None:
+        return
+    matcher.update({"${1:$(my/string-to-camelbak yas-text)}": $1})
