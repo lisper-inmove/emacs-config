@@ -1,0 +1,16 @@
+#+begin_src emacs-lisp
+  (use-package pyim
+    :ensure t
+    :config
+    (setq default-input-method "pyim")
+    )
+  (use-package pyim-wbdict
+    :ensure t
+    :config
+    (setq pyim-default-scheme 'wubi)
+    (pyim-wbdict-v98-morphe-enable)
+    )
+#+end_src
+
+#+RESULTS:
+: t

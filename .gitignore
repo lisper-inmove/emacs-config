@@ -16,3 +16,4 @@ diary.org
 *.el
 !init.el
 bm-repository
+pyim
