@@ -18,7 +18,19 @@
 
   (add-hook 'org-mode-hook (lambda () (visual-line-mode nil)))
 #+end_src
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :config
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (if (display-graphic-p)
+                    (org-bullets-mode 1))
+                )
+              )
+    )
+#+end_src
+#+begin_src emacs-lisp
   (setq org-html-text-markup-alist
         '((bold . "<b>%s</b>")
           (code . "<code>%s</code>")
@@ -26,4 +38,4 @@
           (strike-through . "<del>%s</del>")
           (underline . "<span class=\"underline\">%s</span>")
           (verbatim . "<kbd>%s</kbd>")))
-#+END_SRC
+#+end_src

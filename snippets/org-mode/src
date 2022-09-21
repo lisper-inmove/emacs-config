@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # name: src
-# key: <src
+# key: src
 # --
-#+begin_src $1
-  $0
+#+begin_src $0 :results silent :noweb yes
+
 #+end_src

@@ -1,0 +1,7 @@
+#+begin_src emacs-lisp :results silent
+  (use-package sly
+    :defer t
+    :config
+    (setq inferior-lisp-program "sbcl"
+          sly-complete-symbol-function 'sly-simple-completions))
+#+end_src

@@ -10,7 +10,8 @@
     :ensure t
     :config
     (setq pyim-default-scheme 'wubi)
-    (pyim-wbdict-v86-single-enable)
+    (pyim-wbdict-v98-morphe-enable)
+    (pyim-wbdict-v86-enable)
     (let ((file "~/.emacs.d/pyim-wbdict-qingge.pyim"))
       (when (file-exists-p file)
         (pyim-extra-dicts-add-dict
