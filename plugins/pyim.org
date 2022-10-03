@@ -1,21 +1,21 @@
 #+begin_src emacs-lisp :results silent
-  (use-package pyim
-    :ensure t
-    :config
-    (setq default-input-method "pyim")
-    (define-key pyim-mode-map "." 'pyim-page-next-page)
-    (define-key pyim-mode-map "," 'pyim-page-previous-page)
-    )
-  (use-package pyim-wbdict
-    :ensure t
-    :config
-    (setq pyim-default-scheme 'wubi)
-    (pyim-wbdict-v98-morphe-enable)
-    (pyim-wbdict-v86-enable)
-    (let ((file "~/.emacs.d/pyim-wbdict-qingge.pyim"))
-      (when (file-exists-p file)
-        (pyim-extra-dicts-add-dict
-         `(:name "wbdict-qingge-elpa" :file ,file :elpa t)))
-      )
-    )
+  ;; (use-package pyim
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq default-input-method "pyim")
+  ;;   (define-key pyim-mode-map "." 'pyim-page-next-page)
+  ;;   (define-key pyim-mode-map "," 'pyim-page-previous-page)
+  ;;   )
+  ;; (use-package pyim-wbdict
+  ;;   :ensure t
+  ;;   :config
+  ;;   (setq pyim-default-scheme 'wubi)
+  ;;   (pyim-wbdict-v98-morphe-enable)
+  ;;   (pyim-wbdict-v86-enable)
+  ;;   (let ((file "~/.emacs.d/pyim-wbdict-qingge.pyim"))
+  ;;     (when (file-exists-p file)
+  ;;       (pyim-extra-dicts-add-dict
+  ;;        `(:name "wbdict-qingge-elpa" :file ,file :elpa t)))
+  ;;     )
+  ;;   )
 #+end_src

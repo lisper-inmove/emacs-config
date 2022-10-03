@@ -1,7 +1,5 @@
 #+begin_src emacs-lisp
   (use-package lsp-mode
-    :ensure t
-    )
+    :hook (python-mode . lsp)
+    :commands lsp)
 #+end_src
-
-#+RESULTS:
