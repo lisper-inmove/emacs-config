@@ -1,0 +1,10 @@
+#+begin_src emacs-lisp
+  (use-package elisp-demos
+    :ensure t
+    :config
+    (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
+    )
+#+end_src
+
+#+RESULTS:
+: t

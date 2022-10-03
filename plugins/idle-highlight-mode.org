@@ -1,0 +1,10 @@
+#+begin_src emacs-lisp
+  (use-package idle-highlight-mode
+    :ensure t
+    :config
+    (global-idle-highlight-mode)
+    )
+#+end_src
+
+#+RESULTS:
+: t

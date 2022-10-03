@@ -1,0 +1,8 @@
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-jump-mode
+    :bind ("C-c j" . ace-jump-mode)
+    :config
+    (message "load ace-jump-mode")
+    )
+
+#+END_SRC

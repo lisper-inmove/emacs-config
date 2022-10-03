@@ -1,0 +1,6 @@
+#+BEGIN_SRC emacs-lisp
+  (use-package iedit
+    :defer 2
+    :config
+    (global-set-key (kbd "C-c i") 'iedit-mode))
+#+END_SRC

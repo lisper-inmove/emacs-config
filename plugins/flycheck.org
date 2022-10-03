@@ -1,0 +1,12 @@
+#+begin_src emacs-lisp
+  (use-package flycheck-pyflakes
+    :defer 1
+    :config
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (flycheck-mode)
+                (define-key python-mode-map (kbd "C-c C-n") 'flycheck-next-error)
+                (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
+                )))
+
+#+end_src
