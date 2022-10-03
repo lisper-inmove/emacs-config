@@ -71,6 +71,9 @@
   (line-number-mode 0)
 
   (global-display-line-numbers-mode 1)
+
+  ;; 默认打开  hs-minor-mode
+  (add-hook 'prog-mode-hook (lambda () (hs-minor-mode t)))
 #+END_SRC
 * exec-path-from-shell
 #+begin_src emacs-lisp
