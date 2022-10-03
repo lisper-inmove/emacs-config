@@ -1,0 +1,8 @@
+#+begin_src emacs-lisp :results silent
+  (use-package neotree
+    :if (display-graphic-p)
+    :config
+    (setq inhibit-compacting-font-caches t)
+    (setq neo-theme 'icons)
+    )
+#+end_src

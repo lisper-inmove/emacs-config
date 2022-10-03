@@ -3,5 +3,6 @@
     :defer t
     :config
     (setq inferior-lisp-program "sbcl"
-          sly-complete-symbol-function 'sly-simple-completions))
+          sly-complete-symbol-function 'sly-simple-completions)
+    (sly-auto-start))
 #+end_src
