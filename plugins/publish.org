@@ -55,7 +55,7 @@
            :with-tables t
            :auto-sitemap nil
            :sitemap-filename "sitemap.org"
-           :sitemap-title "路漫漫其修道远，吾将上下而求索"
+           :sitemap-title "非学无以广才，非志无以成学"
            :headline-levels 6
            :table-of-contents nil
            )
