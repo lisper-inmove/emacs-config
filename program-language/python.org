@@ -5,4 +5,5 @@
   ;;   (python-shell-interpreter "python")
   ;;   )
   (add-hook 'python-mode-hook 'hs-minor-mode)
+  (add-hook 'python-mode-hook 'lsp)
 #+end_src

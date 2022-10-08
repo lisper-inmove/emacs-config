@@ -1,21 +1,21 @@
 * elpy
 #+begin_src emacs-lisp
-  (use-package elpy
-    :ensure t
-    :defer 1
-    :init
-    (advice-add 'python-mode :before 'elpy-enable)
-    (let ((py "python"))
-      (setq elpy-rpc-python-command py
-            python-shell-interpreter py
-            python-shell-interpreter-args "-i"))
-      )
-  (add-hook 'python-mode-hook 'elpy-enable)
-  (add-hook 'python-mode-hook 'elpy-mode)
-  (use-package flymake
-    :config
-    (add-to-list 'flymake-proc-allowed-file-name-masks
-                 '("\\.py\\'" elpy-flymake-python-init))
-    )
+  ;; (use-package elpy
+  ;;   :ensure t
+  ;;   :defer 1
+  ;;   :init
+  ;;   (advice-add 'python-mode :before 'elpy-enable)
+  ;;   (let ((py "python"))
+  ;;     (setq elpy-rpc-python-command py
+  ;;           python-shell-interpreter py
+  ;;           python-shell-interpreter-args "-i"))
+  ;;     )
+  ;; (add-hook 'python-mode-hook 'elpy-enable)
+  ;; (add-hook 'python-mode-hook 'elpy-mode)
+  ;; (use-package flymake
+  ;;   :config
+  ;;   (add-to-list 'flymake-proc-allowed-file-name-masks
+  ;;                '("\\.py\\'" elpy-flymake-python-init))
+  ;;   )
 
 #+end_src

@@ -17,3 +17,4 @@ diary.org
 !init.el
 bm-repository
 pyim
+.dap-breakpoints

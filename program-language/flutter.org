@@ -1,0 +1,18 @@
+#+begin_src emacs-lisp :results silent
+  (use-package lsp-dart
+    :ensure t
+    :hook (dart-mode . lsp)
+    :init
+    (dap-register-debug-template "Flutter :: Custom debug"
+                                 (list :flutterPlatform "x86_64"
+                                       :program "lib/main_debug.dart"
+                                       :args '("--flavor" "customer_a"))))
+#+end_src
+
+#+begin_src emacs-lisp :results silent
+  (use-package flutter
+    :after dart-mode
+    :bind (:map dart-mode-map
+                ("C-M-x" . #'flutter-run-or-hot-reload)))
+
+#+end_src
