@@ -5,7 +5,8 @@
 
 # python
 
-    pip install pyls 'python-lsp-server[all]' python-language-server flake8
+    pip install 'python-lsp-server[all]' flake8
+
     `
     cat << EOF >> ~/.pydocstyle
     [pydocstyle]
@@ -31,3 +32,8 @@
 # snippets
 
     git clone git@github.com:lisper-inmove/yasnippet-snippets.git && copy yasnippet-snippets/snippets/* ~/.emacs.d/snippets
+
+# treemacs
+
+    git status --ignored: option `ignored' takes no value
+    git的某个版本(至少2.9.5)开始 =git status --ignored= 不支持参数了.treemacs需要在treemacs-git-status.py把--ignored后面的参数去掉
