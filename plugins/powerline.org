@@ -1,0 +1,9 @@
+#+begin_src emacs-lisp
+  (use-package powerline
+    :config
+    (powerline-default-theme)
+    )
+#+end_src
+
+#+RESULTS:
+: t
