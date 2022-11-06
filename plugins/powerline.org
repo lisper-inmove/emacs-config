@@ -1,7 +1,7 @@
 #+begin_src emacs-lisp
   (use-package powerline
     :config
-    (powerline-default-theme)
+    (powerline-center-theme)
     )
 #+end_src
 
