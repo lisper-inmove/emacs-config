@@ -20,9 +20,12 @@
 
 # golang
 
-    export GOPROXY=https://goproxy.cn
+    下载go: https://studygolang.com/dl
+    export GOPATH=$HOME/.go && mkdir $HOME/.go
+    export PATH=$PATH:$HOME/.go/bin
 
-    下载: https://studygolang.com/dl
+    # 配置七牛云
+    export GOPROXY=https://goproxy.cn
     go install golang.org/x/tools/cmd/goimports@latest
     go install github.com/rogpeppe/godef@latest
     go install golang.org/x/tools/cmd/godoc@latest
