@@ -20,6 +20,8 @@
 
 # golang
 
+    export GOPROXY=https://goproxy.cn
+
     下载: https://studygolang.com/dl
     go install golang.org/x/tools/cmd/goimports@latest
     go install github.com/rogpeppe/godef@latest
@@ -31,7 +33,7 @@
 
 # snippets
 
-    git clone git@github.com:lisper-inmove/yasnippet-snippets.git && copy yasnippet-snippets/snippets/* ~/.emacs.d/snippets
+    git clone git@github.com:lisper-inmove/yasnippet-snippets.git && cp -r yasnippet-snippets/snippets/* ~/.emacs.d/snippets
 
 # treemacs
 
