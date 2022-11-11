@@ -42,3 +42,7 @@
 
     git status --ignored: option `ignored' takes no value
     git的某个版本(至少2.9.5)开始 =git status --ignored= 不支持参数了.treemacs需要在treemacs-git-status.py把--ignored后面的参数去掉
+
+# c
+
+    apt install global
