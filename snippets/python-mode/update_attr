@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: __update
+# key: __update
+# --
+def __update_$1(self, $1):
+    if $1 is None:
+        return
+    self.$2.$1 = $1
