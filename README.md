@@ -46,3 +46,7 @@
 # c
 
     apt install global
+
+# bash
+
+    npm i -g bash-language-server
