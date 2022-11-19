@@ -33,6 +33,7 @@
     go install golang.org/x/tools/gopls@latest
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
     go install golang.org/x/tools/gopls@latest
+    go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest # 影子变量检查
 
 # snippets
 
