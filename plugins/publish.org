@@ -23,7 +23,7 @@
           ("blog"
            :base-directory "~/code/blog/"
            :base-extension "org"
-           :publishing-directory "/ssh:inmove@inmove.com.cn#13921:/home/inmove/www/blog"
+           :publishing-directory "/ssh:inmove@inmove.com.cn#20001:/home/inmove/www/blog"
            :recursive t
            :publishing-function org-html-publish-to-html
            :headline-levels 4
@@ -62,21 +62,21 @@
           ("css"
            :base-directory "~/code/blog/css/"
            :base-extension "css"
-           :publishing-directory "/ssh:inmove@inmove.com.cn#13921:/home/inmove/www/blog/css"
+           :publishing-directory "/ssh:inmove@inmove.com.cn#20001:/home/inmove/www/blog/css"
            :recursive t
            :publishing-function org-publish-attachment
            )
           ("js"
            :base-directory "~/code/blog/js/"
            :base-extension "js"
-           :publishing-directory "/ssh:inmove@inmove.com.cn#13921:/home/inmove/www/blog/js"
+           :publishing-directory "/ssh:inmove@inmove.com.cn#20001:/home/inmove/www/blog/js"
            :recursive t
            :publishing-function org-publish-attachment
            )
           ("image"
            :base-directory "~/code/blog/images/"
            :base-extension "png"
-           :publishing-directory "/ssh:inmove@inmove.com.cn#13921:/home/inmove/www/blog/images"
+           :publishing-directory "/ssh:inmove@inmove.com.cn#20001:/home/inmove/www/blog/images"
            :recursive t
            :publishing-function org-publish-attachment
            )

@@ -1,0 +1,6 @@
+#+begin_verse
+npm i -g typescript-language-server; npm i -g typescript
+#+end_verse
+#+begin_src emacs-lisp
+
+#+end_src

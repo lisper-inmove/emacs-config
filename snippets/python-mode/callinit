@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: callinit
+# key: callinit
+# --
+self.__init_$1(kargs.get("$1"))
