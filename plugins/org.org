@@ -17,6 +17,8 @@
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
 
   (add-hook 'org-mode-hook (lambda () (visual-line-mode nil)))
+
+  (defun org-babel-execute:yaml (body params) body) ;; src execute for yaml
 #+end_src
 #+begin_src emacs-lisp
   (use-package org-bullets

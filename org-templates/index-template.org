@@ -9,9 +9,9 @@
 #+HTML_HEAD_EXTRA:
 #+INFOJS_OPT:
 #+CREATOR: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 26.2 (<a href="https://orgmode.org">Org</a> mode 9.1.9)
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://blog.inmove.top/css/base.css" />
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://blog.inmove.top/css/index.css" />
-#+HTML_HEAD: <script src="http://blog.inmove.top/js/jquery.min.js"></script>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://blog.inmove.top/css/base.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://blog.inmove.top/css/index.css" />
+#+HTML_HEAD: <script src="https://blog.inmove.top/js/jquery.min.js"></script>
 #+LATEX_HEADER:
 #+STARTUP: indent
 #+OPTIONS: toc:10
