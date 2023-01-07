@@ -1,0 +1,11 @@
+#+begin_src shell
+  npm install -g dockerfile-language-server-nodejs
+#+end_src
+#+begin_src emacs-lisp
+  (use-package dockerfile-mode
+    :hook (dockerfile-mode . lsp)
+    )
+#+end_src
+
+#+RESULTS:
+| lsp |

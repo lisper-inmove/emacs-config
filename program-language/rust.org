@@ -1,3 +1,9 @@
+#+begin_src shell
+  # rust-analyzer failed to discover workspace in vscode
+  cargo new your-project
+
+  # https://www.rust-lang.org/tools/install
+#+end_src
 #+begin_src emacs-lisp
   ;; (use-package rust-mode
   ;;   :ensure t
@@ -35,7 +41,9 @@
 
   (use-package cargo
     :hook (rust-mode . cargo-minor-mode))
+
+  (add-hook 'rust-mode-hook #'lsp)
 #+end_src
 
 #+RESULTS:
-: my/rust-format-buffer
+| lsp | cargo-minor-mode | rust-maybe-initialize-buffer-project |
