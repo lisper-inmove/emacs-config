@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: srcpb
+# key: srcpb
+# --
+#+NAME: $1
+#+begin_src protobuf :file $1 :results file
+
+#+end_src

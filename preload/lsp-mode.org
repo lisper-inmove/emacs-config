@@ -10,5 +10,5 @@
     (lsp-ui-sideline-show-hover t)
     (lsp-ui-doc-enable nil))
 
-  (add-hook 'prog-mode-hook #'lsp)
+  ;; (add-hook 'prog-mode-hook #'lsp)
 #+end_src
