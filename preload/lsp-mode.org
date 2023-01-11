@@ -11,4 +11,8 @@
     (lsp-ui-doc-enable nil))
 
   ;; (add-hook 'prog-mode-hook #'lsp)
+
+  ;; 清除blacklist
+  ;; (setf (lsp-session-folders-blacklist (lsp-session)) nil)
+  ;; (lsp--persist-session (lsp-session))
 #+end_src
