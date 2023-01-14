@@ -3,4 +3,8 @@
 # key: orgheader
 # --
 #+SETUPFILE: ~/.emacs.d/org-templates/template.org
-#+TITLE:
+#+TITLE: $1
+#+INDEX: $1
+#+DESCRIPTION $2
+#+CATEGORY: $3
+#+ABSTRACT: $4
