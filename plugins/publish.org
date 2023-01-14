@@ -5,17 +5,39 @@
   (require 'ox-publish)
   (require 'htmlize)
 
+  ;; (push '(:thetest "THETEST" nil nil parse) org-export-options-alist)
+
   (defun f/sitemap-format-entry (entry style project)
     (let (format-entry
+          (entry-text "")
           (title (org-publish-find-title entry project))
           (file (org-publish--expand-file-name entry project))
           (date (org-publish-find-property entry :date project))
           (subtitle (org-publish-find-property entry :subtitle project 'latex))
           (description (org-publish-find-property entry :description project 'html))
+          (category (org-publish-find-property entry :category project 'html))
+          (abstract (org-publish-find-property entry :abstract project 'html))
           )
-      (if (not (equal description nil))
-          (setq format-entry (format "[[file:%s][%s]]: %s" file title description))
-        (setq format-entry (format "[[file:%s][%s]]" file title)))
+      (if (not (equal title nil))
+          (concat entry-text title)
+        )
+      (if (not (equal subtitle nil))
+          (concat entry-text subtitle)
+        )
+      (if (not (equal category nil))
+          (concat entry-text category)
+        )
+      (if (not (equal abstract nil))
+          (concat entry-text abstract)
+        )
+      (cond ((equal title "") (setq format-entry (format "nodisplay%s" file)))
+            ((not (equal description nil)) (setq format-entry (format "[[file:%s][%s-|-%s]]" file title description)))
+            (t (setq format-entry (format "[[file:%s][%s]]" file title)))
+            )
+      (message "%s" entry-text)
+      ;; (if (not (equal description nil))
+      ;;     (setq format-entry (format "[[file:%s][%s]]: %s" file title description))
+      ;;   (setq format-entry (format "[[file:%s][%s]]" file title)))
       format-entry))
 
   (setq org-publish-project-alist
@@ -54,12 +76,23 @@
            :with-properties t
            :with-special-strings t
            :with-tables t
-           :auto-sitemap nil
+           :auto-sitemap t
            :sitemap-filename "sitemap.org"
+           :sitemap-sort-files anti-chronologically
            :sitemap-title "非学无以广才，非志无以成学"
            :headline-levels 6
            :table-of-contents nil
-           :makeindex index.org
+           ;; :makeindex index.org
+                                          ; HTML5
+           :html-doctype "html5"
+           :html-html5-fancy t
+                                          ; Disable some Org's HTML defaults
+           :html-head-include-scripts nil
+           :html-head-include-default-style nil
+           :html-preamble "<script src='https://blog.inmove.top/js/sitemap.js'></script>
+  <link rel='stylesheet' type='text/css' href='https://blog.inmove.top/css/sitemap.css' />"
+           ; :html-preamble "<a></a>"
+           ; :html-postamble "<hr/>"
            )
           ("css"
            :base-directory "~/code/blog/css/"

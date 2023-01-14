@@ -35,6 +35,7 @@
 (load-org "~/.emacs.d/preload")
 (load-org "~/.emacs.d/plugins")
 (load-org "~/.emacs.d/program-language")
+(load-org "~/.emacs.d/postload")
 
 
 (custom-set-variables

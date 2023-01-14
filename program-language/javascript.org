@@ -2,7 +2,7 @@
 npm i -g typescript-language-server; npm i -g typescript
 #+end_verse
 #+begin_src emacs-lisp
-  (add-hook 'javascript-mode-hook #'lsp)
+  (add-hook 'js-mode-hook 'lsp)
 #+end_src
 
 #+RESULTS:

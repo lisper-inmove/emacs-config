@@ -1,0 +1,4 @@
+#+begin_src emacs-lisp
+  (push '(:category "CATEGORY" nil nil parse) org-export-options-alist)
+  (push '(:abstract "ABSTRACT" nil nil parse) org-export-options-alist)
+#+end_src
