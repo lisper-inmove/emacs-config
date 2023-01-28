@@ -1,0 +1,13 @@
+#+begin_src emacs-lisp
+  (use-package emmet-mode
+    :ensure t
+    ;; :hook (web-mode css-mode scss-mode sgml-mode)
+    :config
+    (add-hook 'emmet-mode-hook (lambda ()
+                                 (setq emmet-indent-after-insert t)))
+    )
+
+#+end_src
+
+#+RESULTS:
+: t
