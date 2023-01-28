@@ -1,0 +1,209 @@
+#+begin_verse
+npm install -g @volar/vue-language-server
+#+end_verse
+
+#+begin_src emacs-lisp
+  ;; ;;; lsp-volar.el --- A lsp-mode client for Vue3 -*- lexical-binding: t; -*-
+  ;; ;;
+  ;; ;; Copyright (C) 2021 JadeStrong
+  ;; ;;
+  ;; ;; Author: JadeStrong <https://github.com/jadestrong>
+  ;; ;; Maintainer: JadeStrong <jadestrong@163.com>
+  ;; ;; Created: November 08, 2021
+  ;; ;; Modified: November 08, 2021
+  ;; ;; Version: 0.0.1
+  ;; ;; Keywords: abbrev bib c calendar comm convenience data docs emulations extensions faces files frames games hardware help hypermedia i18n internal languages lisp local maint mail matching mouse multimedia news outlines processes terminals tex tools unix vc wp
+  ;; ;; Homepage: https://github.com/jadestrong/lsp-volar
+  ;; ;; Package-Requires: ((emacs "25.1"))
+  ;; ;;
+  ;; ;; This file is not part of GNU Emacs.
+
+  ;; ;; This file is free software; you can redistribute it and/or modify
+  ;; ;; it under the terms of the GNU General Public License as published by
+  ;; ;; the Free Software Foundation; either version 3, or (at your option)
+  ;; ;; any later version.
+
+  ;; ;; This program is distributed in the hope that it will be useful,
+  ;; ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ;; ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ;; ;; GNU General Public License for more details.
+
+  ;; ;; For a full copy of the GNU General Public License
+  ;; ;; see <http://www.gnu.org/licenses/>.
+
+  ;; ;;
+  ;; ;;; Commentary:
+  ;; ;;
+  ;; ;; provide the connection to lsp-mode and volar language server
+  ;; ;;
+  ;; ;;; Code:
+  ;; (require 'lsp-mode)
+  ;; (require 'json)
+
+  ;; (defgroup lsp-volar nil
+  ;;   "Lsp support for vue3."
+  ;;   :group 'lsp-volar
+  ;;   :link '(url-link "https://github.com/johnsoncodehk/volar")
+  ;;   :package-version '(lsp-mode . "8.0.1"))
+
+  ;; (defcustom lsp-volar-take-over-mode t
+  ;;   "Enable Take Over Mode."
+  ;;   :type 'boolean
+  ;;   :group 'lsp-volar
+  ;;   :package-version '(lsp-mode . "8.0.1"))
+
+  ;; (defcustom lsp-volar-activate-file ".volarrc"
+  ;;   "A file with a custom name placed in WORKSPACE-ROOT is used to force enable
+  ;;  volar when there is no package.json in the WORKSPACE-ROOT."
+  ;;   :type 'string
+  ;;   :group 'lsp-volar
+  ;;   :package-version '(lsp-mode . "8.0.1"))
+
+  ;; (defconst lsp-volar--is-windows (memq system-type '(cygwin windows-nt ms-dos)))
+  ;; (defun lsp-volar-get-typescript-server-path ()
+  ;;   "Get tsserver.js file path."
+  ;;   (if-let ((package-path (lsp-package-path 'typescript))
+  ;;            (system-server-path (apply #'f-join (if lsp-volar--is-windows
+  ;;                                                    (append (cl-subseq (f-split (file-truename (lsp-package-path 'typescript))) 0 -1) '("node_modules" "typescript" "lib"))
+  ;;                                                  (append (cl-subseq (f-split (file-truename (lsp-package-path 'typescript))) 0 -2) '("lib")))))
+  ;;            (is-exist (f-file-p system-server-path)))
+  ;;       system-server-path
+  ;;     (progn (lsp--error "[lsp-volar] Typescript is not detected correctly. Please ensure the npm package typescript is installed in your project or system (npm install -g typescript), otherwise open an issue") "")))
+
+  ;; (lsp-dependency 'typescript
+  ;;                 '(:system "tsserver")
+  ;;                 '(:npm :package "typescript"
+  ;;                        :path "tsserver"))
+
+  ;; (lsp-dependency 'volar-language-server
+  ;;                 '(:system "vue-language-server")
+  ;;                 '(:npm :package "@volar/vue-language-server" :path "vue-language-server"))
+
+  ;; (lsp-register-custom-settings
+  ;;  '(("typescript.tsdk" (lambda () (if-let ((project-root (lsp-workspace-root))
+  ;;                                           (server-path (f-join project-root "node_modules/typescript/lib"))
+  ;;                                           (is-exist (file-exists-p server-path)))
+  ;;                                      server-path
+  ;;                                    (lsp-volar-get-typescript-server-path))) t)))
+
+  ;; (defun lsp-volar--vue-project-p (workspace-root)
+  ;;   "Check if the `Vue' package is present in the package.json file
+  ;; in the WORKSPACE-ROOT."
+  ;;   (if-let ((package-json (f-join workspace-root "package.json"))
+  ;;            (exist (f-file-p package-json))
+  ;;            (config (json-read-file package-json))
+  ;;            (dependencies (alist-get 'dependencies config)))
+  ;;       (alist-get 'vue dependencies)
+  ;;     nil))
+
+  ;; (defun lsp-volar--activate-p (filename &optional _)
+  ;;   "Check if the volar-language-server should be enabled base on FILENAME."
+  ;;   (if lsp-volar-take-over-mode
+  ;;       (and (or
+  ;;             (and (lsp-workspace-root) (lsp-volar--vue-project-p (lsp-workspace-root)))
+  ;;             (and (lsp-workspace-root) lsp-volar-activate-file (f-file-p (f-join (lsp-workspace-root) lsp-volar-activate-file))))
+  ;;            (or (or (string-match-p "\\.mjs\\|\\.[jt]sx?\\'" filename)
+  ;;                    (and (derived-mode-p 'js-mode 'typescript-mode)
+  ;;                         (not (derived-mode-p 'json-mode))))
+  ;;                (string= (file-name-extension filename) "vue")))
+  ;;     (string= (file-name-extension filename) "vue")))
+
+  ;; (lsp-register-client
+  ;;  (make-lsp-client
+  ;;   :new-connection (lsp-stdio-connection
+  ;;                    (lambda ()
+  ;;                      `(,(lsp-package-path 'volar-language-server) "--stdio")))
+  ;;   :activation-fn 'lsp-volar--activate-p
+  ;;   :priority 0
+  ;;   :multi-root nil
+  ;;   :server-id 'vue-semantic-server
+  ;;   :initialization-options (lambda () (ht-merge (lsp-configuration-section "typescript")
+  ;;                                                (ht ("serverMode" 0)
+  ;;                                                    ("diagnosticMode" 1)
+  ;;                                                    ("textDocumentSync" 2))))
+  ;;   :initialized-fn (lambda (workspace)
+  ;;                     (with-lsp-workspace workspace
+  ;;                       (lsp--server-register-capability
+  ;;                        (lsp-make-registration
+  ;;                         :id "random-id"
+  ;;                         :method "workspace/didChangeWatchedFiles"
+  ;;                         :register-options? (lsp-make-did-change-watched-files-registration-options
+  ;;                                             :watchers
+  ;;                                             `[,(lsp-make-file-system-watcher :glob-pattern "**/*.js")
+  ;;                                               ,(lsp-make-file-system-watcher :glob-pattern "**/*.ts")
+  ;;                                               ,(lsp-make-file-system-watcher :glob-pattern "**/*.vue")
+  ;;                                               ,(lsp-make-file-system-watcher :glob-pattern "**/*.jsx")
+  ;;                                               ,(lsp-make-file-system-watcher :glob-pattern "**/*.tsx")
+  ;;                                               ,(lsp-make-file-system-watcher :glob-pattern "**/*.json")])))))
+  ;;   :download-server-fn (lambda (_client callback error-callback _update?)
+  ;;                         (lsp-package-ensure 'volar-language-server
+  ;;                                             callback error-callback))))
+
+  ;; (provide 'lsp-volar)
+  ;; ;;; lsp-volar.el ends here
+#+end_src
+
+#+RESULTS:
+: lsp-volar
+
+#+begin_src emacs-lisp
+  ;; (use-package emmet-mode
+  ;;   :ensure t
+  ;;   :hook (web-mode css-mode scss-mode sgml-mode)
+  ;;   :config
+  ;;   (add-hook 'emmet-mode-hook (lambda ()
+  ;;                                (setq emmet-indent-after-insert t)))
+  ;;   )
+
+  ;; (use-package web-mode
+  ;;   :ensure t
+  ;;   :mode ("\\.html\\'" "\\.vue\\'")
+  ;;   :config
+  ;;   (setq web-mode-markup-indent-offset 2)
+  ;;   (setq web-mode-css-indent-offset 2)
+  ;;   (setq web-mode-code-indent-offset 2)
+  ;;   (setq web-mode-enable-current-element-highlight t)
+  ;;   (setq web-mode-enable-css-colorization t)
+  ;;   (set-face-attribute 'web-mode-html-tag-face nil :foreground "royalblue")
+  ;;   (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "powderblue")
+  ;;   (set-face-attribute 'web-mode-doctype-face nil :foreground "lightskyblue")
+  ;;   (setq web-mode-content-types-alist
+  ;;         '(("vue" . "\\.vue\\'")))
+  ;;   (use-package company-web
+  ;;     :ensure t)
+  ;;   (add-hook 'web-mode-hook (lambda()
+  ;;                              (cond ((equal web-mode-content-type "html")
+  ;;                                     (my/web-html-setup))
+  ;;                                    ((member web-mode-content-type '("vue"))
+  ;;                                     (my/web-vue-setup))
+  ;;                                    )))
+  ;;   )
+
+  ;; (defun my/web-vue-setup()
+  ;;   "Setup for js related."
+  ;;   (message "web-mode use vue related setup")
+  ;;   (setup-tide-mode)
+  ;;   (prettier-js-mode)
+  ;;   (flycheck-add-mode 'javascript-eslint 'web-mode)
+  ;;   (flycheck-select-checker 'javascript-eslint)
+  ;;   (my/use-eslint-from-node-modules)
+  ;;   (add-to-list (make-local-variable 'company-backends)
+  ;;                '(comany-tide company-web-html company-css company-files))
+  ;;   )
+
+  ;; (defun my/use-eslint-from-node-modules ()
+  ;;   "Use local eslint from node_modules before global."
+  ;;   (let* ((root (locate-dominating-file
+  ;;                 (or (buffer-file-name) default-directory)
+  ;;                 "node_modules"))
+  ;;          (eslint (and root
+  ;;                       (expand-file-name "node_modules/eslint/bin/eslint.js"
+  ;;                                         root))))
+  ;;     (when (and eslint (file-executable-p eslint))
+  ;;       (setq-local flycheck-javascript-eslint-executable eslint))))
+
+  ;; (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+#+end_src
+
+#+RESULTS:
+| my/use-eslint-from-node-modules | flycheck-mode-set-explicitly |
