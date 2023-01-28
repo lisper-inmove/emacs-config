@@ -146,6 +146,12 @@ npm install -g @volar/vue-language-server
 #+RESULTS:
 : lsp-volar
 
+#+begin_src shell
+  npm install -g vls
+#+end_src
+#+begin_verse
+https://genehack.blog/2020/08/web-mode-eglot-vetur-vue-js-happy/
+#+end_verse
 #+begin_src emacs-lisp :results none
   ;; (use-package vue-mode
   ;;   :ensure t
@@ -161,11 +167,12 @@ npm install -g @volar/vue-language-server
   (use-package web-mode
     :ensure t
     :config
-    (define-derived-mode genehack-vue-mode web-mode "ghVue"
-      "A major mode derived from web-mode, for editing .vue files with LSP support.")
-    (add-to-list 'auto-mode-alist '("\\.vue\\'" . genehack-vue-mode))
-    (add-hook 'genehack-vue-mode-hook #'eglot-ensure)
-    (add-to-list 'eglot-server-programs '(genehack-vue-mode "vls"))
-    (add-hook 'web-mode-hook #'emmet-mode)
+    (define-derived-mode my-vue-mode web-mode "MyVue"
+      "定义一个新的major mode,完全基于web-mode"
+      )
+    (add-to-list 'auto-mode-alist '("\\.vue\\'" . my-vue-mode))
+    (add-hook 'my-vue-mode-hook #'eglot-ensure)
+    (add-to-list 'eglot-server-programs '(my-vue-mode "vls"))
+    (add-hook 'my-vue-mode-hook #'emmet-mode)
   )
 #+end_src
