@@ -3,6 +3,6 @@
 # key: srcpy
 # --
 #+CAPTION: $1
-#+begin_src python :results output :noweb yes :exports both :file $1
+#+begin_src python :results file :noweb yes :exports code :file $1
 
 #+end_src

@@ -8,4 +8,5 @@
 #+SUBTITLE: $2
 #+CATEGORY: $3
 #+ABSTRACT: $4
+#+UTIME: `(format-time-string "%Y-%m-%d %H:%M:%S")`
 #+DISPLAY: t

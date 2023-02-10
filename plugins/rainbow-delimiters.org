@@ -4,6 +4,12 @@
     :config
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
     )
+
+  (use-package rainbow-mode
+    :ensure t
+    :config
+    (add-hook 'prog-mode-hook 'rainbow-mode)
+    )
 #+end_src
 
 #+RESULTS:

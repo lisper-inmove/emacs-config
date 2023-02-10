@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: vinit
+# key: vinit
+# --
+<template>
+
+</template>
+
+<script setup>
+
+</script>
+
+<style scoped>
+
+</style>

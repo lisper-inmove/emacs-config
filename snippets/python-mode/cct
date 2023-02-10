@@ -1,0 +1,56 @@
+# -*- mode: snippet -*-
+# name: cct
+# key: cct
+# --
+# -*- coding: utf-8 -*-
+
+import $1 as $2_vo_pb
+
+from ctrl.base_ctrl import BaseCtrl
+from manager.$2.$2 import ${2:$(capitalize yas-text)}Manager
+from view.errors import PopupError
+
+
+class ${2:$(capitalize yas-text)}Ctrl(BaseCtrl):
+
+    def _init(self, *args, **kargs):
+        self._OPF = {
+            'create': self.create_$2,
+            'update': self.update_$2,
+            'list': self.list_$2,
+        }
+        self._manager = ${2:$(capitalize yas-text)}Manager()
+
+    def create_$2(self):
+        $2 = self._manager.create_$2()
+        self.__update_$2($2)
+        self.update_obj($2)
+        return $2
+
+    def update_$2(self):
+        $2 = self.get_obj_by_id(self.get_param('id'))
+        if not $2:
+            raise PopupError("用户不存在")
+        self.__update_$2($2)
+        self.update_obj($2)
+
+    def list_$2(self):
+        $2s = self.list_objs(
+            matcher=self.get_param('matcher'),
+            sortby=self.get_param('sortby'),
+            page=int(self.get_param('page', 1)),
+            size=int(self.get_param('size', 50))
+        )
+        $2s_vo = $2_vo_pb.${2:$(capitalize yas-text)}ListVO()
+        for $2 in $2s.objs:
+            $2_vo = $2s_vo.$2s.add()
+            $2_vo.CopyFrom($2)
+        $2s_vo.count = $2s.count
+        return $2s_vo
+
+    def __update_$2(self, $2):
+        self._manager.update_$2(
+            $2,
+            name=self.get_param('name'),
+            version=self.get_param('version')
+        )

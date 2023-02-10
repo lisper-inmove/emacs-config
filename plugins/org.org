@@ -21,10 +21,11 @@
   (defun org-babel-execute:yaml (body params) body) ;; src execute for yaml
   (defun org-babel-execute:protobuf (body params) body) ;; src execute for protobuf
   (defun org-babel-execute:python (body params) body) ;; src execute for python
+  (defun org-babel-execute:html (body params) body) ;; src execute for html
 #+end_src
 
 #+RESULTS:
-: org-babel-execute:python
+: org-babel-execute:html
 
 #+begin_src emacs-lisp
   (use-package org-bullets

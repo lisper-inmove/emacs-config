@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: cm
+# key: cm
+# --
+message $1 {
+  string id = 1;
+  int64 create_time_sec = 2;
+  int64 update_time_sec = 3;
+}

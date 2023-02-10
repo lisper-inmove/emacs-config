@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: cmnu
+# key: cmnu
+# --
+@ignore_none_argument
+def __update_$1(self, $1):
+    self.obj.$1 = $1

@@ -51,6 +51,8 @@
   ;;   (add-hook 'emmet-mode-hook (lambda ()
   ;;                                (setq emmet-indent-after-insert t)))
   ;;   )
+
+  (add-hook 'html-mode-hook #'emmet-mode)
 #+end_src
 
 #+RESULTS:

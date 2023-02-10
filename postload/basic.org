@@ -2,4 +2,5 @@
   (push '(:category "CATEGORY" nil nil parse) org-export-options-alist)
   (push '(:abstract "ABSTRACT" nil nil parse) org-export-options-alist)
   (push '(:display "DISPLAY" nil nil parse) org-export-options-alist)
+  (push '(:utime "UTIME" nil nil parse) org-export-options-alist)
 #+end_src
