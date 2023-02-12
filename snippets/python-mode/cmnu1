@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: cmnu1
+# key: cmnu1
+# --
+self.__update_$1(kargs.get('$1'))

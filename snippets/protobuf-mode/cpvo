@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: cpvo
+# key: cpvo
+# --
+syntax = "proto3";
+
+package $1.VO;
+
+import "proto/${2:信赖的proto}";
+
+
+message ${3:对象名}ListVO {
+  repeated $1.$3 ${3:$(underscore yas-text)}s = 1;
+  int32 count = 2;
+}

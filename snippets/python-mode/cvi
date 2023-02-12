@@ -5,16 +5,17 @@
 # -*- coding: utf-8 -*-
 
 from flask import Blueprint
-from ctrl.$1.$1 import ${1:$(capitalize yas-text)}Ctrl
+from ${1:控制类} import ${2:$(camelcase yas-text)}Ctrl
 from submodules.utils.protobuf_helper import ProtobufHelper as PH
 from view.unify_response import UnifyResponse
 
-name = "$1"
-_$1 = Blueprint(name, name, url_prefix="/$1")
+name = "${2:$(dasherize yas-text)}"
+_$2 = Blueprint(name, name, url_prefix="/${2:$(dasherize yas-text)}")
 
 
-@_$1.route("/<string:operate>", methods=["POST"])
-def $1_view(operate):
-    ctrl = ${1:$(capitalize yas-text)}Ctrl(operate=operate)
+@_$2.route("/<string:operate>", methods=["POST"])
+def $2_view(operate):
+    """${2:$(camelcase yas-text)}视图层."""
+    ctrl = ${2:$(camelcase yas-text)}Ctrl(operate=operate)
     result = ctrl.do_operate()
     return UnifyResponse.R(PH.to_json(result))

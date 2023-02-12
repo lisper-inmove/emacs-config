@@ -6,21 +6,21 @@
 
 import ${1:引入的proto路径} as $2_pb
 
-from ${3:dao文件所在路径} import ${4:要操作的对象$(capitalize yas-text)}DA
+from ${3:dao文件所在路径} import ${4:要操作的对象$(camelcase yas-text)}DA
 from manager.base_manager import BaseManager
 from manager.base_manager import ignore_none_argument
 
 
-class ${4:$(capitalize yas-text)}Manager(BaseManager):
+class ${4:$(camelcase yas-text)}Manager(BaseManager):
 
     def _init(self, *args, **kargs):
-        self._da = ${4:$(capitalize yas-text)}DA()
+        self._da = ${4:$(camelcase yas-text)}DA()
 
-    def create_${4:$(downcase yas-text)}(self):
-        obj = self.create_obj($2_pb.${4:$(capitalize yas-text)})
+    def create_$2(self):
+        obj = self.create_obj($2_pb.${4:$(camelcase yas-text)})
         return obj
 
-    def update_${4:$(downcase yas-text)}(self, obj, **kargs):
+    def update_$2(self, obj, **kargs):
         if not obj:
             return
         self.obj = obj
