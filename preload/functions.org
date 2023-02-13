@@ -117,3 +117,11 @@
   (defun dasherize  (s) (mapconcat 'downcase   (split-name s) "-"))
   (defun underscore (s) (mapconcat 'downcase   (split-name s) "_"))
 #+end_src
+
+* my-ansi-term
+#+begin_src emacs-lisp
+  (defun my/ansi-term (name)
+    (interactive "sBuffer Name: ")
+    (ansi-term shell-file-name (concat "ansi-term::" name))
+    )
+#+end_src
