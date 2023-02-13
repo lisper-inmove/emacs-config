@@ -9,6 +9,7 @@ import ${1:引入的proto路径} as $2_pb
 from ${3:dao文件所在路径} import ${4:要操作的对象$(camelcase yas-text)}DA
 from manager.base_manager import BaseManager
 from manager.base_manager import ignore_none_argument
+from manager.helper import ManagerHelper
 
 
 class ${4:$(camelcase yas-text)}Manager(BaseManager):

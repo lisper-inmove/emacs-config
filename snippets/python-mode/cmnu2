@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: cmnu2
+# key: cmnu2
+# --
+ManagerHelper.update_$1(obj.$2, kargs.get('$1'))

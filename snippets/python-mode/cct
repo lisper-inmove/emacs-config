@@ -32,7 +32,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
     def update_$2(self):
         $2 = self.get_obj_by_id(self.id)
         if not $2:
-            raise PopupError("用户不存在")
+            raise PopupError("$2 不存在")
         self.__update_$2($2)
         self.update_obj($2)
 
