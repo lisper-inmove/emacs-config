@@ -25,4 +25,5 @@ class ${4:$(camelcase yas-text)}Manager(BaseManager):
         if not obj:
             return
         self.obj = obj
+        self.update_obj_status(obj, kargs.get('status'))
 $10
