@@ -36,6 +36,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
             raise PopupError("$2 不存在")
         self.__update_$2($2)
         self.update_obj($2)
+        return $2
 
     def list(self):
         $2s = self.list_objs(
@@ -50,6 +51,21 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
             $2_vo.CopyFrom($2)
         $2s_vo.count = $2s.count
         return $2s_vo
+
+    def delete(self):
+        $2 = self.get_obj_by_id(self.id)
+        if not $2:
+            raise PopupError("$2 不存在")
+        if self.status is None:
+            raise PopupError("删除$2时参数错误")
+        if self.status != self.ObjStatus.DELETED:
+            raise PopupError("删除$2时参数错误")
+        self._manager.update_user(
+            $2=$2ser,
+            status=self.status
+        )
+        self.update_obj($2)
+        return $2
 
     def __update_$2(self, $2):
         self._manager.update_$2(
