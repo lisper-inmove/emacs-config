@@ -3,7 +3,16 @@
 # key: cm
 # --
 message $1 {
+  enum Status {
+    // 活跃
+    ACTIVE = 0;
+    // 非活跃
+    INACTIVE = 1;
+    // 已删除
+    DELETED = 2;
+  }
   string id = 1;
   int64 create_time_sec = 2;
   int64 update_time_sec = 3;
+  Status status = 4;
 }
