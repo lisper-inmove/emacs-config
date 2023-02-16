@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
 # name: cct
 # key: cct
-# --
 # expand-env: ((yas-indent-line 'fixed))
+# --
 # -*- coding: utf-8 -*-
 
 """控制器.
