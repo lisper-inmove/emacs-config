@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: cct
-# key: cct
+# name: cct2
+# key: cct2
 # --
 # -*- coding: utf-8 -*-
 
@@ -11,9 +11,10 @@ def xxx: 可用接口. xxx 不能以 _ 开头
 """
 
 import $1 as $2_vo_pb
+import gproto.${3:api} as api_pb
 
 from ctrl.base_ctrl import BaseCtrl
-from ${3:引入Manager的路径} import ${2:$(camelcase yas-text)}Manager
+from ${4:引入的manager的路径} import ${2:$(camelcase yas-text)}Manager
 from view.errors import PopupError
 
 
@@ -26,29 +27,45 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
 
     def create(self):
         $2 = self._manager.create_$2()
-        self.__update_$2($2)
+        req = self.PH.to_obj(self.request.json, api_pb.Create${2:(camelcase yas-text)}Req)
+        self._manager.update_$2(
+            $2,
+        )
         self.update_obj($2)
-        return $2
+        return self.to_vo($2)
 
     def update(self):
         $2 = self.get_obj_by_id(self.id)
         if not $2:
             raise PopupError("$2 不存在")
-        self.__update_$2($2)
+        req = self.PH.to_obj(self.request.json, api_pb.Update${2:$(camelcase yas-text)}Req)
+        self._manager.update_$2(
+            $2,
+            name=req.name,
+            avatar_url=req.avatar_url,
+            phone=req.phone
+        )
         self.update_obj($2)
-        return $2
+        return self.to_vo($2)
 
     def list(self):
+        req = self.PH.to_obj(self.request.json, api_pb.List${2:$(camelcase yas-text)}Req)
+        if req.psearch.sortby == "":
+            sortby = None
+        if req.psearch.page == 0:
+            page = None
+        if req.psearch.size == 0:
+            size = 100
         $2s = self.list_objs(
-            matcher=self.matcher,
-            sortby=self.sortby,
-            page=self.page,
-            size=self.size,
+            matcher=req.psearch.matchers,
+            sortby=sortby,
+            page=page,
+            size=size,
         )
         $2s_vo = $2_vo_pb.${2:$(camelcase yas-text)}ListVO()
         for $2 in $2s.objs:
             $2_vo = $2s_vo.$2s.add()
-            $2_vo.CopyFrom($2)
+            $2_vo.CopyFrom(self.to_vo($2))
         $2s_vo.count = $2s.count
         return $2s_vo
 
@@ -56,20 +73,9 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
         $2 = self.get_obj_by_id(self.id)
         if not $2:
             raise PopupError("$2 不存在")
-        if self.status is None:
-            raise PopupError("删除$2时参数错误")
-        if self.status != self.ObjStatus.DELETED:
-            raise PopupError("删除$2时参数错误")
         self._manager.update_$2(
             $2,
-            status=self.status
+            status=self.ObjStatus.DELETED
         )
         self.update_obj($2)
-        return $2
-
-    def __update_$2(self, $2):
-        self._manager.update_$2(
-            $2,
-            name=self.name,
-            version=self.version
-        )
+        return self.to_vo($2)
