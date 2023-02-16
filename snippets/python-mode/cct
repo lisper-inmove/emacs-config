@@ -32,7 +32,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
             $2,
         )
         self.update_obj($2)
-        return self.to_vo($2)
+        return $2
 
     def update(self):
         $2 = self.get_obj_by_id(self.id)
@@ -41,12 +41,9 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
         req = self.PH.to_obj(self.request.json, api_pb.Update${2:$(camelcase yas-text)}Req)
         self._manager.update_$2(
             $2,
-            name=req.name,
-            avatar_url=req.avatar_url,
-            phone=req.phone
         )
         self.update_obj($2)
-        return self.to_vo($2)
+        return $2
 
     def list(self):
         req = self.PH.to_obj(self.request.json, api_pb.List${2:$(camelcase yas-text)}Req)
@@ -78,4 +75,4 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
             status=self.ObjStatus.DELETED
         )
         self.update_obj($2)
-        return self.to_vo($2)
+        return $2
