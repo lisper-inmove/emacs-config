@@ -2,6 +2,7 @@
 # name: cct
 # key: cct
 # --
+# expand-env: ((yas-indent-line 'fixed))
 # -*- coding: utf-8 -*-
 
 """控制器.
@@ -27,9 +28,9 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
 
     def create(self):
         $2 = self._manager.create_$2()
-        req = self.PH.to_obj(self.request.json, api_pb.Create${2:(camelcase yas-text)}Req)
+        req = self.PH.to_obj(self.request.json, api_pb.Create${2:$(camelcase yas-text)}Req)
         self._manager.update_$2(
-            $2,
+            $2
         )
         self.update_obj($2)
         return $2
@@ -40,7 +41,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
             raise PopupError("$2 不存在")
         req = self.PH.to_obj(self.request.json, api_pb.Update${2:$(camelcase yas-text)}Req)
         self._manager.update_$2(
-            $2,
+            $2
         )
         self.update_obj($2)
         return $2
@@ -57,7 +58,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
             matcher=req.psearch.matchers,
             sortby=sortby,
             page=page,
-            size=size,
+            size=size
         )
         $2s_vo = $2_vo_pb.${2:$(camelcase yas-text)}ListVO()
         for $2 in $2s.objs:

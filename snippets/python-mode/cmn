@@ -2,6 +2,7 @@
 # name: cmn
 # key: cmn
 # --
+# expand-env: ((yas-indent-line 'fixed))
 # -*- coding: utf-8 -*-
 
 import ${1:引入的proto路径} as $2_pb
