@@ -26,7 +26,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
     def _init(self, *args, **kargs):
         self._manager = ${2:$(camelcase yas-text)}Manager()
 
-    def create(self):
+    def create_$2(self):
         $2 = self._manager.create_$2()
         req = self.PH.to_obj(self.request.json, api_pb.Create${2:$(camelcase yas-text)}Req)
         self._manager.update_$2(
@@ -35,7 +35,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
         self.update_obj($2)
         return $2
 
-    def update(self):
+    def update_$2(self):
         $2 = self.get_obj_by_id(self.id)
         if not $2:
             raise PopupError("$2 不存在")
@@ -46,7 +46,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
         self.update_obj($2)
         return $2
 
-    def list(self):
+    def list_$2(self):
         req = self.PH.to_obj(self.request.json, api_pb.List${2:$(camelcase yas-text)}Req)
         if req.psearch.sortby == "":
             sortby = None
@@ -67,7 +67,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
         $2s_vo.count = $2s.count
         return $2s_vo
 
-    def delete(self):
+    def delete_$2(self):
         $2 = self.get_obj_by_id(self.id)
         if not $2:
             raise PopupError("$2 不存在")
