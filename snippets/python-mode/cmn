@@ -17,11 +17,11 @@ class ${4:$(camelcase yas-text)}Manager(BaseManager):
     def _init(self, *args, **kargs):
         self._da = ${4:$(camelcase yas-text)}DA()
 
-    def create_$2(self):
+    def create_${4:$(underscore yas-text)}(self):
         obj = self.create_obj($2_pb.${4:$(camelcase yas-text)})
         return obj
 
-    def update_$2(self, obj, **kargs):
+    def update_${4:$(underscore yas-text)}(self, obj, **kargs):
         if not obj:
             return
         self.obj = obj
