@@ -77,3 +77,9 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
         )
         self.update_obj($2)
         return $2
+
+    def __check_$2(self):
+        obj = self._manager.get_obj_by_id(self.id)
+        if not obj:
+            raise PopupError('$2 不存在')
+        return obj
