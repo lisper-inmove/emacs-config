@@ -14,7 +14,7 @@ $2 接口文档
 Req结尾的为接口名: 如 AaaBbbCccReq 调用方式为 /$2/aaa-bbb-ccc
 VO结尾的为返回结构
  **/
-message AAAAA$2APIExplain {}
+message AAAAA${2:$(camelcase yas-text)}APIExplain {}
 
 
 // create-$2
