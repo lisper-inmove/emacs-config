@@ -36,9 +36,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
         return $2
 
     def update_$2(self):
-        $2 = self.get_obj_by_id(self.id)
-        if not $2:
-            raise PopupError("$2 不存在")
+        $2 = self.__check_$2()
         req = self.PH.to_obj(self.request.json, api_pb.Update${2:$(camelcase yas-text)}Req)
         self._manager.update_$2(
             $2
@@ -68,9 +66,7 @@ class ${2:$(camelcase yas-text)}Ctrl(BaseCtrl):
         return $2s_vo
 
     def delete_$2(self):
-        $2 = self.get_obj_by_id(self.id)
-        if not $2:
-            raise PopupError("$2 不存在")
+        $2 = self.__check_$2()
         self._manager.update_$2(
             $2,
             status=self.ObjStatus.DELETED
