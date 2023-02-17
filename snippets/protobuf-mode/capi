@@ -38,7 +38,7 @@ message Delete${2:$(camelcase yas-text)}Req {
 }
 
 message ${2:$(camelcase yas-text)}ListVO {
-  repeated UserVO users = 1;
+  repeated ${2:$(camelcase yas-text)}VO users = 1;
   int32 count = 2;
 }
 
