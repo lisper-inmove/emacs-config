@@ -1,0 +1,45 @@
+# -*- mode: snippet -*-
+# name: capi
+# key: capi
+# expand-env: ((yas-indent-line 'fixed))
+# --
+syntax = "proto3";
+
+"""
+$2 接口文档
+Req结尾的为接口名: 如 AaaBbbCccReq 调用方式为 /$2/aaa-bbb-ccc
+VO结尾的为返回结构
+"""
+
+package $1.API;
+
+import "proto/common/psearch.proto";
+
+// create-$2
+message Create${2:$(camelcase yas-text)}Req {
+}
+
+// update-$2
+message Update${2:$(camelcase yas-text)}Req {
+
+}
+
+// list-$2
+message List${2:$(camelcase yas-text)}Req {
+  // 分页查询的参数
+  CommonProto.PSearch.PSearch psearch = 1;
+}
+
+// delete-$2
+message Delete${2:$(camelcase yas-text)}Req {
+  string id = 1;
+}
+
+message ${2:$(camelcase yas-text)}ListVO {
+  repeated UserVO users = 1;
+  int32 count = 2;
+}
+
+message ${2:$(camelcase yas-text)}VO {
+
+}
