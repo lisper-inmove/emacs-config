@@ -27,8 +27,8 @@ class ${3:$(camelcase yas-text)}Ctrl(BaseCtrl):
         self._manager = ${3:$(camelcase yas-text)}Manager()
 
     def create_$3(self):
-        $3 = self._manager.create_$3()
         req = self.PH.to_obj(self.request.json, api_pb.Create${3:$(camelcase yas-text)}Req)
+        $3 = self._manager.create_$3()
         self._manager.update_$3(
             $3
         )
