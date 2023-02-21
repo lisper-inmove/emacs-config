@@ -1,7 +1,13 @@
-# wakatime
 
-    下载: https://github.com/wakatime/wakatime-cli/releases
-    解压之后安装到PATH
+# Table of Contents
+
+1.  [python](#orgb97576c)
+2.  [golang](#org5bc0b9f)
+3.  [snippets](#org2bee91a)
+
+
+
+<a id="orgb97576c"></a>
 
 # python
 
@@ -9,18 +15,21 @@
 
     `
     cat << EOF >> ~/.pydocstyle
-    [pydocstyle]
-    ignore =
-        D107, # Missing docstring in __init__
-        D101, # Missing docstring in public class
-        D100, # Missing docstring in public module
-        D102, # Missing docstring in public method
+      [pydocstyle]
+        ignore =
+          D107, # Missing docstring in __init__
+          D101, # Missing docstring in public class
+          D100, # Missing docstring in public module
+          D102, # Missing docstring in public method
     EOF
     `
 
+
+<a id="org5bc0b9f"></a>
+
 # golang
 
-    下载go: https://studygolang.com/dl
+    # 下载go: https://studygolang.com/dl
     export GOPATH=$HOME/.go && mkdir $HOME/.go
     export PATH=$PATH:$HOME/.go/bin
 
@@ -35,19 +44,9 @@
     go install golang.org/x/tools/gopls@latest
     go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest # 影子变量检查
 
+
+<a id="org2bee91a"></a>
+
 # snippets
 
     git clone git@github.com:lisper-inmove/yasnippet-snippets.git && cp -r yasnippet-snippets/snippets/* ~/.emacs.d/snippets
-
-# treemacs
-
-    git status --ignored: option `ignored' takes no value
-    git的某个版本(至少2.9.5)开始 =git status --ignored= 不支持参数了.treemacs需要在treemacs-git-status.py把--ignored后面的参数去掉
-
-# c
-
-    apt install global
-
-# bash
-
-    npm i -g bash-language-server
