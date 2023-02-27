@@ -11,7 +11,6 @@
 #+CREATOR: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 26.2 (<a href="https://orgmode.org">Org</a> mode 9.1.9)
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://blog.inmove.top/css/base.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://blog.inmove.top/css/page.css" />
-#+HTML_HEAD: <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
 #+HTML_HEAD: <script src="https://blog.inmove.top/js/jquery.min.js"></script>
 #+HTML_HEAD: <script src="https://blog.inmove.top/js/page.js"></script>
 #+LATEX_HEADER:

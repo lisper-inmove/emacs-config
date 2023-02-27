@@ -43,7 +43,8 @@
     :hook (rust-mode . cargo-minor-mode))
 
   (add-hook 'rust-mode-hook #'lsp)
+  (setq flycheck-rust-cargo-executable "cargo")
 #+end_src
 
 #+RESULTS:
-| lsp | cargo-minor-mode | rust-maybe-initialize-buffer-project |
+: cargo

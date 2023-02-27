@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: lvp
+# key: lvp
+# --
+println!("------------------lesson $0---------------------------");

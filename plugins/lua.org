@@ -1,3 +1,13 @@
+#+begin_verse
+1. apt install g++
+2. 安装lua-language-server https://github.com/LuaLS/lua-language-server
+#+end_verse
 #+begin_src emacs-lisp
-
+  (use-package lua-mode
+    :ensure t
+    )
+  (add-hook 'lua-mode-hook #'lsp)
 #+end_src
+
+#+RESULTS:
+| lsp |

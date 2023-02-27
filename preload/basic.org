@@ -93,3 +93,7 @@
      )
    )
 #+END_SRC
+
+#+begin_src emacs-lisp
+  ;; (setq debug-on-error t)
+#+end_src
