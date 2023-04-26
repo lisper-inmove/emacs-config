@@ -2,13 +2,13 @@
   (use-package lsp-mode
     :ensure t)
 
-  (use-package lsp-ui
-    :ensure
-    :commands lsp-ui-mode
-    :custom
-    (lsp-ui-peek-always-show t)
-    (lsp-ui-sideline-show-hover t)
-    (lsp-ui-doc-enable nil))
+  ;; (use-package lsp-ui
+  ;;   :ensure
+  ;;   :commands lsp-ui-mode
+  ;;   :custom
+  ;;   (lsp-ui-peek-always-show t)
+  ;;   (lsp-ui-sideline-show-hover t)
+  ;;   (lsp-ui-doc-enable nil))
 
   ;; (add-hook 'prog-mode-hook #'lsp)
 
