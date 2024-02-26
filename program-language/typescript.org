@@ -1,4 +1,8 @@
 #+begin_src emacs-lisp :results silent
+  (use-package lsp-tailwindcss
+    :init
+    (setq lsp-tailwindcss-add-on-mode t))
+
   (use-package typescript-mode
     :ensure t
     )
@@ -6,3 +10,6 @@
   (add-hook 'typescript-mode-hook 'lsp)
   (setq typescript-indent-level 2)
 #+end_src
+#+begin_verse
+M-x lsp-install-server, then select tailwindcss.
+#+end_verse
