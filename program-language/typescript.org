@@ -1,0 +1,8 @@
+#+begin_src emacs-lisp :results silent
+  (use-package typescript-mode
+    :ensure t
+    )
+  (add-hook 'typescript-mode-hook 'hs-minor-mode)
+  (add-hook 'typescript-mode-hook 'lsp)
+  (setq typescript-indent-level 2)
+#+end_src

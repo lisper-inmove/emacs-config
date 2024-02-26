@@ -39,7 +39,7 @@
         user-full-name "LisperInmove" ;; 邮件用户名
         user-mail-address "lisper.inmove@gmail.com" ;; 邮箱
 
-        scroll-margin 3 ;; 屏幕滚动时保留三行
+        ;; scroll-margin 3 ;; 屏幕滚动时保留三行
         scroll-conservatively 100000
 
         make-backup-files nil ;; 关闭自动保存
@@ -48,7 +48,7 @@
         display-time-24hr-format t ;; 24小时
         display-time-day-and-date t)
 
-  (setq-default c-basic-offset 4)
+  (setq-default c-basic-offset 2)
   (setq-default indent-tabs-mode nil)
   ;; 选中行的颜色
   (set-face-attribute 'region nil :background "#666" :foreground "#ffffff")

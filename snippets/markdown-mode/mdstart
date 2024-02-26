@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: mdstart
+# key: mdstart
+# --
+
+---
+title: $1
+date: `(format-time-string "%Y-%m-%d %H:%M:%S")`
+summary: $2
+keywords: $3
+prefix: $4
+---

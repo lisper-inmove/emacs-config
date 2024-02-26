@@ -3,7 +3,7 @@
     :defer 1
     :config
     (defconst my-protobuf-style
-      '((c-basic-offset . 2)
+      '((c-basic-offsetp . 2)
         (indent-tabs-mode . nil)))
     (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
 #+end_src

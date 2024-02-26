@@ -37,13 +37,20 @@
 
   (use-package rust-mode
     :ensure t
+    :hook (rust-mode . (lambda ()
+                         (setq indent-tabs-mode nil)
+                         (setq rust-format-on-save t)
+                         (setq flycheck-rust-cargo-executable "cargo")
+                         ))
     )
 
   (use-package cargo
     :hook (rust-mode . cargo-minor-mode))
 
   (add-hook 'rust-mode-hook #'lsp)
-  (setq flycheck-rust-cargo-executable "cargo")
+  ;; (setq flycheck-rust-cargo-executable "cargo")
+  ;; (setq rust-format-on-save t)
+
 #+end_src
 
 #+RESULTS:

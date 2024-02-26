@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: oh
+# key: oh
+# --
+#+TITLE: $1
+#+DATE: `(format-time-string "%Y-%m-%d %H:%M:%S")`
+#+DISPLAY: t
+#+STARTUP: indent
+#+OPTIONS: toc:10
+#+AUTHOR: inmove
+#+SUBTITLE: $2
+#+KEYWORDS: $3
+#+CATEGORIES: $4

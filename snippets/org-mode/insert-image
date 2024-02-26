@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: insertImage
+# key: insertImage
+# --
+
+#+ATTR_HTML: :width 50% :align center :image t
+$1
