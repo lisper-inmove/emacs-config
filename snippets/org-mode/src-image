@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: src-image
+# key: src-image
+# --
+#+ATTR_HTML: :align start :image t :height 600 :width 300
+#+begin_image
+$1
+#+end_image

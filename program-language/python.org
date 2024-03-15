@@ -4,6 +4,15 @@
   ;;   :custom
   ;;   (python-shell-interpreter "python")
   ;;   )
+
+
+  (defun my-python-save-hook ()
+    (when (eq major-mode 'python-mode) ; 确保仅在Python模式下运行
+      (let ((filename (buffer-file-name)))
+        (when filename
+          (compile (concat "mypy " (shell-quote-argument filename)))))))
+
   (add-hook 'python-mode-hook 'hs-minor-mode)
   (add-hook 'python-mode-hook 'lsp)
+  ;; (add-hook 'after-save-hook #'my-python-save-hook)
 #+end_src

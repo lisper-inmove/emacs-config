@@ -153,26 +153,27 @@ npm install -g @volar/vue-language-server
 https://genehack.blog/2020/08/web-mode-eglot-vetur-vue-js-happy/
 #+end_verse
 #+begin_src emacs-lisp :results none
-  ;; (use-package vue-mode
+  ;; ;; (use-package vue-mode
+  ;; ;;   :ensure t
+  ;; ;;   :mode ("\\.vue\\'")
+  ;; ;;   :config
+  ;; ;;   (add-hook 'vue-mode-hook #'lsp)
+  ;; ;;   )
+
+  ;; (use-package eglot
   ;;   :ensure t
-  ;;   :mode ("\\.vue\\'")
-  ;;   :config
-  ;;   (add-hook 'vue-mode-hook #'lsp)
   ;;   )
 
-  (use-package eglot
-    :ensure t
-    )
-
-  (use-package web-mode
-    :ensure t
-    :config
-    (define-derived-mode my-vue-mode web-mode "MyVue"
-      "定义一个新的major mode,完全基于web-mode"
-      )
-    (add-to-list 'auto-mode-alist '("\\.vue\\'" . my-vue-mode))
-    (add-hook 'my-vue-mode-hook #'eglot-ensure)
-    (add-to-list 'eglot-server-programs '(my-vue-mode "vls"))
-    (add-hook 'my-vue-mode-hook #'emmet-mode)
-  )
+  ;; (use-package web-mode
+  ;;   :ensure t
+  ;;   :config
+  ;;   (define-derived-mode my-vue-mode web-mode "MyVue"
+  ;;     "定义一个新的major mode,完全基于web-mode"
+  ;;     )
+  ;;   (add-to-list 'auto-mode-alist '("\\.vue\\'" . my-vue-mode))
+  ;;   (add-hook 'my-vue-mode-hook #'eglot-ensure)
+  ;;   (add-to-list 'eglot-server-programs '(my-vue-mode "vls"))
+  ;;   (add-hook 'my-vue-mode-hook #'emmet-mode)
+  ;;   (setq web-mode-markup-indent-offset 2)
+  ;; )
 #+end_src

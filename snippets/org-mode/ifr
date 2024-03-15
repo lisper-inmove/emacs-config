@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ifr
+# key: ifr
+# --
+#+ATTR_HTML: :width 80% :height 100 :align left
+#+begin_iframe
+$1
+#+end_iframe

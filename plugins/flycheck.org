@@ -5,8 +5,34 @@
     (add-hook 'python-mode-hook
               (lambda ()
                 (flycheck-mode)
+                (setq flycheck-python-mypy-executable "mypy")
                 (define-key python-mode-map (kbd "C-c C-n") 'flycheck-next-error)
                 (define-key python-mode-map (kbd "C-c C-p") 'flycheck-previous-error)
                 )))
 
+  (use-package flycheck-mypy
+    :ensure t
+    :config
+    (add-hook 'python-mode-hook 'flycheck-mode)
+    (add-to-list 'flycheck-disabled-checkers 'python-flake8)
+    (add-to-list 'flycheck-disabled-checkers 'python-pylint)
+    )
+
+  ;; Ideal use-case: pyflakes for syntax combined with mypy for typing
+  (use-package flycheck-pycheckers
+    :after flycheck
+    :ensure t
+    :init
+    (with-eval-after-load 'flycheck
+      (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
+      )
+    (setq flycheck-pycheckers-checkers
+      '(
+        mypy3
+        pyflakes
+        )
+      )
+    )
 #+end_src
+
+#+RESULTS:

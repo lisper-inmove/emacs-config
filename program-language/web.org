@@ -52,6 +52,12 @@
   ;;                                (setq emmet-indent-after-insert t)))
   ;;   )
 
+  (use-package web-mode
+    :custom
+    (web-mode-markup-indent-offset 2)
+    (web-mode-css-indent-offset 2)
+    (web-mode-code-indent-offset 2))
+
   (add-hook 'html-mode-hook #'emmet-mode)
 #+end_src
 
