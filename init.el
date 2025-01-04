@@ -22,6 +22,7 @@
   (package-install 'use-package))
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
+(setq straight-use-package-by-default t) ;; Use straight.el for all `use-package` installations
 
 (setq org-babel-default-header-args:org '((:result . "silent")))
 
@@ -36,12 +37,6 @@
 (load-org "~/.emacs.d/plugins")
 (load-org "~/.emacs.d/program-language")
 (load-org "~/.emacs.d/postload")
-
-(add-to-list 'load-path "~/.emacs.d/lsp-bridge/")
-(require 'yasnippet)
-(yas-global-mode 1)
-(require 'lsp-bridge)
-(global-lsp-bridge-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
