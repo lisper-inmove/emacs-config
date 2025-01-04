@@ -12,7 +12,6 @@
      (C . t)
      (shell . t)
      (typescript . t) ;; https://github.com/lurdan/ob-typescript
-     (go . t) ;; https://github.com/pope/ob-go
      )
    )
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
