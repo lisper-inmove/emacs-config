@@ -1,0 +1,7 @@
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :if (and (eq system-type 'gnu/linux) (getenv "ENABLE_GUI"))
+    :ensure t
+    :config
+    (pdf-tools-install))
+#+end_src

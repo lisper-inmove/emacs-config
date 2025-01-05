@@ -1,7 +1,6 @@
 #+begin_src emacs-lisp :results silent
   (use-package all-the-icons
-    :if (display-graphic-p)
+    :if (and (display-graphic-p) (not (package-installed-p 'all-the-icons)))
     :config
-    (all-the-icons-install-fonts)
-    )
+    (all-the-icons-install-fonts))
 #+end_src

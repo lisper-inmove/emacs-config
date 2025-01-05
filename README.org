@@ -38,3 +38,6 @@
 #+begin_src shell
   git clone git@github.com:lisper-inmove/yasnippet-snippets.git && cp -r yasnippet-snippets/snippets/* ~/.emacs.d/snippets
 #+end_src
+
+* enable latex
+export ENABLE_GUI="Whatever value"

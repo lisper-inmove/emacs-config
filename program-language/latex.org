@@ -1,0 +1,30 @@
+#+begin_src emacs-lisp :result silent
+  (use-package auctex
+    :if (and (eq system-type 'gnu/linux) (getenv "ENABLE_GUI"))
+    :defer t
+    :hook ((LaTeX-mode . visual-line-mode)   ;; 自动启用 visual-line-mode
+           (LaTeX-mode . LaTeX-math-mode)   ;; 自动启用 LaTeX 数学模式
+           (LaTeX-mode . turn-on-reftex))   ;; 自动启用 RefTeX 支持
+    :config
+    ;; 配置 AUCTeX 的一些选项
+    (setq TeX-auto-save t)                  ;; 自动保存 .tex 缓存
+    (setq TeX-parse-self t)                 ;; 自动解析文档
+    (setq TeX-save-query nil)               ;; 保存时不询问
+    (setq TeX-PDF-mode t)                   ;; 默认使用 PDF 模式
+
+    (global-prettify-symbols-mode 1)
+
+    ;; 设置 PDF 查看器（Linux 示例）
+    (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+    (setq TeX-view-program-list '(("PDF Viewer" "evince %o"))))   ;; 使用 evince 打开 PDF 文件
+
+
+  (use-package latex-preview-pane
+    :if (and (eq system-type 'gnu/linux) (getenv "ENABLE_GUI"))
+    :ensure t
+    :config
+    (latex-preview-pane-enable))
+#+end_src
+
+#+RESULTS:
+: t
