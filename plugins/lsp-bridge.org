@@ -15,6 +15,7 @@
   (setq lsp-bridge-python-lsp-server "pylsp") ;; 指定语言服务器
 
   (setq lsp-bridge-enable-log t)
+  ;;(setq lsp-bridge-enable-auto-format-code nil)
 #+end_src
 
 #+RESULTS:
