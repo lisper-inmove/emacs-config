@@ -9,5 +9,5 @@
 
   (setq neo-window-fixed-size nil)
   (setq neo-window-width 60)
-  (global-set-key [f5] 'neotree-toggle))
+  (global-set-key [f5] 'neotree-toggle)
 #+end_src
