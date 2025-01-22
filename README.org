@@ -41,3 +41,9 @@
 
 * enable latex
 export ENABLE_GUI="Whatever value"
+
+* C
+#+CAPTION:
+#+begin_src shell :results silent :noweb yes
+  apt install clangd
+#+end_src
