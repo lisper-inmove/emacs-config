@@ -8,7 +8,7 @@
     (global-lsp-bridge-mode))
 
   ;; 自动启动 lsp-bridge-mode
-  (add-hook 'python-mode-hook (lambda () (lsp-bridge-mode 1)))
+  (add-hook 'prog-mode-hook (lambda () (lsp-bridge-mode 1)))
 
   ;; 配置补全框架
   (setq lsp-bridge-enable-auto-format-code t) ;; 启用自动格式化
