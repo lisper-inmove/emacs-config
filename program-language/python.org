@@ -224,7 +224,7 @@
           (compile (concat "mypy " (shell-quote-argument filename)))))))
 
   (add-hook 'python-mode-hook 'hs-minor-mode)
-  (add-hook 'python-mode-hook 'lsp)
+  ;; (add-hook 'python-mode-hook 'lsp)
   (add-hook 'python-mode-hook 'yapf-mode)
   (global-set-key (kbd "<f8>") 'python-yapf-region)
   ;; (add-hook 'after-save-hook #'my-python-save-hook)

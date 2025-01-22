@@ -3,7 +3,7 @@
 * python
 #+begin_src shell
   pip install 'python-lsp-server[all]' flake8
-
+  pip install watchdog epc
   `
   cat << EOF >> ~/.pydocstyle
     [pydocstyle]
