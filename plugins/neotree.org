@@ -1,8 +1,13 @@
 #+begin_src emacs-lisp :results silent
   (use-package neotree
+    :ensure t
     :if (display-graphic-p)
     :config
+    (setq neo-window-fixed-size nil)  ;; 禁用固定大小窗口
     (setq inhibit-compacting-font-caches t)
-    (setq neo-theme 'icons)
-    )
+    (setq neo-theme 'icons))  ;; 窗口大小自动适应内容
+
+  (setq neo-window-fixed-size nil)
+  (setq neo-window-width 60)
+  (global-set-key [f5] 'neotree-toggle))
 #+end_src
