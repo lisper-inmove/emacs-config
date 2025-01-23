@@ -3,4 +3,13 @@
   (push '(:abstract "ABSTRACT" nil nil parse) org-export-options-alist)
   (push '(:display "DISPLAY" nil nil parse) org-export-options-alist)
   (push '(:utime "UTIME" nil nil parse) org-export-options-alist)
+  (global-set-key (kbd "M-.") 'lsp-bridge-find-def)
+  (global-set-key (kbd "M-,") 'lsp-bridge-find-def-return)
+  (global-set-key (kbd "C-r r") 'lsp-bridge-find-references)
+  (global-set-key (kbd "C-r a") 'lsp-bridge-rename)
+  (global-set-key (kbd "C-r d") 'lsp-bridge-show-documentation)
+  (global-set-key (kbd "C-r p") 'lsp-bridge-popup-documentation)
 #+end_src
+
+#+RESULTS:
+: lsp-bridge-popup-documentation
