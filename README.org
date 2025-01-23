@@ -74,3 +74,10 @@ export ENABLE_GUI="Whatever value"
   +            pass
   +            # message_emacs("Nothing need format.")
 #+end_src
+
+* dockerfile
+#+begin_src shell
+  npm install -g dockerfile-language-server-nodejs
+#+end_src
+
+找到 docker-langserver 放到 PATH中
