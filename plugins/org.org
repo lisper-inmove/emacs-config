@@ -17,6 +17,7 @@
   (global-set-key (kbd "<f6>") 'org-publish-current-file)
 
   (add-hook 'org-mode-hook (lambda () (visual-line-mode nil)))
+  (add-hook 'org-mode-hook (lambda () (lsp-bridge-mode 1)))
 
   (defun org-babel-execute:yaml (body params) body) ;; src execute for yaml
   (defun org-babel-execute:protobuf (body params) body) ;; src execute for protobuf

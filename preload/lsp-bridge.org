@@ -5,7 +5,10 @@
                            :build (:not compile))
     :init
     :after yasnippet
-    (global-lsp-bridge-mode))
+    (global-lsp-bridge-mode)
+    :config
+    (add-hook 'org-mode-hook lsp-bridge-mode)
+  )
 
   ;; 自动启动 lsp-bridge-mode
   (add-hook 'prog-mode-hook (lambda () (lsp-bridge-mode 1)))

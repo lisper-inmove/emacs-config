@@ -32,6 +32,7 @@
   (dolist (file config-files) (org-babel-load-file file))
   )
 
+(load-org "~/.emacs.d/no-dependence")
 (load-org "~/.emacs.d/themes")
 (load-org "~/.emacs.d/preload")
 (load-org "~/.emacs.d/plugins")
