@@ -7,7 +7,7 @@
     :ensure t
     )
   (add-hook 'typescript-mode-hook 'hs-minor-mode)
-  (add-hook 'typescript-mode-hook 'lsp)
+  (add-hook 'typescript-mode-hook 'lsp-bridge-mode)
   (add-hook 'typescript-mode-hook 'web-mode)
   (setq typescript-indent-level 2)
 #+end_src

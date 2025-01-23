@@ -6,4 +6,6 @@
       '((c-basic-offsetp . 2)
         (indent-tabs-mode . nil)))
     (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
+
+  (add-hook 'protobuf-mode-hook 'lsp-bridge-mode)
 #+end_src

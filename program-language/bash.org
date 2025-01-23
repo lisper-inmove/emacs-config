@@ -2,5 +2,5 @@
   (use-package lsp-mode
     :commands lsp
     :hook
-    (sh-mode . lsp))
+    (sh-mode . lsp-bridge-mode))
 #+end_src

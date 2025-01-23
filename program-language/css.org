@@ -6,7 +6,7 @@
     (setq css-indent-offset 2)
     (setq flycheck-stylelintrc "~/.stylelintrc")
     )
-  (add-hook 'css-mode-hook 'lsp)
+  (add-hook 'css-mode-hook 'lsp-bridge-mode)
   (add-hook 'css-mode-hook 'hs-minor-mode)
 
 #+end_src
