@@ -11,13 +11,12 @@
   (add-hook 'prog-mode-hook (lambda () (lsp-bridge-mode 1)))
 
   ;; 配置补全框架
-  (setq lsp-bridge-enable-auto-format-code t) ;; 启用自动格式化
+  (setq lsp-bridge-enable-auto-format-code nil) ;; 启用自动格式化
   (setq lsp-bridge-python-lsp-server "pylsp") ;; 指定语言服务器
 
   (setq lsp-bridge-log-level 'error)  ;; 设置日志级别为 error，仅显示错误日志
 
   (setq lsp-bridge-enable-log nil)
-  ;;(setq lsp-bridge-enable-auto-format-code nil)
 #+end_src
 
 #+RESULTS:

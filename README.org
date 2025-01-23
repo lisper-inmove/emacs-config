@@ -47,3 +47,30 @@ export ENABLE_GUI="Whatever value"
 #+begin_src shell :results silent :noweb yes
   apt install clangd
 #+end_src
+
+* lsp-bridge
+禁用 message-emacs("Nothing need format.") 注释掉以下两行代码
+#+begin_src emacs-lisp
+  diff --git a/core/handler/formatting.py b/core/handler/formatting.py
+  index 50c1407..d117be3 100644
+  --- a/core/handler/formatting.py
+  +++ b/core/handler/formatting.py
+  @@ -26,4 +26,5 @@ class Formatting(Handler):
+               tramp_path = remote_connection_info + self.file_action.filepath
+               eval_in_emacs("lsp-bridge-format--update", tramp_path, response)
+           else:
+  -            message_emacs("Nothing need format.")
+  +            pass
+  +            # message_emacs("Nothing need format.")
+  diff --git a/core/handler/range_formatting.py b/core/handler/range_formatting.py
+  index 1909318..b914cba 100644
+  --- a/core/handler/range_formatting.py
+  +++ b/core/handler/range_formatting.py
+  @@ -31,4 +31,5 @@ class RangeFormatting(Handler):
+               tramp_path = remote_connection_info + self.file_action.filepath
+               eval_in_emacs("lsp-bridge-format--update", tramp_path, response)
+           else:
+  -            message_emacs("Nothing need format.")
+  +            pass
+  +            # message_emacs("Nothing need format.")
+#+end_src
