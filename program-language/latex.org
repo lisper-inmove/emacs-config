@@ -1,6 +1,6 @@
 #+begin_src emacs-lisp :result silent
   (use-package auctex
-    :if (and (eq system-type 'gnu/linux) (getenv "ENABLE_GUI"))
+    ;; :if (display-graphic-p)
     :defer t
     :hook ((LaTeX-mode . visual-line-mode)   ;; 自动启用 visual-line-mode
            (LaTeX-mode . LaTeX-math-mode)   ;; 自动启用 LaTeX 数学模式
@@ -15,15 +15,25 @@
     (global-prettify-symbols-mode 1)
 
     ;; 设置 PDF 查看器（Linux 示例）
-    (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
-    (setq TeX-view-program-list '(("PDF Viewer" "evince %o"))))   ;; 使用 evince 打开 PDF 文件
-
+    ;(setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+    ;; (setq TeX-view-program-list '(("PDF Viewer" "evince %o")))
+    )   ;; 使用 evince 打开 PDF 文件
 
   (use-package latex-preview-pane
-    :if (and (eq system-type 'gnu/linux) (getenv "ENABLE_GUI"))
+    ;; :if (display-graphic-p)
     :ensure t
     :config
     (latex-preview-pane-enable))
+
+  ;; ;; 配置 latex-preview-pane
+  ;; (use-package latex-preview-pane
+  ;;   :ensure t
+  ;;   :hook (LaTeX-mode . latex-preview-pane-enable) ;; 启用 LaTeX-mode 时自动启用预览
+  ;;   :config
+  ;;   ;; 设置 latex-preview-pane 的自动更新选项
+  ;;   (setq latex-preview-pane-use-frame nil)) ;; 在当前窗口中显示预览
+
+
 #+end_src
 
 #+RESULTS:
