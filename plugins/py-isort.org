@@ -1,0 +1,10 @@
+#+begin_src emacs-lisp
+  (use-package py-isort
+    :straight t
+    :ensure t
+    :bind (:map python-mode-map
+                ("C-c i p" . py-isort-buffer)))
+#+end_src
+
+#+RESULTS:
+: py-isort-buffer
