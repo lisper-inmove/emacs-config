@@ -225,7 +225,7 @@
 
   (add-hook 'python-mode-hook 'hs-minor-mode)
   ;; (add-hook 'python-mode-hook 'lsp)
-  (add-hook 'python-mode-hook 'yapf-mode)
+  ;; (add-hook 'python-mode-hook 'yapf-mode)
   ;; (global-set-key (kbd "C-c i h") 'python-yapf-region)
   (with-eval-after-load 'python
     (define-key python-mode-map (kbd "C-c i h") 'python-yapf-region))
@@ -233,4 +233,4 @@
 #+end_src
 
 #+RESULTS:
-| python-yapf | yasnippet-snippets--fixed-indent | (lambda nil (flycheck-mode) (setq flycheck-python-mypy-executable mypy) (define-key python-mode-map (kbd C-c C-n) 'flycheck-next-error) (define-key python-mode-map (kbd C-c C-p) 'flycheck-previous-error)) | lsp | hs-minor-mode | flycheck-mode |
+: python-yapf-region

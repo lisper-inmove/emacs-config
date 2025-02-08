@@ -9,6 +9,9 @@
   (global-set-key (kbd "C-r a") 'lsp-bridge-rename)
   (global-set-key (kbd "C-r d") 'lsp-bridge-show-documentation)
   (global-set-key (kbd "C-r p") 'lsp-bridge-popup-documentation)
+  (global-set-key (kbd "C-c h h") 'hs-hide-block)
+  (global-set-key (kbd "C-c h s") 'hs-show-block)
+  (global-set-key (kbd "C-c h l") 'hs-hide-level)
 
   (add-hook 'LaTeX-mode-hook 'lsp-bridge-mode)
   (add-hook 'LaTeX-mode-hook (lambda () (latex-preview-pane-mode 1)))
@@ -16,4 +19,3 @@
 #+end_src
 
 #+RESULTS:
-: lsp-bridge-popup-documentation

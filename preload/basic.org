@@ -74,6 +74,9 @@
 
   ;; 默认打开  hs-minor-mode
   (add-hook 'prog-mode-hook (lambda () (hs-minor-mode t)))
+
+  (prefer-coding-system 'utf-8)
+  (set-language-environment "UTF-8")
 #+END_SRC
 
 * exec-path-from-shell
