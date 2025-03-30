@@ -2,12 +2,12 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 ; 使用清华源源: https://mirrors.tuna.tsinghua.edu.cn/help/elpa/
-;; (setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-;;                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-;;                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
-;;                          ))
-(setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
-                         ("melpa" . "http://1.15.88.122/melpa/")))
+(setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
+                         ))
+;; (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
+;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
 ;; (setq package-archives
 ;;       '(("gnu" . "https://elpa.gnu.org/packages/")
