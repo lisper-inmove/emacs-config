@@ -34,6 +34,11 @@
   go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow@latest # 影子变量检查
 #+end_src
 
+* typescript
+#+begin_src shell
+  npm install -g typescript typescript-language-server
+#+end_src
+
 * snippets
 #+begin_src shell
   git clone git@github.com:lisper-inmove/yasnippet-snippets.git && cp -r yasnippet-snippets/snippets/* ~/.emacs.d/snippets
