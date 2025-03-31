@@ -36,7 +36,7 @@
 
 * typescript
 #+begin_src shell
-  npm install -g typescript typescript-language-server
+  npm install -g typescript typescript-language-server prettier
 #+end_src
 
 * snippets
