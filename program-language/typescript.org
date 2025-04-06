@@ -1,5 +1,6 @@
 #+begin_src emacs-lisp :results silent
   (use-package lsp-tailwindcss
+    :after lsp-mode
     :init
     (setq lsp-tailwindcss-add-on-mode t))
 
