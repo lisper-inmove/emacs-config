@@ -24,8 +24,6 @@
     :init
     (setq lsp-tailwindcss-add-on-mode t))
 
-  (add-hook 'tsx-ts-mode-hook #'lsp-tailwindcss-enable)
-
 #+end_src
 #+begin_verse
 M-x lsp-install-server, then select tailwindcss.
