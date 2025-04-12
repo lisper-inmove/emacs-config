@@ -2,6 +2,6 @@
   (use-package all-the-icons
     :if (display-graphic-p)
     :config
-    (all-the-icons-install-fonts)
-    )
+    (unless (member "all-the-icons" (font-family-list))
+      (all-the-icons-install-fonts t))) ;; t 表示无需交互安装
 #+end_src
