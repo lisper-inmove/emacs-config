@@ -2,16 +2,16 @@
 npm i -g typescript-language-server; npm i -g typescript
 #+end_verse
 #+begin_src emacs-lisp :results none
-  (add-hook 'js-mode-hook 'lsp)
+  ;; (add-hook 'js-mode-hook 'lsp)
   ;; (add-to-list 'auto-mode-alist '("\\.ts\\'" . js-mode))
   ;; (add-to-list 'auto-mode-alist '("\\.tsx\\'" . js-mode))
 
-  (with-eval-after-load 'js
-    (define-key js-mode-map (kbd "M-.") #'xref-find-definitions)
-    (setq js-indent-level 2)
-    )
+  ;; (with-eval-after-load 'js
+  ;;   (define-key js-mode-map (kbd "M-.") #'xref-find-definitions)
+  ;;   (setq js-indent-level 2)
+  ;;   )
 
-  (use-package prettier-js
-    :hook ((typescript-mode . prettier-js-mode)
-           (js-mode . prettier-js-mode)))
+  ;; ;; (use-package prettier-js
+  ;; ;;   :hook ((typescript-mode . prettier-js-mode)
+  ;; ;;          (js-mode . prettier-js-mode)))
 #+end_src

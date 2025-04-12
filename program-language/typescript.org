@@ -1,16 +1,31 @@
 #+begin_src emacs-lisp :results silent
+  (setq treesit-language-source-alist
+        '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+          (tsx        "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+
+  (dolist (lang '(typescript tsx))
+    (unless (treesit-language-available-p lang)
+      (treesit-install-language-grammar lang)))
+
+  (when (treesit-available-p)
+    (add-to-list 'major-mode-remap-alist
+                 '(typescript-mode . typescript-ts-mode))
+    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode)))
+
+  (setq typescript-ts-mode-indent-offset 2)
+  (setq tsx-ts-mode-indent-offset 2)
+
+  (add-hook 'typescript-ts-mode-hook #'lsp)
+  (add-hook 'tsx-ts-mode-hook #'lsp)
+  (add-hook 'tsx-ts-mode-hook #'hs-minor-mode)
+
   (use-package lsp-tailwindcss
-    :after lsp-mode
+    :after tsx-ts-mode
     :init
     (setq lsp-tailwindcss-add-on-mode t))
 
-  (use-package typescript-mode
-    :ensure t
-    )
-  (add-hook 'typescript-mode-hook 'hs-minor-mode)
-  (add-hook 'typescript-mode-hook 'lsp)
-  (add-hook 'typescript-mode-hook 'web-mode)
-  (setq typescript-indent-level 2)
+  (add-hook 'tsx-ts-mode-hook #'lsp-tailwindcss-enable)
+
 #+end_src
 #+begin_verse
 M-x lsp-install-server, then select tailwindcss.

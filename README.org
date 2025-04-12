@@ -1,5 +1,10 @@
 #+STARTUP: indent
 
+* compile emacs
+#+begin_src shell
+  sudo apt install libtree-sitter-dev
+#+end_src
+
 * python
 #+begin_src shell
   pip install 'python-lsp-server[all]' flake8
