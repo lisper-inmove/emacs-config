@@ -24,6 +24,11 @@
     :init
     (setq lsp-tailwindcss-add-on-mode t))
 
+  (use-package prettier
+    :ensure t
+    :hook ((typescript-mode . prettier-mode)
+           (tsx-ts-mode . prettier-mode)
+           (typescript-ts-mode . prettier-mode)))
 #+end_src
 #+begin_verse
 M-x lsp-install-server, then select tailwindcss.

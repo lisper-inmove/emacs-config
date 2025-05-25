@@ -1,0 +1,10 @@
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
+
+  (setq flycheck-gcc-language-standard "c++17")
+  (setq flycheck-clang-language-standard "c++17")
+
+  ;; (setq flycheck-gcc-include-path '("/usr/include" "/path/to/your/include"))
+#+end_src

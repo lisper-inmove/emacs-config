@@ -1,0 +1,26 @@
+#+begin_src shell
+  sudo apt install clang-format
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package clang-format
+    :ensure t)
+
+  ;; 绑定快捷键，比如 C-M-\
+  ;; (global-set-key [C-M-\\] 'clang-format-region)
+
+  ;; 或绑定为保存前自动格式化
+  (defun my-c++-mode-hook ()
+    (add-hook 'before-save-hook #'clang-format-buffer nil 'local))
+  (add-hook 'c++-mode-hook 'my-c++-mode-hook)
+
+  (add-hook 'c++-mode-hook #'lsp)
+  (setq lsp-clients-clangd-executable "clangd")
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package realgud
+    :ensure t)
+#+end_src
+
+#+RESULTS:
