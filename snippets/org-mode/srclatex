@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: srclatex
+# key: srclatex
+# --
+#+attr_formula:
+#+attr_axis:
+#+begin_src latex
+\[
+${1}
+\]
+#+end_src

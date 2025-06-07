@@ -123,8 +123,8 @@
 
   ;; 第一个数字 85 是前景（窗口内容）的透明度，值越小越透明（范围：0-100）。
   ;; 第二个数字 90 是背景（非活动窗口）的透明度。
-  (set-frame-parameter (selected-frame) 'alpha '(90 . 95))
-  (add-to-list 'default-frame-alist '(alpha . (90 . 95)))
+  (set-frame-parameter (selected-frame) 'alpha '(98 . 95))
+  (add-to-list 'default-frame-alist '(alpha . (98 . 95)))
   (global-set-key (kbd "C-c c +") 'decrease-transparency)
   (global-set-key (kbd "C-c c -") 'increase-transparency)
 #+end_src
