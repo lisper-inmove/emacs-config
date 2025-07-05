@@ -50,3 +50,26 @@
           (underline . "<span class=\"underline\">%s</span>")
           (verbatim . "<kbd>%s</kbd>")))
 #+end_src
+
+#+begin_src emacs-lisp
+  ;; (use-package org-download
+  ;;   :after org
+  ;;   :hook ((org-mode  . org-download-enable)   ; ← 关键：在 org-mode 也启用
+  ;;          (dired-mode . org-download-enable))
+  ;;   :custom
+  ;;   ;; 统一图片保存目录（确保目录已存在，或让 Emacs 自动创建）
+  ;;   ;; (org-download-image-dir (expand-file-name "~/.images/"))
+  ;;   ;; 不以标题作为子目录
+  ;;   (org-download-heading-lvl nil))
+
+  ;; ;; 让 Org 肯下载并显示远程图片
+  ;; (setq org-display-remote-inline-images 'download)
+
+  ;; ;; 进入 Org 时自动展示 inline 图片（可选）
+  ;; (add-hook 'org-mode-hook #'org-display-inline-images)
+
+  ;; ;; (setq org-download-image-dir "/home/inmove/.images")
+#+end_src
+
+#+RESULTS:
+: /home/inmove/.images

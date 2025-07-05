@@ -1,0 +1,9 @@
+#+begin_src shell
+  sudo apt install iwyu
+#+end_src
+#+begin_src emacs-lisp
+  (defun run-iwyu ()
+    "Run include-what-you-use on current buffer"
+    (interactive)
+    (compile (concat "include-what-you-use -std=c++20 " buffer-file-name)))
+#+end_src

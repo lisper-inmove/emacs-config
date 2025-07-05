@@ -18,6 +18,9 @@
   (setq lsp-clients-clangd-executable "clangd")
 #+end_src
 
+#+begin_verse
+realgud 是 Emacs 中一个 高级调试器前端插件，为多种调试器提供了现代化、模块化、功能丰富的接口。它的目标是替代 Emacs 内置的 GUD（Grand Unified Debugger）接口，提供更强大、更灵活的调试体验。
+#+end_verse
 #+begin_src emacs-lisp
   (use-package realgud
     :ensure t)
