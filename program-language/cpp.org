@@ -1,8 +1,11 @@
 #+begin_src shell
   sudo apt install clang-format
+
+  pip install cpplint
+  # cpplint --filter=-legal/copyright your_code.cpp
 #+end_src
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
   (use-package clang-format
     :ensure t)
 
@@ -16,6 +19,11 @@
 
   (add-hook 'c++-mode-hook #'lsp)
   (setq lsp-clients-clangd-executable "clangd")
+  (setq lsp-clients-clangd-args
+        '("--header-insertion=iwyu"
+          "--header-insertion-decorators=0"
+          "--compile-commands-dir=build"))
+
 #+end_src
 
 #+begin_verse
