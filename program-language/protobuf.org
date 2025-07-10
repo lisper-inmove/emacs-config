@@ -10,13 +10,20 @@
         (indent-tabs-mode . nil)))
     (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
 
-  (defun my-proto-format-with-buf ()
-    "Format current proto buffer using buf format."
-    (when (and buffer-file-name (string-match "\\.proto\\'" buffer-file-name))
-      (shell-command (format "buf format -w %s" (shell-quote-argument buffer-file-name)))
-      (revert-buffer t t t)))
+  ;; (defun my-proto-format-with-buf ()
+  ;;   "Format current proto buffer using buf format."
+  ;;   (when (and buffer-file-name (string-match "\\.proto\\'" buffer-file-name))
+  ;;     (shell-command (format "buf format -w %s" (shell-quote-argument buffer-file-name)))
+  ;;     (revert-buffer t t t)))
 
-  (add-hook 'protobuf-mode-hook
-            (lambda ()
-              (add-hook 'before-save-hook #'my-proto-format-with-buf nil 'local)))
+  ;; (add-hook 'protobuf-mode-hook
+  ;;           (lambda ()
+  ;;             (add-hook 'before-save-hook #'my-proto-format-with-buf nil 'local)))
+
+  (defun my-proto-mode-setup ()
+    (when (and buffer-file-name (string-match "\\.proto\\'" buffer-file-name))
+      (add-hook 'before-save-hook #'clang-format-buffer nil t)))
+
+  (add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
+  (add-hook 'protobuf-mode-hook #'my-proto-mode-setup)
 #+end_src
