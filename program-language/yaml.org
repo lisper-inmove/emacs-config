@@ -1,0 +1,4 @@
+#+begin_src emacs-lisp :results silent
+  (require 'yaml-mode)
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+#+end_src
