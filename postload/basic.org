@@ -4,3 +4,9 @@
   (push '(:display "DISPLAY" nil nil parse) org-export-options-alist)
   (push '(:utime "UTIME" nil nil parse) org-export-options-alist)
 #+end_src
+
+#+begin_src emacs-lisp
+  (setq eldoc-echo-area-use-multiline-p nil)  ;; 只占一行
+  (seq-some (lambda (f) (eq f #'eglot-completion-at-point))
+     completion-at-point-functions)
+#+end_src

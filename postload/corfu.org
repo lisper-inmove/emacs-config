@@ -1,0 +1,32 @@
+#+begin_src emacs-lisp
+;;; --- 确保 Corfu 真正接管补全 UI ---
+(require 'corfu)
+(setq corfu-auto t
+      corfu-auto-delay 0.1
+      corfu-auto-prefix 1
+      corfu-preselect 'first)              ;; 让 popupinfo 也有选中项
+(global-corfu-mode 1)
+
+;; 最保险：把 in-region 前端显式设为 Corfu（避免被其它包篡改）
+(setq completion-in-region-function #'corfu-completion-in-region)
+
+;; 终端下使用弹窗（TTY/tmux/SSH）
+(unless (display-graphic-p)
+  (require 'corfu-terminal) (corfu-terminal-mode +1))
+
+;; 候选文档浮窗（可选）
+(require 'corfu-popupinfo)
+(add-hook 'corfu-mode-hook #'corfu-popupinfo-mode)
+(setq corfu-popupinfo-delay 0.15)
+
+;;; --- Eglot 只提供“补全源” ---
+(require 'eglot)
+(add-hook 'python-mode-hook #'eglot-ensure)
+(when (boundp 'python-ts-mode)
+  (add-hook 'python-ts-mode-hook #'eglot-ensure))
+
+;; 如果你装过 Company，避免与 Corfu 冲突（两者二选一）
+(with-eval-after-load 'company
+  (global-company-mode -1))
+
+#+end_src

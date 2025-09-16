@@ -229,11 +229,34 @@
   (global-set-key (kbd "<f8>") 'python-yapf-region)
   ;; (add-hook 'after-save-hook #'my-python-save-hook)
 
-  (use-package py-isort
-    :ensure t)
+  ;; (use-package py-isort
+  ;;   :ensure t)
 
   (add-hook 'before-save-hook 'py-isort-buffer)
 #+end_src
 
-#+RESULTS:
-| py-isort-buffer | delete-trailing-whitespace |
+#+begin_src emacs-lisp :outputs silent
+  ;; 1) 进入 Python buffer 自动启动 Eglot
+  (add-hook 'python-mode-hook #'eglot-ensure)
+  ;; Emacs 29+ 若启用 tree-sitter，也顺手加上：
+  ;; (with-eval-after-load 'python
+  ;;   (when (boundp 'python-ts-mode)
+  ;;     (add-hook 'python-ts-mode-hook #'eglot-ensure)))
+
+  ;; 2) 指定 Python 用 jedi-language-server（而不是 pyright/pylsp）
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '((python-mode python-ts-mode)
+                   . ("jedi-language-server"
+                      ;; 可选：初始化参数（按需）
+                      :initializationOptions
+                      (:workspace (:extraPaths ["src"])   ;; 补全/跳转的额外搜索路径
+                       :diagnostics (:enable t))))))
+
+  ;; jedi-language-server 不支持
+  ;; ;; （可选）保存时自动格式化（前提是服务端支持）
+  ;; (defun my/eglot-format-on-save ()
+  ;;   (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+  ;; (add-hook 'eglot-managed-mode-hook #'my/eglot-format-on-save)
+
+#+end_src
