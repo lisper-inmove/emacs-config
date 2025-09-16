@@ -1,7 +1,7 @@
 #+begin_src emacs-lisp
-  (use-package w3m
-    :ensure t
-    )
+  ;; (use-package w3m
+  ;;   :ensure t
+  ;;   )
 #+end_src
 
 #+RESULTS:

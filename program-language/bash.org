@@ -1,6 +1,2 @@
 #+begin_src emacs-lisp
-  (use-package lsp-mode
-    :commands lsp
-    :hook
-    (sh-mode . lsp))
 #+end_src

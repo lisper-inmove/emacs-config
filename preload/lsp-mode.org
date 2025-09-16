@@ -1,6 +1,6 @@
 #+begin_src emacs-lisp :results silent
-  (use-package lsp-mode
-    :ensure t)
+  ;; (use-package lsp-mode
+  ;;   :ensure t)
 
   ;; (use-package lsp-ui
   ;;   :ensure

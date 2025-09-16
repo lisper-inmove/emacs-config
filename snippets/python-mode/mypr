@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: mypr
+# key: mypr
+# --
+@property
+def ${1}(self):
+    return self.__$1

@@ -47,7 +47,7 @@
   (use-package cargo
     :hook (rust-mode . cargo-minor-mode))
 
-  (add-hook 'rust-mode-hook #'lsp)
+  ;; (add-hook 'rust-mode-hook #'lsp)
   ;; (setq flycheck-rust-cargo-executable "cargo")
   ;; (setq rust-format-on-save t)
 
