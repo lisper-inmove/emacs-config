@@ -52,8 +52,7 @@
  '(git-gutter:separator-sign "|")
  '(git-gutter:update-interval 1)
  '(git-gutter:window-width 2)
- '(package-selected-packages
-   '()))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
