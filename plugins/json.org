@@ -1,4 +1,0 @@
-#+begin_src emacs-lisp
-  (use-package json-mode
-    :defer 1)
-#+end_src

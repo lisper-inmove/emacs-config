@@ -5,10 +5,7 @@
     (global-company-mode t)
     (setq company-idle-delay 0.3)
     (setq company-minimum-prefix-length 2))
-  (add-hook 'emacs-lisp-mode-hook
-            (lambda ()
-              (add-to-list (make-local-variable 'company-backends)
-                           '(company-elisp))))
+
   (use-package company-irony
     :defer 1
     :config
