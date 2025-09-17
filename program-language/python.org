@@ -248,9 +248,9 @@
     (add-to-list 'eglot-server-programs
                  '((python-mode python-ts-mode)
                    . ("jedi-language-server"
-                      ;; 可选：初始化参数（按需）
                       :initializationOptions
-                      (:workspace (:extraPaths ["src"])   ;; 补全/跳转的额外搜索路径
+                      (:workspace (:extraPaths ["src"])
+                       :completion (:resolveEagerly t)
                        :diagnostics (:enable t))))))
 
   ;; jedi-language-server 不支持
