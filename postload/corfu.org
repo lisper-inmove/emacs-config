@@ -16,19 +16,7 @@
 (setq corfu-popupinfo-delay 0.1
       corfu-popupinfo-direction '(right left above below)
       corfu-popupinfo-max-width 78
-      corfu-popupinfo-max-height 18)
-
-;;; --- 终端(TTY/tmux/SSH)弹窗/文档（popon + corfu-terminal） ---
-(require 'popon)           ;; 确保能找到并加载
-(require 'corfu-terminal)
-
-(defun my/corfu-tty-toggle (&optional frame)
-  (with-selected-frame (or frame (selected-frame))
-    (if (display-graphic-p)
-        (corfu-terminal-mode -1)
-      (corfu-terminal-mode +1))))
-(my/corfu-tty-toggle)
-(add-hook 'after-make-frame-functions #'my/corfu-tty-toggle)
+      corfu-popupinfo-max-height 17)
 
 ;;; --- 可选：避免与 Company 冲突 ---
 (with-eval-after-load 'company
