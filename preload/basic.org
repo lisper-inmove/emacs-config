@@ -87,13 +87,13 @@
 
 * line-number-at-pos
 #+BEGIN_SRC emacs-lisp
-  (advice-add
-   'line-number-at-pos
-   :override
-   (lambda (&rest r)
-     (string-to-number (format-mode-line "%l"))
-     )
-   )
+;;   (advice-add
+;;    'line-number-at-pos
+;;    :override
+;;    (lambda (&rest r)
+;;      (string-to-number (format-mode-line "%l"))
+;;      )
+;;    )
 #+END_SRC
 
 #+begin_src emacs-lisp
