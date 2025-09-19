@@ -34,6 +34,9 @@
 (when (display-graphic-p)
   (load-org "~/.emacs.d/themes"))
 
+(if (equal (getenv "ENABLE_GUI") "true")
+  (load-org "~/.emacs.d/themes"))
+
 (load-org "~/.emacs.d/preload")
 (load-org "~/.emacs.d/plugins")
 (load-org "~/.emacs.d/program-language")

@@ -18,6 +18,9 @@
   (menu-bar-mode -1)
   ;; 不要工具栏
 
+  (if (equal (getenv "ENABLE_GUI") "true")
+      (tool-bar-mode -1))
+
   (when (display-graphic-p)
     (tool-bar-mode -1))
 
