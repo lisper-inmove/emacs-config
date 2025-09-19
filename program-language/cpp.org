@@ -34,4 +34,6 @@ realgud 是 Emacs 中一个 高级调试器前端插件，为多种调试器提�
     :ensure t)
 #+end_src
 
-#+RESULTS:
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+#+end_src
