@@ -1,31 +1,46 @@
 #+begin_src emacs-lisp :outputs silent
-;;; --- Corfu 基础 ---
-(require 'corfu)
-(setq corfu-auto t
-      corfu-auto-delay 0.1
-      corfu-auto-prefix 1
-      corfu-preselect 'first)              ;; 有选中项，popupinfo 才有文档
-(global-corfu-mode 1)
+  ;;; --- Corfu 基础 ---
+  (require 'corfu)
+  (setq corfu-auto t
+        corfu-auto-delay 0.1
+        corfu-auto-prefix 1
+        corfu-preselect 'first)              ;; 有选中项，popupinfo 才有文档
+  (global-corfu-mode 1)
 
-;; 强制由 Corfu 接管 in-region 补全（避免被其它前端改走）
-(setq completion-in-region-function #'corfu-completion-in-region)
+  ;; 强制由 Corfu 接管 in-region 补全（避免被其它前端改走）
+  (setq completion-in-region-function #'corfu-completion-in-region)
 
-;;; --- 文档浮窗 ---
-(require 'corfu-popupinfo)
-(add-hook 'corfu-mode-hook #'corfu-popupinfo-mode)
-(setq corfu-popupinfo-delay 0.1
-      corfu-popupinfo-direction '(right left above below)
-      corfu-popupinfo-max-width 78
-      corfu-popupinfo-max-height 17)
+  ;;; --- 文档浮窗 ---
+  (require 'corfu-popupinfo)
+  (add-hook 'corfu-mode-hook #'corfu-popupinfo-mode)
+  (setq corfu-popupinfo-delay 0.1
+        corfu-popupinfo-direction '(right left above below)
+        corfu-popupinfo-max-width 78
+        corfu-popupinfo-max-height 17)
 
-;;; --- 可选：避免与 Company 冲突 ---
-(with-eval-after-load 'company
-  (global-company-mode -1))
-
+  ;;; --- 可选：避免与 Company 冲突 ---
+  (with-eval-after-load 'company
+    (global-company-mode -1))
 #+end_src
 
 #+begin_src emacs-lisp :outputs silent
-  (setq corfu-preselect 'first)  ;; 关键：默认就选中第一条候选
+  ;; (setq corfu-preselect 'first)  ;; 关键：默认就选中第一条候选
 
   (add-hook 'corfu-mode #'corfu-popupinfo-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq corfu-auto t)                 ;; 要手动触发就设为 nil
+  (setq corfu-quit-no-match t)
+  (setq corfu-on-exact-match 'show)   ;; 关键：只显示，不自动提交（即使只有一个候选）
+
+  ;; 全局启用
+  (global-corfu-mode 1)
+
+  ;; 键位：Enter 提交，Tab 只导航
+  (keymap-set corfu-map "RET" #'corfu-insert)
+  (keymap-set corfu-map "C-m" #'corfu-insert)
+  (keymap-set corfu-map "<tab>" #'corfu-next)
+  (keymap-set corfu-map "TAB"   #'corfu-next)
+  (keymap-set corfu-map "<backtab>" #'corfu-previous)
 #+end_src
