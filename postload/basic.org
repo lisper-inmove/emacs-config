@@ -10,3 +10,15 @@
   (seq-some (lambda (f) (eq f #'eglot-completion-at-point))
      completion-at-point-functions)
 #+end_src
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-,") #'xref-go-back)
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; 把 .h, .cc, .hpp 都视为 C++ 源文件
+  (add-to-list 'auto-mode-alist '("\\.h\\'"   . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.cc\\'"  . c++-mode))
+  (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
+
+#+end_src

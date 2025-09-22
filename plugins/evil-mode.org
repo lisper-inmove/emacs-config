@@ -4,5 +4,3 @@
 ;;    (setq evil-undo-system 'undo-redo)
 ;;    (add-hook 'prog-mode-hook #'evil-local-mode))
 #+end_src
-
-#+RESULTS:
