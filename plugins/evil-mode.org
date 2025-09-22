@@ -1,8 +1,8 @@
 #+begin_src emacs-lisp
-  (use-package evil
-    :init
-    (setq evil-undo-system 'undo-redo)
-    (add-hook 'prog-mode-hook #'evil-local-mode))
+;;  (use-package evil
+;;    :init
+;;    (setq evil-undo-system 'undo-redo)
+;;    (add-hook 'prog-mode-hook #'evil-local-mode))
 #+end_src
 
 #+RESULTS:
