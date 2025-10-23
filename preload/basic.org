@@ -42,7 +42,7 @@
         user-full-name "LisperInmove" ;; 邮件用户名
         user-mail-address "lisper.inmove@gmail.com" ;; 邮箱
 
-        ;; scroll-margin 3 ;; 屏幕滚动时保留三行
+        scroll-margin 10 ;; 屏幕滚动时保留三行
         scroll-conservatively 100000
 
         make-backup-files nil ;; 关闭自动保存
