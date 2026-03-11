@@ -58,7 +58,11 @@
  '(git-gutter:update-interval 1)
  '(git-gutter:window-width 2)
  '(package-selected-packages
-   '(treemacs cmake-mode yasnippet-snippets which-key py-isort protobuf-mode org-bullets orderless monokai-theme magit htmlize helm-ls-git helm-gtags git-gutter flycheck find-file-in-project exec-path-from-shell elscreen counsel company-irony-c-headers company-irony cargo ace-window)))
+   '(ace-window cargo company-irony company-irony-c-headers counsel
+                doom-themes elscreen exec-path-from-shell
+                find-file-in-project flycheck git-gutter helm-gtags
+                helm-ls-git htmlize magit monokai-theme org-bullets
+                protobuf-mode py-isort yasnippet-snippets)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
