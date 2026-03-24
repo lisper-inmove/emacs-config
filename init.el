@@ -61,7 +61,14 @@
  '(git-gutter:separator-sign "|")
  '(git-gutter:update-interval 1)
  '(git-gutter:window-width 2)
- '(package-selected-packages nil))
+ '(package-selected-packages nil)
+ '(safe-local-variable-values
+   '((eval setq flycheck-gcc-include-path
+           (list "/home/inmove/.opt/opencv/include/opencv4"
+                 "/usr/local/include"))
+     (eval setq flycheck-clang-include-path
+           (list "/home/inmove/.opt/opencv/include/opencv4"
+                 "/usr/local/include")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
