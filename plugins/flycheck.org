@@ -1,17 +1,17 @@
 #+begin_src emacs-lisp
-;; 基础：安装并全局启用
-(use-package flycheck
-  :ensure t
-  :hook (prog-mode . flycheck-mode)
-  :config
-  (setq flycheck-indication-mode 'right-fringe)) ; 终端里可配合 inline 提示（见下）
+  ;; 基础：安装并全局启用
+  (use-package flycheck
+    :ensure t
+    :hook (prog-mode . flycheck-mode)
+    :config
+    (setq flycheck-indication-mode 'right-fringe)) ; 终端里可配合 inline 提示（见下）
 
-;; ;; 与 Eglot 协作：把 LSP 诊断喂给 Flycheck
-;; (use-package flycheck-eglot
-;;   :ensure t
-;;   :after (flycheck eglot)
-;;   :hook (eglot-managed-mode . flycheck-eglot-mode))
+  ;; ;; 与 Eglot 协作：把 LSP 诊断喂给 Flycheck
+  ;; (use-package flycheck-eglot
+  ;;   :ensure t
+  ;;   :after (flycheck eglot)
+  ;;   :hook (eglot-managed-mode . flycheck-eglot-mode))
 
-;; 避免重复提示：进入 Eglot buffer 时关掉 Flymake，仅用 Flycheck
-(add-hook 'eglot-managed-mode-hook (lambda () (flymake-mode -1)))
+  ;; 避免重复提示：进入 Eglot buffer 时关掉 Flymake，仅用 Flycheck
+  (add-hook 'eglot-managed-mode-hook (lambda () (flymake-mode -1)))
 #+end_src

@@ -1,0 +1,867 @@
+#+begin_src emacs-lisp
+  ;;; cmake-mode.el --- major-mode for editing CMake sources -*- lexical-binding: t; -*-
+
+  ;; Package-Requires: ((emacs "24.1"))
+
+  ; Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+  ; file LICENSE.rst or https://cmake.org/licensing for details.
+
+  ;------------------------------------------------------------------------------
+
+  ;;; Commentary:
+
+  ;; Provides syntax highlighting and indentation for CMakeLists.txt and
+  ;; *.cmake source files.
+  ;;
+  ;; Add this code to your .emacs file to use the mode:
+  ;;
+  ;;  (setq load-path (cons (expand-file-name "/dir/with/cmake-mode") load-path))
+  ;;  (require 'cmake-mode)
+
+  ;------------------------------------------------------------------------------
+
+  ;;; Code:
+  ;;
+  ;; cmake executable variable used to run cmake --help-command
+  ;; on commands in cmake-mode
+  ;;
+  ;; cmake-command-help Written by James Bigler
+  ;;
+
+  (require 'rst)
+  (require 'rx)
+
+  (defcustom cmake-mode-cmake-executable "cmake"
+    "*The name of the cmake executable.
+
+  This can be either absolute or looked up in $PATH.  You can also
+  set the path with these commands:
+   (setenv \"PATH\" (concat (getenv \"PATH\") \";C:\\\\Program Files\\\\CMake 2.8\\\\bin\"))
+   (setenv \"PATH\" (concat (getenv \"PATH\") \":/usr/local/cmake/bin\"))"
+    :type 'file
+    :group 'cmake)
+
+  ;; Keywords
+  (defconst cmake-keywords-block-open '("BLOCK" "IF" "MACRO" "FOREACH" "ELSE" "ELSEIF" "WHILE" "FUNCTION"))
+  (defconst cmake-keywords-block-close '("ENDBLOCK" "ENDIF" "ENDFOREACH" "ENDMACRO" "ELSE" "ELSEIF" "ENDWHILE" "ENDFUNCTION"))
+  (defconst cmake-keywords
+    (let ((kwds (append cmake-keywords-block-open cmake-keywords-block-close nil)))
+      (delete-dups kwds)))
+
+  ;; Regular expressions used by line indentation function.
+  ;;
+  (defconst cmake-regex-blank "^[ \t]*$")
+  (defconst cmake-regex-comment "#.*")
+  (defconst cmake-regex-paren-left "(")
+  (defconst cmake-regex-paren-right ")")
+  (defconst cmake-regex-closing-parens-line (concat "^[[:space:]]*\\("
+                                                    cmake-regex-paren-right
+                                                    "+\\)[[:space:]]*$"))
+  (defconst cmake-regex-argument-quoted
+    (rx ?\" (* (or (not (any ?\" ?\\)) (and ?\\ anything))) ?\"))
+  (defconst cmake-regex-argument-unquoted
+    (rx (or (not (any space "()#\"\\\n")) (and ?\\ nonl))
+        (* (or (not (any space "()#\\\n")) (and ?\\ nonl)))))
+  (defconst cmake-regex-token
+    (rx-to-string `(group (or (regexp ,cmake-regex-comment)
+                              ?\( ?\)
+                              (regexp ,cmake-regex-argument-unquoted)
+                              (regexp ,cmake-regex-argument-quoted)))))
+  (defconst cmake-regex-indented
+    (rx-to-string `(and bol (* (group (or (regexp ,cmake-regex-token) (any space ?\n)))))))
+  (defconst cmake-regex-block-open
+    (rx-to-string `(and symbol-start (or ,@(append cmake-keywords-block-open
+                                          (mapcar 'downcase cmake-keywords-block-open))) symbol-end)))
+  (defconst cmake-regex-block-close
+    (rx-to-string `(and symbol-start (or ,@(append cmake-keywords-block-close
+                                          (mapcar 'downcase cmake-keywords-block-close))) symbol-end)))
+  (defconst cmake-regex-close
+    (rx-to-string `(and bol (* space) (regexp ,cmake-regex-block-close)
+                        (* space) (regexp ,cmake-regex-paren-left))))
+  (defconst cmake-regex-token-paren-left (concat "^" cmake-regex-paren-left "$"))
+  (defconst cmake-regex-token-paren-right (concat "^" cmake-regex-paren-right "$"))
+
+  ;------------------------------------------------------------------------------
+
+  ;; Line indentation helper functions
+
+  (defun cmake-line-starts-inside-string ()
+    "Determine whether the beginning of the current line is in a string."
+    (save-excursion
+      (beginning-of-line)
+      (let ((parse-end (point)))
+        (goto-char (point-min))
+        (nth 3 (parse-partial-sexp (point) parse-end))
+        )
+      )
+    )
+
+  (defun cmake-find-last-indented-line ()
+    "Move to the beginning of the last line that has meaningful indentation."
+    (let ((point-start (point))
+          region)
+      (forward-line -1)
+      (setq region (buffer-substring-no-properties (point) point-start))
+      (while (and (not (bobp))
+                  (or (looking-at cmake-regex-blank)
+                      (cmake-line-starts-inside-string)
+                      (not (and (string-match cmake-regex-indented region)
+                                (= (length region) (match-end 0))))))
+        (forward-line -1)
+        (setq region (buffer-substring-no-properties (point) point-start))
+        )
+      )
+    )
+
+  ;------------------------------------------------------------------------------
+
+  ;;
+  ;; Indentation increment.
+  ;;
+  (defcustom cmake-tab-width 2
+    "Number of columns to indent cmake blocks"
+    :type 'integer
+    :group 'cmake)
+
+  ;;
+  ;; Line indentation function.
+  ;;
+  (defun cmake-indent ()
+    "Indent current line as CMake code."
+    (interactive)
+    (unless (cmake-line-starts-inside-string)
+      (if (bobp)
+          (cmake-indent-line-to 0)
+        (let (cur-indent)
+          (save-excursion
+            (beginning-of-line)
+            (let ((point-start (point))
+                  (closing-parens-only (looking-at cmake-regex-closing-parens-line))
+                  (case-fold-search t)  ;; case-insensitive
+                  token)
+              ;; Search back for the last indented line.
+              (cmake-find-last-indented-line)
+              ;; Start with the indentation on this line.
+              (setq cur-indent (current-indentation))
+              (if closing-parens-only
+                  (let ((open-parens 0))
+                    (while (re-search-forward cmake-regex-token point-start t)
+                      (setq token (match-string 0))
+                      (cond
+                       ((string-match cmake-regex-token-paren-left token)
+                        (setq open-parens (+ open-parens 1)))
+                       ((string-match cmake-regex-token-paren-right token)
+                        (setq open-parens (- open-parens 1)))))
+                    ;; Don't outdent if last indented line has open parens
+                    (unless (> open-parens 0)
+                      (setq cur-indent (- cur-indent cmake-tab-width))))
+                ;; Skip detailed analysis if last indented line is a 'closing
+                ;; parens only line'
+                (unless (looking-at cmake-regex-closing-parens-line)
+                  ;; Search forward counting tokens that adjust indentation.
+                  (while (re-search-forward cmake-regex-token point-start t)
+                    (setq token (match-string 0))
+                    (when (or (string-match cmake-regex-token-paren-left token)
+                              (and (string-match cmake-regex-block-open token)
+                                   (looking-at (concat "[ \t]*" cmake-regex-paren-left))))
+                      (setq cur-indent (+ cur-indent cmake-tab-width)))
+                    (when (string-match cmake-regex-token-paren-right token)
+                      (setq cur-indent (- cur-indent cmake-tab-width)))
+                    ))
+                (goto-char point-start)
+                ;; If next token closes the block, decrease indentation
+                (when (looking-at cmake-regex-close)
+                  (setq cur-indent (- cur-indent cmake-tab-width))
+                  )
+                )
+              )
+            )
+          ;; Indent this line by the amount selected.
+          (cmake-indent-line-to (max cur-indent 0))
+          )
+        )
+      )
+    )
+
+  (defun cmake-point-in-indentation ()
+    (string-match "^[ \\t]*$" (buffer-substring (line-beginning-position) (point))))
+
+  (defun cmake-indent-line-to (column)
+    "Indent the current line to COLUMN.
+  If point is within the existing indentation it is moved to the end of
+  the indentation.  Otherwise it retains the same position on the line"
+    (if (cmake-point-in-indentation)
+        (indent-line-to column)
+      (save-excursion (indent-line-to column))))
+
+  ;------------------------------------------------------------------------------
+
+  ;;
+  ;; Helper functions for buffer
+  ;;
+  (defun cmake-unscreamify-buffer ()
+    "Convert all CMake commands to lowercase in buffer."
+    (interactive)
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "^\\([ \t]*\\)\\_<\\(\\(?:\\w\\|\\s_\\)+\\)\\_>\\([ \t]*(\\)" nil t)
+        (replace-match
+         (concat
+          (match-string 1)
+          (downcase (match-string 2))
+          (match-string 3))
+         t))
+      )
+    )
+
+
+  ;------------------------------------------------------------------------------
+
+  ;;
+  ;; Navigation / marking by function or macro
+  ;;
+
+  (defconst cmake--regex-defun-start
+    (rx line-start
+        (zero-or-more space)
+        (or "function" "macro")
+        (zero-or-more space)
+        "("))
+
+  (defconst cmake--regex-defun-end
+    (rx line-start
+        (zero-or-more space)
+        "end"
+        (or "function" "macro")
+        (zero-or-more space)
+        "(" (zero-or-more (not-char ")")) ")"))
+
+  (defun cmake-beginning-of-defun ()
+    "Move backward to the beginning of a CMake function or macro.
+
+  Return t unless search stops due to beginning of buffer."
+    (interactive)
+    (when (not (region-active-p))
+      (push-mark))
+    (let ((case-fold-search t))
+      (when (re-search-backward cmake--regex-defun-start nil 'move)
+        t)))
+
+  (defun cmake-end-of-defun ()
+    "Move forward to the end of a CMake function or macro.
+
+  Return t unless search stops due to end of buffer."
+    (interactive)
+    (when (not (region-active-p))
+      (push-mark))
+    (let ((case-fold-search t))
+      (when (re-search-forward cmake--regex-defun-end nil 'move)
+        (forward-line)
+        t)))
+
+
+  ;------------------------------------------------------------------------------
+
+  ;;
+  ;; Keyword highlighting regex-to-face map.
+  ;;
+  (defconst cmake-font-lock-keywords
+    `((,(rx-to-string `(and symbol-start
+                            (or ,@cmake-keywords
+                                ,@(mapcar #'downcase cmake-keywords))
+                            symbol-end))
+       . font-lock-keyword-face)
+      (,(rx symbol-start (group (+ (or word (syntax symbol)))) (* blank) ?\()
+       1 font-lock-function-name-face)
+      (,(rx "${" (group (+(any alnum "-_+/."))) "}")
+       1 font-lock-variable-name-face t)
+      )
+    "Highlighting expressions for CMake mode.")
+
+  ;------------------------------------------------------------------------------
+
+  (defun cmake--syntax-propertize-until-bracket-close (syntax end)
+    ;; This function assumes that a previous search has matched the
+    ;; beginning of a bracket_comment or bracket_argument and that the
+    ;; second capture group has matched the equal signs between the two
+    ;; opening brackets
+    (let* ((mb (match-beginning 2))
+           (me (match-end 2))
+           (cb (format "]%s]" (buffer-substring mb me))))
+      (save-match-data
+        (if (search-forward cb end 'move)
+            (progn
+              (setq me (match-end 0))
+              (put-text-property
+               (1- me)
+               me
+               'syntax-table
+               (string-to-syntax syntax)))
+          (setq me end)))
+      (put-text-property
+       (match-beginning 1)
+       me
+       'syntax-multiline
+       t)))
+
+  (defconst cmake--syntax-propertize-function
+    (syntax-propertize-rules
+     ("\\(#\\)\\[\\(=*\\)\\["
+      (1
+       (prog1 "!" (cmake--syntax-propertize-until-bracket-close "!" end))))
+     ("\\(\\[\\)\\(=*\\)\\["
+      (1
+       (prog1 "|" (cmake--syntax-propertize-until-bracket-close "|" end))))))
+
+  ;; Syntax table for this mode.
+  (defvar cmake-mode-syntax-table nil
+    "Syntax table for CMake mode.")
+  (or cmake-mode-syntax-table
+      (setq cmake-mode-syntax-table
+            (let ((table (make-syntax-table)))
+              (modify-syntax-entry ?\(  "()" table)
+              (modify-syntax-entry ?\)  ")(" table)
+              (modify-syntax-entry ?# "<" table)
+              (modify-syntax-entry ?\n ">" table)
+              (modify-syntax-entry ?$ "'" table)
+              table)))
+
+  ;;
+  ;; User hook entry point.
+  ;;
+  (defvar cmake-mode-hook nil)
+
+  ;;------------------------------------------------------------------------------
+  ;; Mode definition.
+  ;;
+  ;;;###autoload
+  (define-derived-mode cmake-mode prog-mode "CMake"
+    "Major mode for editing CMake source files."
+
+    ;; Setup jumping to beginning/end of a CMake function/macro.
+    (set (make-local-variable 'beginning-of-defun-function) #'cmake-beginning-of-defun)
+    (set (make-local-variable 'end-of-defun-function) #'cmake-end-of-defun)
+
+    ; Setup font-lock mode.
+    (set (make-local-variable 'font-lock-defaults) '(cmake-font-lock-keywords))
+    ; Setup indentation function.
+    (set (make-local-variable 'indent-line-function) 'cmake-indent)
+    ; Setup comment syntax.
+    (set (make-local-variable 'comment-start) "#")
+    ;; Setup syntax propertization
+    (set (make-local-variable 'syntax-propertize-function) cmake--syntax-propertize-function)
+    (add-hook 'syntax-propertize-extend-region-functions #'syntax-propertize-multiline nil t))
+
+
+  ; Help mode starts here
+
+
+  ;;;###autoload
+  (defun cmake-command-run (type &optional topic buffer)
+    "Runs the command cmake with the arguments specified.  The
+  optional argument topic will be appended to the argument list."
+    (interactive "s")
+    (let* ((bufname (if buffer buffer (concat "*CMake" type (if topic "-") topic "*")))
+           (buffer  (if (get-buffer bufname) (get-buffer bufname) (generate-new-buffer bufname)))
+           (command (concat cmake-mode-cmake-executable " " type " " (if topic (shell-quote-argument topic) topic)))
+           ;; Turn of resizing of mini-windows for shell-command.
+           (resize-mini-windows nil)
+           )
+      (shell-command command buffer)
+      (save-selected-window
+        (select-window (display-buffer buffer 'not-this-window))
+        (cmake-mode)
+        (read-only-mode 1)
+        (view-mode 1))
+      )
+    )
+
+  ;;;###autoload
+  (defun cmake-command-run-help (type &optional topic buffer)
+    "`cmake-command-run' but rendered in `rst-mode'."
+    (interactive "s")
+    (let* ((bufname (if buffer buffer (concat "*CMake" type (if topic "-") topic "*")))
+           (buffer  (if (get-buffer bufname) (get-buffer bufname) (generate-new-buffer bufname)))
+           (command (concat cmake-mode-cmake-executable " " type " " (if topic (shell-quote-argument topic) topic)))
+           ;; Turn of resizing of mini-windows for shell-command.
+           (resize-mini-windows nil)
+           )
+      (shell-command command buffer)
+      (save-selected-window
+        (select-window (display-buffer buffer 'not-this-window))
+        (rst-mode)
+        (read-only-mode 1)
+        (view-mode 1))
+      )
+    )
+
+  ;;;###autoload
+  (defun cmake-help-list-commands ()
+    "Prints out a list of the cmake commands."
+    (interactive)
+    (cmake-command-run-help "--help-command-list")
+    )
+
+  (defvar cmake-commands '() "List of available topics for --help-command.")
+  (defvar cmake-help-command-history nil "Command read history.")
+  (defvar cmake-modules '() "List of available topics for --help-module.")
+  (defvar cmake-help-module-history nil "Module read history.")
+  (defvar cmake-variables '() "List of available topics for --help-variable.")
+  (defvar cmake-help-variable-history nil "Variable read history.")
+  (defvar cmake-properties '() "List of available topics for --help-property.")
+  (defvar cmake-help-property-history nil "Property read history.")
+  (defvar cmake-help-complete-history nil "Complete help read history.")
+  (defvar cmake-string-to-list-symbol
+    '(("command" cmake-commands cmake-help-command-history)
+      ("module" cmake-modules cmake-help-module-history)
+      ("variable"  cmake-variables cmake-help-variable-history)
+      ("property" cmake-properties cmake-help-property-history)
+      ))
+
+  (defun cmake-get-list (listname)
+    "If the value of LISTVAR is nil, run cmake --help-LISTNAME-list
+  and store the result as a list in LISTVAR."
+    (let ((listvar (car (cdr (assoc listname cmake-string-to-list-symbol)))))
+      (if (not (symbol-value listvar))
+          (let ((temp-buffer-name "*CMake Temporary*"))
+            (save-window-excursion
+              (cmake-command-run-help (concat "--help-" listname "-list") nil temp-buffer-name)
+              (with-current-buffer temp-buffer-name
+                ; FIXME: Ignore first line if it is "cmake version ..." from CMake < 3.0.
+                (set listvar (split-string (buffer-substring-no-properties (point-min) (point-max)) "\n" t)))))
+        (symbol-value listvar)
+        ))
+    )
+
+  (require 'thingatpt)
+  (defun cmake-symbol-at-point ()
+    (let ((symbol (symbol-at-point)))
+      (and (not (null symbol))
+           (symbol-name symbol))))
+
+  (defun cmake-help-type (type)
+    (let* ((default-entry (cmake-symbol-at-point))
+           (history (car (cdr (cdr (assoc type cmake-string-to-list-symbol)))))
+           (input (completing-read
+                   (format "CMake %s: " type) ; prompt
+                   (cmake-get-list type) ; completions
+                   nil ; predicate
+                   t   ; require-match
+                   default-entry ; initial-input
+                   history
+                   )))
+      (if (string= input "")
+          (error "No argument given")
+        input))
+    )
+
+  ;;;###autoload
+  (defun cmake-help-command ()
+    "Prints out the help message for the command the cursor is on."
+    (interactive)
+    (cmake-command-run-help "--help-command" (cmake-help-type "command") "*CMake Help*"))
+
+  ;;;###autoload
+  (defun cmake-help-module ()
+    "Prints out the help message for the module the cursor is on."
+    (interactive)
+    (cmake-command-run-help "--help-module" (cmake-help-type "module") "*CMake Help*"))
+
+  ;;;###autoload
+  (defun cmake-help-variable ()
+    "Prints out the help message for the variable the cursor is on."
+    (interactive)
+    (cmake-command-run-help "--help-variable" (cmake-help-type "variable") "*CMake Help*"))
+
+  ;;;###autoload
+  (defun cmake-help-property ()
+    "Prints out the help message for the property the cursor is on."
+    (interactive)
+    (cmake-command-run-help "--help-property" (cmake-help-type "property") "*CMake Help*"))
+
+  ;;;###autoload
+  (defun cmake-help ()
+    "Queries for any of the four available help topics and prints out the
+  appropriate page."
+    (interactive)
+    (let* ((default-entry (cmake-symbol-at-point))
+           (command-list (cmake-get-list "command"))
+           (variable-list (cmake-get-list "variable"))
+           (module-list (cmake-get-list "module"))
+           (property-list (cmake-get-list "property"))
+           (all-words (append command-list variable-list module-list property-list))
+           (input (completing-read
+                   "CMake command/module/variable/property: " ; prompt
+                   all-words ; completions
+                   nil ; predicate
+                   t   ; require-match
+                   default-entry ; initial-input
+                   'cmake-help-complete-history
+                   )))
+      (if (string= input "")
+          (error "No argument given")
+        (if (member input command-list)
+            (cmake-command-run-help "--help-command" input "*CMake Help*")
+          (if (member input variable-list)
+              (cmake-command-run-help "--help-variable" input "*CMake Help*")
+            (if (member input module-list)
+                (cmake-command-run-help "--help-module" input "*CMake Help*")
+              (if (member input property-list)
+                  (cmake-command-run-help "--help-property" input "*CMake Help*")
+                (error "Not a know help topic.") ; this really should not happen
+                ))))))
+    )
+
+  ;;;###autoload
+  (progn
+    (add-to-list 'auto-mode-alist '("CMakeLists\\.txt\\'" . cmake-mode))
+    (add-to-list 'auto-mode-alist '("\\.cmake\\'" . cmake-mode)))
+
+  ; This file provides cmake-mode.
+  (provide 'cmake-mode)
+
+  ;;; cmake-mode.el ends here
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; ============================================================
+  ;; CMake 模式配置
+  ;; ============================================================
+  (require 'cmake-mode)
+  (setq auto-mode-alist
+        (append '(("CMakeLists\\.txt\\'" . cmake-mode)
+                  ("\\.cmake\\'" . cmake-mode))
+                auto-mode-alist))
+
+  ;; CMake 项目支持
+  (require 'cmake-project)
+  (setq cmake-project-arguments '("-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"))
+
+  ;; 在项目根目录自动创建 build 目录并生成 compile_commands.json
+  (defun my-cmake-generate-compile-commands ()
+    "生成 compile_commands.json 文件用于 LSP"
+    (interactive)
+    (let ((project-root (projectile-project-root)))
+      (when project-root
+        (let ((build-dir (expand-file-name "build" project-root))
+              (compile-commands (expand-file-name "compile_commands.json" project-root)))
+          (unless (file-exists-p build-dir)
+            (make-directory build-dir))
+          (let ((default-directory build-dir))
+            (call-process "cmake" nil "*CMake Output*" nil
+                          project-root
+                          "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"))))))
+
+  ;; ============================================================
+  ;; C++ 模式自定义钩子
+  ;; ============================================================
+  (add-hook 'c++-mode-hook
+            (lambda ()
+              ;; 启动 LSP
+              (eglot-ensure)
+              ;; 启用自动补全
+              ;; (company-mode)
+              ;; 设置缩进
+              (setq c-basic-offset 4)
+              ;; 自定义快捷键
+              (local-set-key (kbd "C-c C-c") 'compile)
+              (local-set-key (kbd "C-c C-r") 'recompile)
+              (local-set-key (kbd "C-c C-d") 'my-debug)
+              (local-set-key (kbd "C-c C-b") 'my-cmake-build)
+              (local-set-key (kbd "C-c C-k") 'my-cmake-clean)
+              (local-set-key (kbd "C-c C-g") 'my-cmake-generate-compile-commands)))
+
+  ;; ============================================================
+  ;; 编译和运行配置
+  ;; ============================================================
+  ;; 编译命令
+  (defun my-cmake-build ()
+  "使用 CMake 构建项目，如果缓存不存在则自动配置"
+  (interactive)
+  (let ((project-root (projectile-project-root)))
+    (if project-root
+        (let ((build-dir (expand-file-name "build" project-root))
+              (cache-file (expand-file-name "build/CMakeCache.txt" project-root)))
+
+          ;; 检查 build 目录是否存在
+          (unless (file-exists-p build-dir)
+            (make-directory build-dir)
+            (message "创建 build 目录: %s" build-dir))
+
+          ;; 检查 CMake 缓存是否存在
+          (if (file-exists-p cache-file)
+              ;; 缓存存在，直接构建
+              (progn
+                (compile (format "cd %s && cmake --build . -j$(nproc)" build-dir))
+                (message "开始构建项目..."))
+            ;; 缓存不存在，先运行 cmake 配置
+            (progn
+              (message "未找到 CMake 缓存，正在配置项目...")
+              (compile (format "cd %s && cmake %s -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug && cmake --build . -j$(nproc)"
+                               build-dir project-root))
+              (message "配置并构建项目..."))))
+      (message "错误：未找到项目根目录"))))
+
+  (defun my-cmake-clean ()
+    "清理 CMake 构建文件"
+    (interactive)
+    (let ((build-dir (expand-file-name "build" (projectile-project-root))))
+      (when (file-exists-p build-dir)
+        (compile (format "cd %s && cmake --build . --clean-first" build-dir)))))
+
+  (defun my-cmake-run ()
+    "运行编译后的程序"
+    (interactive)
+    (let ((project-root (projectile-project-root)))
+      (when project-root
+        (let ((build-dir (expand-file-name "build" project-root)))
+          ;; 这里假设可执行文件名称与项目名称相同
+          ;; 你可以根据实际情况修改
+          (let ((executable (expand-file-name "myprogram" build-dir)))
+            (if (file-exists-p executable)
+                (compile (format "%s" executable))
+              (message "找不到可执行文件，请先编译项目")))))))
+
+  ;; 设置默认编译命令
+  (setq compile-command "make -j$(nproc)")
+
+  ;; ============================================================
+  ;; 调试配置 (使用 GDB)
+  ;; ============================================================
+  (require 'gdb-mi)
+
+  ;; GDB 配置
+  (setq gdb-many-windows t
+        gdb-show-main t
+        gdb-non-stop-setting t)
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun my-find-executable ()
+    "查找可执行文件，优先在 build/bin 目录中查找"
+    (let ((project-root (my-find-project-root))
+          (executable nil))
+      (when project-root
+        (let ((build-dir (expand-file-name "build" project-root))
+              (bin-dir (expand-file-name "build/bin" project-root)))
+
+          ;; 优先在 build/bin 目录中查找
+          (when (file-exists-p bin-dir)
+            (let ((project-name (my-get-project-name)))
+              ;; 尝试项目名称
+              (let ((candidate (expand-file-name project-name bin-dir)))
+                (when (file-exists-p candidate)
+                  (setq executable candidate)))
+              ;; 如果没有找到，查找 bin 目录中的任何可执行文件
+              (unless executable
+                (let ((files (directory-files bin-dir t)))
+                  (catch 'found
+                    (dolist (file files)
+                      (when (and (file-executable-p file)
+                                 (not (file-directory-p file))
+                                 (not (string-match "\\.so$" file))
+                                 (not (string-match "\\.a$" file)))
+                        (setq executable file)
+                        (throw 'found t))))))))
+
+          ;; 如果 build/bin 中没有找到，在 build 目录根目录查找
+          (unless executable
+            (when (file-exists-p build-dir)
+              (let ((project-name (my-get-project-name)))
+                (let ((candidate (expand-file-name project-name build-dir)))
+                  (when (file-exists-p candidate)
+                    (setq executable candidate)))
+                (unless executable
+                  (let ((files (directory-files build-dir t)))
+                    (catch 'found
+                      (dolist (file files)
+                        (when (and (file-executable-p file)
+                                   (not (file-directory-p file))
+                                   (not (string-match "\\.so$" file))
+                                   (not (string-match "\\.a$" file)))
+                          (setq executable file)
+                          (throw 'found t)))))))))))
+      executable))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun my-debug ()
+    "启动调试会话，查找 build/bin 或 build 目录中的可执行文件"
+    (interactive)
+    (let ((project-root (my-find-project-root)))
+      (if project-root
+          (let ((executable (my-find-executable)))
+            (if executable
+                (progn
+                  (message "启动调试器，调试文件: %s" executable)
+                  (gdb (format "gdb -i=mi %s" executable)))
+              (message "找不到可执行文件。\n项目根目录: %s\n查找位置:\n  - %s\n  - %s\n请先编译项目"
+                       project-root
+                       (expand-file-name "build/bin" project-root)
+                       (expand-file-name "build" project-root))))
+        (message "没有找到项目根目录（需要包含 CMakeLists.txt 的文件）"))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun my-find-executable-recursive (dir)
+    "递归查找目录中的可执行文件"
+    (let ((executable nil))
+      (when (file-exists-p dir)
+        (let ((files (directory-files dir t "[^.]")))
+          (catch 'found
+            (dolist (file files)
+              (cond
+               ;; 如果是可执行文件
+               ((and (file-executable-p file)
+                     (not (file-directory-p file))
+                     (not (string-match "\\.so$" file))
+                     (not (string-match "\\.a$" file))
+                     (not (string-match "\\.cmake$" file))
+                     (not (string-match "\\.o$" file)))
+                (setq executable file)
+                (throw 'found t))
+
+               ;; 如果是目录，递归查找（限制深度）
+               ((and (file-directory-p file)
+                     (not (string-match "/\\.\\.?$" file))
+                     (not (string-match "/build$" file)))
+                (let ((sub-result (my-find-executable-recursive file)))
+                  (when sub-result
+                    (setq executable sub-result)
+                    (throw 'found t)))))))))
+      executable))
+
+  (defun my-find-executable-advanced ()
+    "高级可执行文件查找，支持 build/bin 和 build/*/bin 等模式"
+    (let ((project-root (my-find-project-root))
+          (executable nil))
+      (when project-root
+        (let ((build-dir (expand-file-name "build" project-root)))
+          (when (file-exists-p build-dir)
+            ;; 查找常见的可执行文件位置
+            (let ((search-paths
+                   (list
+                    (expand-file-name "bin" build-dir)           ;; build/bin
+                    (expand-file-name "bin/Debug" build-dir)     ;; build/bin/Debug
+                    (expand-file-name "bin/Release" build-dir)   ;; build/bin/Release
+                    (expand-file-name "Debug" build-dir)         ;; build/Debug
+                    (expand-file-name "Release" build-dir)       ;; build/Release
+                    (expand-file-name "app" build-dir)           ;; build/app
+                    (expand-file-name "examples" build-dir)      ;; build/examples
+                    build-dir)))                                 ;; build
+
+              ;; 在每个路径中查找
+              (catch 'found
+                (dolist (path search-paths)
+                  (when (file-exists-p path)
+                    (let ((candidate (my-find-executable-recursive path)))
+                      (when candidate
+                        (setq executable candidate)
+                        (throw 'found t))))))))))
+      executable))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun my-find-project-root ()
+    "查找项目根目录，优先使用 CMakeLists.txt"
+    (let ((dir (if (buffer-file-name)
+                   (file-name-directory (buffer-file-name))
+                 default-directory))
+          (root nil)
+          (max-depth 10))
+      (while (and (not root)
+                  (not (string= dir "/"))
+                  (> max-depth 0))
+        (cond
+         ((file-exists-p (expand-file-name "CMakeLists.txt" dir))
+          (setq root dir))
+         ((file-exists-p (expand-file-name "compile_commands.json" dir))
+          (setq root dir))
+         ((file-exists-p (expand-file-name ".projectile" dir))
+          (setq root dir))
+         (t
+          (setq dir (file-name-directory (directory-file-name dir)))
+          (setq max-depth (1- max-depth)))))
+      (or root (if (buffer-file-name)
+                   (file-name-directory (buffer-file-name))
+                 default-directory))))
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; ============================================================
+  ;; 从 CMakeLists.txt 获取项目名称
+  ;; ============================================================
+  (defun my-get-project-name ()
+    "从 CMakeLists.txt 获取项目名称"
+    (let ((project-root (my-find-project-root)))
+      (if project-root
+          (let ((cmake-file (expand-file-name "CMakeLists.txt" project-root)))
+            (if (file-exists-p cmake-file)
+                (with-temp-buffer
+                  (insert-file-contents cmake-file)
+                  (goto-char (point-min))
+                  (if (re-search-forward "^project\\s-*(\\s-*\\([^ )]+\\)" nil t)
+                      (match-string 1)
+                    "myprogram"))
+              "myprogram"))
+        "myprogram")))
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq flycheck-clang-database-path
+        (lambda ()
+          (let ((project-root (my-find-project-root)))
+            (when project-root
+              (expand-file-name "build" project-root)))))
+  (message "Define flycheck-clang-database-path")
+
+  ;; 设置 clang 检查器使用编译数据库
+  (flycheck-add-next-checker 'c/c++-clang
+                             'c/c++-cppcheck
+                             'append)
+
+  ;; 配置 clang 检查器
+  (setq flycheck-clang-language-standard "c++17")
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; 禁用默认的 C/C++ 检查器
+  (eval-after-load 'flycheck
+    '(progn
+       ;; 移除默认的 C/C++ 检查器
+       (setq flycheck-checkers (delq 'c/c++-gcc flycheck-checkers))
+       (setq flycheck-checkers (delq 'c/c++-clang flycheck-checkers))
+
+       ;; 添加自定义的 clang 检查器
+       (flycheck-define-checker c/c++-clang-with-db
+         "A C/C++ checker using clang with compile_commands.json"
+         :command ("clang"
+                   "-fsyntax-only"
+                   "-std=c++17"
+                   (eval (when (flycheck-clang-database-path)
+                           (list "-p" (flycheck-clang-database-path))))
+                   (option-flag "-fno-color-diagnostics" flycheck-clang-no-color)
+                   (option-flag "-Wno-unused-command-line-argument"
+                                flycheck-clang-warn-unused-command-line-argument)
+                   (option-list "-W" flycheck-clang-warnings)
+                   (option-list "-Wno" flycheck-clang-warnings-suppress)
+                   (option-list "-I" flycheck-clang-include-path concat)
+                   (option-list "-D" flycheck-clang-definitions concat)
+                   (option "-std" flycheck-clang-language-standard concat)
+                   (option-list "-isystem" flycheck-clang-system-include-path concat)
+                   source-original)
+         :error-patterns
+         ((error line-start (file-name) ":" line ":" column ": "
+                 (or "fatal error" "error") ": " (message) line-end)
+          (warning line-start (file-name) ":" line ":" column ": "
+                   "warning: " (message) line-end))
+         :modes (c-mode c++-mode)
+         :next-checkers ((warning . c/c++-cppcheck)))
+
+       ;; 添加到 flycheck 检查器列表
+       (add-to-list 'flycheck-checkers 'c/c++-clang-with-db)
+
+       ;; 设置默认检查器
+       (setq-default flycheck-disabled-checkers '(c/c++-gcc))
+       (setq-default flycheck-enabled-checkers '(c/c++-clang-with-db))))
+#+end_src

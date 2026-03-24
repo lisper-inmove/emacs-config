@@ -2,18 +2,18 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 ; 使用清华源源: https://mirrors.tuna.tsinghua.edu.cn/help/elpa/
-(setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
-                         ))
+;; (setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+;;                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+;;                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/stable-melpa/")
+;;                          ))
 ;; (setq package-archives '(("gnu"   . "http://1.15.88.122/gnu/")
 ;;                          ("melpa" . "http://1.15.88.122/melpa/")))
 
-;; (setq package-archives
-;;       '(("gnu" . "https://elpa.gnu.org/packages/")
-;;         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-;;         ("melpa" . "https://melpa.org/packages/")
-;;         ("org" . "https://orgmode.org/elpa/")))
+(setq package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa" . "https://melpa.org/packages/")
+        ("org" . "https://orgmode.org/elpa/")))
 
 (setq package-check-signature nil)
 (unless (package-installed-p 'use-package)
@@ -48,6 +48,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("d97ac0baa0b67be4f7523795621ea5096939a47e8b46378f79e78846e0e4ad3d"
+     "c9d837f562685309358d8dc7fccb371ed507c0ae19cf3c9ae67875db0c038632"
+     default))
  '(git-gutter:added-sign "☀")
  '(git-gutter:ask-p nil)
  '(git-gutter:deleted-sign "☂")
@@ -57,12 +61,7 @@
  '(git-gutter:separator-sign "|")
  '(git-gutter:update-interval 1)
  '(git-gutter:window-width 2)
- '(package-selected-packages
-   '(ace-window cargo company-irony company-irony-c-headers counsel
-                doom-themes elscreen exec-path-from-shell
-                find-file-in-project flycheck git-gutter helm-gtags
-                helm-ls-git htmlize magit monokai-theme org-bullets
-                protobuf-mode py-isort yasnippet-snippets)))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

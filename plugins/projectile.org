@@ -1,0 +1,76 @@
+#+begin_src emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (define-key projectile-mode-map (kbd "C-c p a") 'projectile-add-known-project)
+    (projectile-mode +1)
+    )
+
+  (defun my-get-project-root ()
+    "获取当前项目的根目录（基于当前文件所在目录，不使用 .git）"
+    (let* ((current-file (buffer-file-name))
+           (current-dir (if current-file
+                            (file-name-directory current-file)
+                          default-directory))
+           (root-dir current-dir)
+           (found nil))
+
+      ;; 向上查找直到找到标志文件
+      (while (and (not found)
+                  (not (string= root-dir "/")))
+        (cond
+         ;; 检查是否有 CMakeLists.txt
+         ((file-exists-p (expand-file-name "CMakeLists.txt" root-dir))
+          (setq found root-dir))
+         ;; 检查是否有 compile_commands.json
+         ((file-exists-p (expand-file-name "compile_commands.json" root-dir))
+          (setq found root-dir))
+         ;; 检查是否有 .projectile 标记文件
+         ((file-exists-p (expand-file-name ".projectile" root-dir))
+          (setq found root-dir))
+         ;; 检查是否有 Makefile
+         ((file-exists-p (expand-file-name "Makefile" root-dir))
+          (setq found root-dir))
+         ;; 如果没有找到，向上一层
+         (t
+          (setq root-dir (file-name-directory (directory-file-name root-dir))))))
+
+      ;; 如果找到，返回根目录，否则返回当前目录
+      (if found
+          found
+        current-dir)))
+
+  ;; 禁用 projectile 自动查找 git 根目录
+  (setq projectile-mode-line '(:eval (format " %s" (projectile-project-name))))
+  (setq projectile-project-root-files-top-down-recurring nil)
+  (setq projectile-project-root-files-functions nil)
+
+  ;; 移除 git 作为根目录标记
+  (setq projectile-project-root-files
+        (remove ".git" projectile-project-root-files))
+
+  ;; 或者完全自定义根目录检测顺序
+  (setq projectile-project-root-files
+        '("CMakeLists.txt"    ;; CMake 项目
+          "Makefile"          ;; Make 项目
+          "compile_commands.json"  ;; LSP 编译命令
+          ".projectile"       ;; 手动标记
+          "build.ninja"       ;; Ninja 项目
+          "setup.py"          ;; Python 项目
+          "package.json"))     ;; Node 项目
+
+  ;; 完全替换 projectile 的根目录检测
+  (advice-add 'projectile-project-root :override
+              (lambda (&optional dir)
+                "自定义项目根目录检测（不使用 .git）"
+                (interactive)
+                (let ((dir (or dir default-directory)))
+                  (my-get-project-root))))
+
+  ;; 或者只修改 projectile 的行为
+  (setq projectile-project-root-functions
+        '(my-get-project-root
+          projectile-root-bottom-up
+          projectile-root-top-down))
+#+end_src
