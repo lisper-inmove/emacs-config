@@ -197,14 +197,14 @@
       (yapfify-buffer)))
 
   ;;;###autoload
-  (define-minor-mode yapf-mode
-    "Automatically run YAPF before saving."
-    :lighter " YAPF"
-    (if yapf-mode
-        (add-hook 'before-save-hook 'yapfify-buffer nil t)
-      (remove-hook 'before-save-hook 'yapfify-buffer t)))
+  ;; (define-minor-mode yapf-mode
+  ;;   "Automatically run YAPF before saving."
+  ;;   :lighter " YAPF"
+  ;;   (if yapf-mode
+  ;;       (add-hook 'before-save-hook 'yapfify-buffer nil t)
+  ;;     (remove-hook 'before-save-hook 'yapfify-buffer t)))
 
-  (provide 'yapfify)
+  ;; (provide 'yapfify)
 
   ;;; yapfify.el ends here
 #+end_src
@@ -217,14 +217,14 @@
           (compile (concat "mypy " (shell-quote-argument filename)))))))
 
   (add-hook 'python-mode-hook 'hs-minor-mode)
-  (add-hook 'python-mode-hook 'yapf-mode)
-  (global-set-key (kbd "<f8>") 'python-yapf-region)
+  ;; (add-hook 'python-mode-hook 'yapf-mode)
+  ;; (global-set-key (kbd "<f8>") 'python-yapf-region)
   ;; (add-hook 'after-save-hook #'my-python-save-hook)
 
-  (use-package py-isort
-    :ensure t)
+  ;; (use-package py-isort
+  ;;   :ensure t)
 
-  (add-hook 'before-save-hook 'py-isort-buffer)
+  ;; (add-hook 'before-save-hook 'py-isort-buffer)
 #+end_src
 
 #+begin_src emacs-lisp :outputs silent
@@ -236,6 +236,23 @@
   ;;     (add-hook 'python-ts-mode-hook #'eglot-ensure)))
 
   ;; 2) 指定 Python 用 jedi-language-server（而不是 pyright/pylsp）
+  ;; (with-eval-after-load 'eglot
+  ;;   (add-to-list 'eglot-server-programs
+  ;;                '((python-mode python-ts-mode)
+  ;;                  . ("jedi-language-server"
+  ;;                     :initializationOptions
+  ;;                     (:workspace (:extraPaths ["src"])
+  ;;                      :completion (:resolveEagerly t)
+  ;;                      :diagnostics (:enable t))))))
+
+  ;; jedi-language-server 不支持
+  ;; ;; （可选）保存时自动格式化（前提是服务端支持）
+  ;; (defun my/eglot-format-on-save ()
+  ;;   (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+  ;; (add-hook 'eglot-managed-mode-hook #'my/eglot-format-on-save)
+
+
+  ;; 2) 指定 Python 用 jedi-language-server（而不是 pyright/pylsp）
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs
                  '((python-mode python-ts-mode)
@@ -245,10 +262,28 @@
                        :completion (:resolveEagerly t)
                        :diagnostics (:enable t))))))
 
-  ;; jedi-language-server 不支持
-  ;; ;; （可选）保存时自动格式化（前提是服务端支持）
-  ;; (defun my/eglot-format-on-save ()
-  ;;   (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
-  ;; (add-hook 'eglot-managed-mode-hook #'my/eglot-format-on-save)
+  ;; Optional: Ruff formatting command for Python buffers
+  (defun ruff-format-buffer-v1 ()
+    "Format current buffer with `ruff format'."
+    (interactive)
+    (if (derived-mode-p 'python-mode)
+        (call-process-region (point-min) (point-max)
+                             "ruff" t t nil "format" "-")
+      (user-error "Not in Python mode")))
 
+
+  (use-package lazy-ruff
+    :ensure t
+    :bind (("C-c f" . lazy-ruff-lint-format-dwim)) ;; keybinding
+    :config
+    (lazy-ruff-global-mode t)) ;; Enable the lazy-ruff minor mode globally
+
+  ;; (add-hook 'python-mode-hook
+  ;;           (lambda ()
+  ;;             (local-set-key (kbd "C-c C-f") #'ruff-format-buffer-v1)))
+
+  ;; (add-hook 'after-save-hook #'ruff-format-buffer)
 #+end_src
+
+#+RESULTS:
+| (lambda nil (local-set-key (kbd C-c C-f) #'ruff-format-buffer-v4)) | (lambda nil (local-set-key (kbd C-c C-f) #'ruff-format-buffer)) | hs-minor-mode | eglot-ensure |

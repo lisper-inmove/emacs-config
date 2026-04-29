@@ -54,7 +54,8 @@
  '(git-gutter:separator-sign "|")
  '(git-gutter:update-interval 1)
  '(git-gutter:window-width 2)
- '(package-selected-packages nil))
+ '(package-selected-packages
+   '(flymake-ruff yaml-mode focus devdocs yasnippet-snippets which-key treemacs py-isort protobuf-mode org-bullets orderless monokai-theme htmlize helm-ls-git helm-gtags git-timemachine git-gutter flycheck find-file-in-project exec-path-from-shell evil elscreen counsel copilot-chat copilot company-irony-c-headers company-irony cmake-mode chatgpt-shell cargo)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

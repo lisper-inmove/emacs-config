@@ -1,0 +1,12 @@
+#+begin_src emacs-lisp
+  (use-package focus
+    :ensure t
+    :config
+    (focus-mode t))
+
+  ;; (with-eval-after-load 'focus
+  ;;   (define-key focus-mode-map (kbd "h") 'left-char)
+  ;;   (define-key focus-mode-map (kbd "j") 'next-line)
+  ;;   (define-key focus-mode-map (kbd "k") 'previous-line)
+  ;;   (define-key focus-mode-map (kbd "l") 'right-char))
+#+end_src
