@@ -218,7 +218,12 @@
 
   (add-hook 'python-mode-hook 'hs-minor-mode)
   (add-hook 'python-mode-hook 'yapf-mode)
-  (global-set-key (kbd "<f8>") 'python-yapf-region)
+  ;; (global-set-key (kbd "<f8>") 'python-yapf-region)
+  ;; 在你的 python-mode-hook 中添加
+  (defun my-python-mode-setup ()
+    (local-set-key (kbd "<f8>") 'python-yapf-region))
+
+  (add-hook 'python-mode-hook 'my-python-mode-setup)
   ;; (add-hook 'after-save-hook #'my-python-save-hook)
 
   (use-package py-isort

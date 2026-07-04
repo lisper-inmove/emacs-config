@@ -1,0 +1,22 @@
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :ensure t
+    :config
+    ;; 开启自动跟随当前打开的文件（在树中高亮并展开路径）
+    (treemacs-follow-mode t)
+    ;; 开启文件监控，当文件系统变化时自动刷新树
+    (treemacs-filewatch-mode t)
+    ;; 设置 Treemacs 显示在左侧（可设为 'right）
+    (setq treemacs-side :left)
+    ;; 设置宽度（单位：字符数）
+    (setq treemacs-width 35)
+    ;; 全局绑定快捷键，用 F8 或你习惯的键来切换 Treemacs 窗口
+    (global-set-key (kbd "<f8>") 'treemacs)
+    (setq treemacs-icon-theme 'nerd-icons))
+
+  (add-to-list 'projectile-project-root-files-bottom-up ".project-root")
+
+  ;; (可选) 如果你想要更好的图标支持，安装 nerd-icons 或 all-the-icons
+  (use-package nerd-icons
+    :ensure t)
+#+end_src

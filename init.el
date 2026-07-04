@@ -49,9 +49,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("d97ac0baa0b67be4f7523795621ea5096939a47e8b46378f79e78846e0e4ad3d"
-     "c9d837f562685309358d8dc7fccb371ed507c0ae19cf3c9ae67875db0c038632"
-     default))
+   '("d97ac0baa0b67be4f7523795621ea5096939a47e8b46378f79e78846e0e4ad3d" "c9d837f562685309358d8dc7fccb371ed507c0ae19cf3c9ae67875db0c038632" default))
  '(git-gutter:added-sign "☀")
  '(git-gutter:ask-p nil)
  '(git-gutter:deleted-sign "☂")
@@ -64,11 +62,13 @@
  '(package-selected-packages nil)
  '(safe-local-variable-values
    '((eval setq flycheck-gcc-include-path
-           (list "/home/inmove/.opt/opencv/include/opencv4"
-                 "/usr/local/include"))
+           (list "/home/inmove/.opt/opencv-qt/include/opencv4" "/usr/local/include"))
      (eval setq flycheck-clang-include-path
-           (list "/home/inmove/.opt/opencv/include/opencv4"
-                 "/usr/local/include")))))
+           (list "/home/inmove/.opt/opencv-qt/include/opencv4" "/usr/local/include"))
+     (eval setq flycheck-gcc-include-path
+           (list "/home/inmove/.opt/opencv/include/opencv4" "/usr/local/include"))
+     (eval setq flycheck-clang-include-path
+           (list "/home/inmove/.opt/opencv/include/opencv4" "/usr/local/include")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

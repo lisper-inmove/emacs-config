@@ -5,6 +5,7 @@
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (define-key projectile-mode-map (kbd "C-c p a") 'projectile-add-known-project)
     (projectile-mode +1)
+    (setq projectile-cmake-presets t)
     )
 
   (defun my-get-project-root ()
@@ -74,3 +75,6 @@
           projectile-root-bottom-up
           projectile-root-top-down))
 #+end_src
+
+#+RESULTS:
+| my-get-project-root | projectile-root-bottom-up | projectile-root-top-down |

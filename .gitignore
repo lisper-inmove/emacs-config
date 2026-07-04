@@ -20,3 +20,5 @@ pyim
 .dap-breakpoints
 network-security.data
 url
+eln-cache
+projectile-frecency.eld
