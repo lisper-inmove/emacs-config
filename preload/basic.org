@@ -21,9 +21,9 @@
   (if (equal (getenv "ENABLE_GUI") "true")
       (tool-bar-mode -1))
 
-  (when (display-graphic-p)
-    (tool-bar-mode -1))
+  (tool-bar-mode -1)
 
+  ;;
   ;; 不要滚动条
   (if (boundp 'x-toolkit-scroll-bars)
       (scroll-bar-mode -1))
@@ -84,11 +84,10 @@
 
 * exec-path-from-shell
 #+begin_src emacs-lisp
-  (when (display-graphic-p)
-    (use-package exec-path-from-shell
-      :defer 1
-      :config
-      (exec-path-from-shell-initialize)))
+  (use-package exec-path-from-shell
+    :defer 1
+    :config
+    (exec-path-from-shell-initialize))
 #+end_src
 
 * line-number-at-pos

@@ -539,37 +539,43 @@
 
   ;; 在项目根目录自动创建 build 目录并生成 compile_commands.json
   (defun my-cmake-generate-compile-commands ()
-    "生成 compile_commands.json 文件用于 LSP"
+    "生成 compile_commands.json 并链接到项目根目录，供 clangd 使用。"
     (interactive)
     (let ((project-root (projectile-project-root)))
-      (when project-root
-        (let ((build-dir (expand-file-name "build" project-root))
-              (compile-commands (expand-file-name "compile_commands.json" project-root)))
-          (unless (file-exists-p build-dir)
-            (make-directory build-dir))
-          (let ((default-directory build-dir))
-            (call-process "cmake" nil "*CMake Output*" nil
-                          project-root
-                          "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"))))))
+      (if project-root
+          (let ((build-dir (expand-file-name "build" project-root))
+                (root-cc (expand-file-name "compile_commands.json" project-root)))
+            (unless (file-exists-p build-dir)
+              (make-directory build-dir))
+            (let ((default-directory build-dir))
+              (if (zerop (call-process "cmake" nil "*CMake Output*" nil
+                                       project-root "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"))
+                  (let ((build-cc (expand-file-name "compile_commands.json" build-dir)))
+                    ;; 链接到项目根目录，方便 clangd 查找
+                    (when (and (file-exists-p build-cc) (not (file-exists-p root-cc)))
+                      (make-symbolic-link build-cc root-cc))
+                    (message "已生成 compile_commands.json: %s" root-cc))
+                (message "cmake 配置失败，请查看 *CMake Output*"))))
+        (message "错误：未找到项目根目录"))))
 
   ;; ============================================================
-  ;; C++ 模式自定义钩子
+  ;; C/C++ 模式钩子
   ;; ============================================================
-  (add-hook 'c++-mode-hook
-            (lambda ()
-              ;; 启动 LSP
-              (eglot-ensure)
-              ;; 启用自动补全
-              ;; (company-mode)
-              ;; 设置缩进
-              (setq c-basic-offset 4)
-              ;; 自定义快捷键
-              (local-set-key (kbd "C-c C-c") 'compile)
-              (local-set-key (kbd "C-c C-r") 'recompile)
-              (local-set-key (kbd "C-c C-d") 'my-debug)
-              (local-set-key (kbd "C-c C-b") 'my-cmake-build)
-              (local-set-key (kbd "C-c C-k") 'my-cmake-clean)
-              (local-set-key (kbd "C-c C-g") 'my-cmake-generate-compile-commands)))
+  (defun my-c/c++-mode-setup ()
+    "C/C++ 共用的 mode 设置：LSP、缩进与快捷键。"
+    (eglot-ensure)                        ; 启动 clangd
+    (setq c-basic-offset 4)               ; 缩进 4 空格
+    (local-set-key (kbd "C-c C-c") 'compile)                            ; 编译
+    (local-set-key (kbd "C-c C-b") 'my-cmake-build)                     ; CMake 构建
+    (local-set-key (kbd "C-c C-r") 'recompile)                          ; 重新编译
+    (local-set-key (kbd "C-c C-x") 'my-cmake-run)                       ; 运行
+    (local-set-key (kbd "C-c C-d") 'my-debug)                           ; GDB 调试
+    (local-set-key (kbd "C-c C-k") 'my-cmake-clean)                     ; 清理
+    (local-set-key (kbd "C-c C-g") 'my-cmake-generate-compile-commands) ; 生成 compile_commands
+    (local-set-key (kbd "C-c C-f") 'my-clang-format))                   ; clang-format 格式化
+
+  (add-hook 'c-mode-hook #'my-c/c++-mode-setup)
+  (add-hook 'c++-mode-hook #'my-c/c++-mode-setup)
 
   ;; ============================================================
   ;; 编译和运行配置
@@ -610,20 +616,18 @@
         (compile (format "cd %s && cmake --build . --clean-first" build-dir)))))
 
   (defun my-cmake-run ()
-    "运行编译后的程序"
+    "运行编译后的可执行程序（自动在 build 目录中查找）。"
     (interactive)
-    (let ((project-root (projectile-project-root)))
-      (when project-root
-        (let ((build-dir (expand-file-name "build" project-root)))
-          ;; 这里假设可执行文件名称与项目名称相同
-          ;; 你可以根据实际情况修改
-          (let ((executable (expand-file-name "myprogram" build-dir)))
-            (if (file-exists-p executable)
-                (compile (format "%s" executable))
-              (message "找不到可执行文件，请先编译项目")))))))
+    (let ((executable (or (my-find-executable-advanced)
+                          (my-find-executable))))
+      (if executable
+          (progn
+            (message "运行: %s" executable)
+            (compile (shell-quote-argument executable)))
+        (message "找不到可执行文件，请先编译项目"))))
 
-  ;; 设置默认编译命令
-  (setq compile-command "make -j$(nproc)")
+  ;; 设置默认编译命令（cmake 构建请用 C-c C-b；此处作为 C-c C-c 的兜底）
+  (setq compile-command "cmake --build build -j$(nproc)")
 
   ;; ============================================================
   ;; 调试配置 (使用 GDB)
@@ -634,6 +638,51 @@
   (setq gdb-many-windows t
         gdb-show-main t
         gdb-non-stop-setting t)
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; ============================================================
+  ;; Eglot + clangd LSP 配置
+  ;; ============================================================
+  (with-eval-after-load 'eglot
+    ;; C/C++ 使用 clangd（默认即为 clangd，这里显式声明并加参数）
+    (add-to-list 'eglot-server-programs
+                 '((c++-mode c-mode) . ("clangd"
+                                        "--background-index"
+                                        "--header-insertion=iwyu"
+                                        "--completion-style=detailed"
+                                        "-j=4")))
+
+    (setq eglot-events-buffer-size 0    ; 不记录事件，减少噪音
+          eglot-autoshutdown t          ; 关闭 buffer 后自动关闭 server
+          eglot-send-changes-idle-time 0.3))
+
+  ;; ============================================================
+  ;; clang-format 格式化
+  ;; ============================================================
+  (defvar my-clang-format-on-save nil
+    "非 nil 时，在保存 C/C++ buffer 前自动用 clang-format 格式化。")
+
+  (defun my-clang-format ()
+    "使用 clang-format 格式化当前 region（若有）或整个 buffer。"
+    (interactive)
+    (unless (executable-find "clang-format")
+      (user-error "未找到 clang-format 命令"))
+    (let ((cmd (format "%s -assume-filename=%s"
+                       (shell-quote-argument (executable-find "clang-format"))
+                       (shell-quote-argument (or (buffer-file-name) "stdin.cpp")))))
+      (if (use-region-p)
+          (shell-command-on-region (region-beginning) (region-end) cmd nil t "*clang-format errors*")
+        (shell-command-on-region (point-min) (point-max) cmd nil t "*clang-format errors*")))
+    (message "clang-format 完成"))
+
+  (defun my-c/c++-clang-format-on-save ()
+    "根据 my-clang-format-on-save 决定是否在保存时格式化。"
+    (when my-clang-format-on-save
+      (add-hook 'before-save-hook #'my-clang-format nil t)))
+
+  (add-hook 'c-mode-hook #'my-c/c++-clang-format-on-save)
+  (add-hook 'c++-mode-hook #'my-c/c++-clang-format-on-save)
 #+end_src
 
 #+begin_src emacs-lisp
